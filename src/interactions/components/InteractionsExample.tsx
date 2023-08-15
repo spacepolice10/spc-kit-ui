@@ -10,7 +10,7 @@ import PushExample from "./PushExample";
 export default function InteractionsExample() {
   return (
     <section style={{ padding: 0, margin: 0 }}>
-      <h2 style={{ textAlign: "left" }}>Interactions</h2>
+      <h2 style={{ textAlign: "left", fontStyle: "italic" }}>Interactions:</h2>
       <div style={{ display: "flex" }}>
         <div style={{ display: "flex", alignItems: "center" }}>
           <PushExample />

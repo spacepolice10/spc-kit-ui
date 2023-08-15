@@ -13,6 +13,7 @@ export default function FocusScopeExample() {
         ref={focusScopeRef}
         style={{
           display: "flex",
+          border: "none",
           justifyContent: "space-evenly",
           width: "100%",
         }}
