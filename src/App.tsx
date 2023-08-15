@@ -1,4 +1,5 @@
 import "./App.css";
+import ButtonExamples from "./button/components/ButtonExamples";
 import DragExample from "./interactions/components/DragExample";
 import DropExample from "./interactions/components/DropExample";
 import FocusExample from "./interactions/components/FocusExample";
@@ -14,6 +15,7 @@ function App() {
     <>
       <h1>spc-kit</h1>
       <InteractionsExample />
+      <ButtonExamples />
     </>
   );
 }
