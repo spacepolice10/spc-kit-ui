@@ -36,6 +36,14 @@ h1 {
   line-height: 1.1;
 }
 
+div {
+  border-radius: 8px;
+  border: 1px solid slategray;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  margin: 8px;
+}
+
 button {
   border-radius: 8px;
   border: 1px solid transparent;
