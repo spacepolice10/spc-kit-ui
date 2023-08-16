@@ -9,18 +9,17 @@ export type useToggleType = {
 const useToggle = (props?: useToggleType) => {
   const { initIsToggle, onChange } = props || {};
   const [isToggle, setIsToggle] = useState(false);
-  useEffect(() => {
-    onChange?.(isToggle);
-  }, [isToggle, onChange]);
+
   useEffect(() => {
     if (!initIsToggle) return;
     setIsToggle(initIsToggle);
   }, [initIsToggle]);
-  useEffect(() => {
-    if (!props?.isToggle) return;
-    setIsToggle(props?.isToggle);
-  }, [props?.isToggle]);
-  return { isToggle, toggle: () => setIsToggle(!isToggle) };
+  function toggle() {
+    onChange?.(!props?.isToggle);
+    !props?.isToggle && setIsToggle((state) => !state);
+  }
+
+  return { isToggle: props?.isToggle ?? isToggle, toggle };
 };
 
 export { useToggle };

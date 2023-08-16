@@ -24,8 +24,12 @@ const useFocusScope = () => {
   function focusElem(position: number) {
     const focussable = detectFocussable();
     if (!focussable) return;
-    const elem = focussable?.[position] || focussable?.[0];
-    elem.focus();
+    const elem = focussable?.[position]
+      ? focussable?.[position]
+      : position <= 0
+      ? focussable?.[focussable.length - 1]
+      : focussable?.[0];
+    elem?.focus();
   }
   function focusNextElem() {
     const position = detectPosition();
