@@ -1,8 +1,11 @@
 import { useRef, useState } from "react";
-import { useLongPushType } from "./useLongPushType";
 
 import formEventsArgs from "../../util/formEventsArgs";
-import { usePush } from "../../push/hook/usePush";
+import { usePush, usePushType } from "../../push/hook/usePush";
+
+export type useLongPushType = usePushType & {
+  delay?: number;
+};
 
 const useLongPush = (props: useLongPushType) => {
   const { onPush, delay } = props;
