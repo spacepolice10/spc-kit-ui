@@ -1,7 +1,9 @@
-import { useFocus } from "../../interactions/hooks/useFocus/useFocus";
-import { useHover } from "../../interactions/hooks/useHover/useHover";
-import { useLongPush } from "../../interactions/hooks/useLongPush/useLongPush";
-import { useLongPushType } from "../../interactions/hooks/useLongPush/useLongPushType";
+import { useFocus } from "../../../interactions/focus/hook/useFocus";
+import { useHover } from "../../../interactions/hover/hook/useHover";
+import {
+  useLongPush,
+  useLongPushType,
+} from "../../../interactions/long_push/hook/useLongPush";
 
 const useLongPushButton = (props: useLongPushType) => {
   const { isLongPushed, longPushPropList } = useLongPush(props);

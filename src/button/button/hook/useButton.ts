@@ -1,8 +1,9 @@
-import { useFocus } from "../../interactions/hooks/useFocus/useFocus";
-import { useFocusType } from "../../interactions/hooks/useFocus/useFocusType";
-import { useHover } from "../../interactions/hooks/useHover/useHover";
-import { usePush } from "../../interactions/hooks/usePush/usePush";
-import { usePushType } from "../../interactions/hooks/usePush/usePushType";
+import {
+  useFocus,
+  useFocusType,
+} from "../../../interactions/focus/hook/useFocus";
+import { useHover } from "../../../interactions/hover/hook/useHover";
+import { usePush, usePushType } from "../../../interactions/push/hook/usePush";
 
 const useButton = (props: usePushType & useFocusType) => {
   const { isPushed, pushPropList } = usePush(props);

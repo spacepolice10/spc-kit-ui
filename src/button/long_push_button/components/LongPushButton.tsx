@@ -1,18 +1,18 @@
-import { useLongPushType } from "../../interactions/hooks/useLongPush/useLongPushType";
-import { useLongPushButton } from "../hooks/useLongPushButton";
-import { ButtonElemType } from "./buttonType";
+import { useLongPushType } from "../../../interactions/long_push/hook/useLongPush";
+import { ButtonElemType } from "../../button/components/Button";
+import { useLongPushButton } from "../../toggle_button/hook/useLongPushButton";
 
 const LongPushButton = (props: useLongPushType & ButtonElemType) => {
-  const { styles, classNames, children, ...restPropList } = props;
+  const { styles, classStyle, children, ...restPropList } = props;
   const { isLongPushed, isFocused, isHovered, longPushButtonPropList } =
     useLongPushButton(restPropList);
   return (
     <button
       style={styles}
       className={
-        typeof classNames != "function"
-          ? classNames
-          : classNames?.({ isPushed: isLongPushed, isHovered, isFocused })
+        typeof classStyle != "function"
+          ? classStyle
+          : classStyle?.({ isPushed: isLongPushed, isHovered, isFocused })
       }
       {...longPushButtonPropList}
     >

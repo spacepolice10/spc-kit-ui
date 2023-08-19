@@ -1,6 +1,6 @@
-import { useToggle, useToggleType } from "../../form/util/useToggle";
-import { useButton } from "../hooks/useButton";
-import { ButtonType } from "./Button";
+import { useToggle, useToggleType } from "../../../form/util/useToggle";
+import { useButton } from "../../button/hook/useButton";
+import { ButtonType } from "../../button/components/Button";
 
 export function ToggleButton(props: ButtonType & useToggleType) {
   const { children, classStyle, styles, ...restPropList } = props;
