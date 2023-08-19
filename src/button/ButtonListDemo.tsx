@@ -3,7 +3,7 @@ import { ButtonCollection } from "./button_collection/components/ButtonCollectio
 import { LongPushButton } from "./long_push_button/components/LongPushButton";
 import { ToggleButton } from "./toggle_button/components/ToggleButton";
 
-export default function ButtonExamples() {
+export default function ButtonListDemo() {
   return (
     <section>
       <h2 style={{ textAlign: "left", fontStyle: "italic" }}>Button:</h2>

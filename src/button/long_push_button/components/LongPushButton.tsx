@@ -1,6 +1,6 @@
 import { useLongPushType } from "../../../interactions/long_push/hook/useLongPush";
 import { ButtonElemType } from "../../button/components/Button";
-import { useLongPushButton } from "../../toggle_button/hook/useLongPushButton";
+import { useLongPushButton } from "../hook/useLongPushButton";
 
 const LongPushButton = (props: useLongPushType & ButtonElemType) => {
   const { styles, classStyle, children, ...restPropList } = props;
