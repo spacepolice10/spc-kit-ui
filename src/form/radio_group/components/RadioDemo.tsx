@@ -9,7 +9,7 @@ export default function RadioDemo() {
     { id: "cat", name: "meow 😽" },
     { id: "loaf", name: "loaf 🥯" },
   ];
-  const [selected, setSelected] = useState<string | null>(null);
+  const [selected, setSelected] = useState<string | null>("cabbage");
   return (
     <RadioGroup
       items={variants}

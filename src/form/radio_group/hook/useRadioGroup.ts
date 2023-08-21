@@ -12,7 +12,9 @@ const RadioGroupCtxt = createContext({} as unknown as useRadioGroupType);
 
 const useRadioGroup = (props: useRadioGroupType) => {
   const { items, onChange } = props;
-  const [selected, setSelected] = useState<string | null>(null);
+  const [selected, setSelected] = useState<string | null>(
+    props?.selected ?? null
+  );
   const { collectionPropList } = useCollection({
     items,
   });
