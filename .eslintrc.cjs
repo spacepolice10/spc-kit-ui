@@ -10,6 +10,14 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   plugins: ['react-refresh'],
   rules: {
+    "sort-imports":
+      [
+        "error",
+        {
+          "ignoreCase": true,
+          "ignoreDeclarationSort": true
+        }
+      ],
     'react-refresh/only-export-components': [
       'warn',
       { allowConstantExport: true },
