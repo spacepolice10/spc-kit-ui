@@ -1,41 +1,33 @@
 import { useFocusType } from "../../../interactions/focus/hook/useFocus";
 import { usePushType } from "../../../interactions/push/hook/usePush";
+import { childrenStatesType } from "../../../util/childrenStatesType";
+
+import { stylesType } from "../../../util/stylesType";
 import { useButton } from "../hook/useButton";
 
-import { CSSProperties, ReactNode } from "react";
-
-type buttonStatesType<T> = ({
-  isPushed,
-  isToggle,
-  isHovered,
-  isFocused,
-}: {
+type buttonStates = {
   isPushed?: boolean;
   isToggle?: boolean;
   isHovered?: boolean;
   isFocused?: boolean;
-}) => T;
-
-type ButtonElemType = {
-  styles?: CSSProperties;
-  classStyle?: buttonStatesType<string>;
-  id?: string;
-  children?: buttonStatesType<ReactNode> | ReactNode;
 };
-
+type buttonStatesType = childrenStatesType<buttonStates>;
+type ButtonElemType = stylesType<buttonStates> & {
+  id?: string;
+  children?: buttonStatesType;
+};
 type ButtonType = usePushType & useFocusType & ButtonElemType;
-
 export type { ButtonElemType, ButtonType };
 
 export function Button(props: ButtonType) {
-  const { children, classStyle, styles, ...restPropList } = props;
+  const { children, classStyle, style, ...restPropList } = props;
   const { isHovered, isFocused, isPushed, buttonPropList } = useButton({
     ...restPropList,
   });
 
   return (
     <button
-      style={styles}
+      style={style}
       className={
         typeof classStyle != "function"
           ? classStyle

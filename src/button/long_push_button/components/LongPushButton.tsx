@@ -3,12 +3,12 @@ import { ButtonElemType } from "../../button/components/Button";
 import { useLongPushButton } from "../hook/useLongPushButton";
 
 const LongPushButton = (props: useLongPushType & ButtonElemType) => {
-  const { styles, classStyle, children, ...restPropList } = props;
+  const { style, classStyle, children, ...restPropList } = props;
   const { isLongPushed, isFocused, isHovered, longPushButtonPropList } =
     useLongPushButton(restPropList);
   return (
     <button
-      style={styles}
+      style={style}
       className={
         typeof classStyle != "function"
           ? classStyle

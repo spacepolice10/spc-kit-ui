@@ -19,7 +19,7 @@ const ButtonCollection = (props?: ButtonCollectionType) => {
     isHorizontal,
   });
   return (
-    <div style={style} className={classStyle} {...collectionPropList}>
+    <div style={style} className={classStyle as string} {...collectionPropList}>
       {children}
     </div>
   );
