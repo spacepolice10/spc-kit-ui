@@ -1,4 +1,4 @@
-import { Children, ReactNode, useMemo } from "react";
+import { Children, ReactNode } from "react";
 import { stylesType } from "../../../util/stylesType";
 import {
   RadioGroupCtxt,
@@ -10,15 +10,11 @@ export type RadioGroupType = stylesType &
   useRadioGroupType & { children: ReactNode[] };
 
 const RadioGroup = (props: RadioGroupType) => {
-  const { style, classStyle, items, children } = props || {};
-  const { onChange, selected, setSelected, radioGroupPropList } =
-    useRadioGroup(props);
-  const memoizedCtxtData = useMemo(
-    () => ({ items, onChange, selected, setSelected }),
-    [items, onChange, selected, setSelected]
-  );
+  const { style, classStyle, children } = props || {};
+  const { radioGroupPropList, ...ctxtPropList } = useRadioGroup(props);
+
   return (
-    <RadioGroupCtxt.Provider value={memoizedCtxtData}>
+    <RadioGroupCtxt.Provider value={ctxtPropList}>
       <div
         {...radioGroupPropList}
         style={style}

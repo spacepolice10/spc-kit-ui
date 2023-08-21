@@ -9,7 +9,8 @@ export type useRadioType = {
 };
 
 const useRadio = (props: useRadioType) => {
-  const { items, onChange, selected, setSelected } = useContext(RadioGroupCtxt);
+  const { items, onChange, selected, setSelected, selectOnFocusing } =
+    useContext(RadioGroupCtxt);
   const { isToggle, toggle } = useToggle({
     isToggle: selected == props?.id,
     onChange: () => {
@@ -22,6 +23,7 @@ const useRadio = (props: useRadioType) => {
   const { buttonPropList, isFocused, isHovered } = useButton({
     onPush: toggle,
     isntSemanticPushableElem: true,
+    ...(selectOnFocusing && { onFocus: toggle }),
   });
   return {
     isHovered,
