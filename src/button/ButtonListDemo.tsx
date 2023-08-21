@@ -16,7 +16,7 @@ export default function ButtonListDemo() {
             Click me 👆
           </Button>
           <LongPushButton
-            styles={{ width: 144 }}
+            style={{ width: 144 }}
             delay={800}
             onPush={() => alert("That was long ⌛")}
           >
@@ -38,7 +38,7 @@ export default function ButtonListDemo() {
             )}
           </LongPushButton>
           <ToggleButton
-            styles={{ width: 144 }}
+            style={{ width: 144 }}
             classStyle={({ isHovered }) => (isHovered ? "buttonHovered" : "")}
           >
             {({ isToggle }) => (

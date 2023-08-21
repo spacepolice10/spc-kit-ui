@@ -1,16 +1,18 @@
 import "./App.css";
 import ButtonListDemo from "./button/ButtonListDemo";
+import FormDemo from "./form/FormDemo";
 
-import FormExamples from "./form/FormExamples";
 import InteractionsDemo from "./interactions/InteractionsDemo";
+import { OverlaysDemo } from "./overlays/OverlaysDemo";
 
 function App() {
   return (
     <>
       <h1>spc-kit</h1>
+      <OverlaysDemo />
       <InteractionsDemo />
       <ButtonListDemo />
-      <FormExamples />
+      <FormDemo />
     </>
   );
 }

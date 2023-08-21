@@ -39,9 +39,7 @@ h1 {
 div {
   border-radius: 8px;
   border: 1px solid slategray;
-  padding: 0.6em 1.2em;
   font-size: 1em;
-  margin: 8px;
 }
 
 button {
@@ -71,4 +69,18 @@ button {
   button {
     background-color: #f9f9f9;
   }
+}
+
+.checkbox_wrap {
+}
+
+.checkbox {
+}
+
+.textform {
+  border: 2px solid slategray;
+}
+
+.textform_focusing {
+  border: 2px solid blue !important;
 }

@@ -24,9 +24,7 @@ export default function KeyboardDemo() {
   }
   return (
     <div {...keyboardPropList}>
-      <span>
-        keyboard accessible block, focus on it and try pressing arrow keys
-      </span>
+      <p>keyboard accessible block, focus on it and try pressing arrow keys</p>
       <div
         style={{
           display: "flex",
