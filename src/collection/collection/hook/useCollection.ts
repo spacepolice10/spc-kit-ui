@@ -1,18 +1,18 @@
 import { FormEvent, useEffect, useState } from "react";
-import { useFocusScope } from "../../../interactions/hooks/useFocusScope/useFocusScope";
-import { useKeyboard } from "../../../interactions/hooks/useKeyboard/useKeyboard";
+import { useFocusScope } from "../../../interactions/focus_scope/hook/useFocusScope";
+import { useKeyboard } from "../../../interactions/keyboard/hook/useKeyboard";
 
 export type useCollectionType<T> = {
   items?: T[];
   focusTraps?: boolean;
-  prohibitFocusing?: boolean;
+  controlled?: boolean;
   isHorizontal?: boolean;
 };
 
 const useCollection = <T extends { id: string }>(
   props?: useCollectionType<T>
 ) => {
-  const { items, prohibitFocusing } = props || {};
+  const { items, controlled } = props || {};
   const [selectedId, setSelectedId] = useState("");
 
   const { focusNextElem, focusPrevElem, focusScopeRef } = useFocusScope();
@@ -23,12 +23,14 @@ const useCollection = <T extends { id: string }>(
   }
   useEffect(() => {
     setIsHorizontal(
-      props?.isHorizontal ?? focusScopeRef.current?.style.display == "flex"
+      props?.isHorizontal ??
+        (focusScopeRef.current?.style.display == "flex" &&
+          focusScopeRef.current?.style.flexDirection != "column")
     );
   }, [focusScopeRef, props?.isHorizontal]);
 
   function setSelectedIdPrev(ev: KeyboardEvent | FormEvent) {
-    if (!prohibitFocusing) {
+    if (!controlled) {
       ev.preventDefault();
       focusPrevElem();
     } else {
@@ -39,7 +41,7 @@ const useCollection = <T extends { id: string }>(
     }
   }
   function setSelectedIdNext(ev: KeyboardEvent | FormEvent) {
-    if (!prohibitFocusing) {
+    if (!controlled) {
       ev.preventDefault();
       focusNextElem();
     } else {
