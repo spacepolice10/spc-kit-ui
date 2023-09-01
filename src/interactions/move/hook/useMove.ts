@@ -12,6 +12,7 @@ const useMove = (props?: useMoveType) => {
   const { onMoveStarts, onMove, onMoveFinishes } = props || {};
   // this target stored to reference while detecting cursor coordinates
   const [target, setTarget] = useState<HTMLElement | undefined>(undefined);
+  const [isMoving, setIsMoving] = useState(false);
   const [coords, setCoords] = useState<{ x: number; y: number }>({
     x: 0,
     y: 0,
@@ -62,6 +63,7 @@ const useMove = (props?: useMoveType) => {
     const target = ev.target as HTMLElement;
     onMoveStarts?.();
     setTarget(target as HTMLElement);
+    setIsMoving(true);
     shift.current.x = ev.pageX - target?.offsetLeft;
     shift.current.y = ev.pageY - target?.offsetTop;
   }
@@ -70,6 +72,7 @@ const useMove = (props?: useMoveType) => {
     event.preventDefault();
     event.stopPropagation();
     setTarget(undefined);
+    setIsMoving(false);
     onMoveFinishes?.();
   }
 
@@ -139,6 +142,7 @@ const useMove = (props?: useMoveType) => {
   return {
     setCoords,
     coords,
+    isMoving,
     movePropList,
   };
 };
