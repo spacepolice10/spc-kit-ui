@@ -3,7 +3,7 @@ import { useRef } from "react";
 const useFocusScope = () => {
   const focussableElements =
     'a:not([disabled]), button:not([disabled]), input[type=text]:not([disabled]), [tabindex]:not([disabled]):not([tabindex="-1"])';
-  const focusScopeRef = useRef<HTMLDivElement>(null);
+  const focusScopeRef = useRef<HTMLDivElement | null>(null);
 
   function detectFocussable() {
     if (!document.activeElement) return;
@@ -29,13 +29,22 @@ const useFocusScope = () => {
       : position <= 0
       ? focussable?.[focussable.length - 1]
       : focussable?.[0];
+
     elem?.focus();
   }
   function focusNextElem() {
+    if (document.activeElement == focusScopeRef.current) {
+      focusFirstElem();
+      return;
+    }
     const position = detectPosition();
     focusElem((position ?? 0) + 1);
   }
   function focusPrevElem() {
+    if (document.activeElement == focusScopeRef.current) {
+      focusLastElem();
+      return;
+    }
     const position = detectPosition();
     focusElem((position ?? 0) - 1);
   }
