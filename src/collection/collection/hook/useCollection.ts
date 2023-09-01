@@ -7,12 +7,13 @@ export type useCollectionType<T> = {
   focusTraps?: boolean;
   controlled?: boolean;
   isHorizontal?: boolean;
+  isInverted?: boolean;
 };
 
 const useCollection = <T extends { id: string }>(
   props?: useCollectionType<T>
 ) => {
-  const { items, controlled } = props || {};
+  const { items, controlled, isInverted } = props || {};
   const [selectedId, setSelectedId] = useState("");
 
   const { focusNextElem, focusPrevElem, focusScopeRef } = useFocusScope();
@@ -30,25 +31,33 @@ const useCollection = <T extends { id: string }>(
   }, [focusScopeRef, props?.isHorizontal]);
 
   function setSelectedIdPrev(ev: KeyboardEvent | FormEvent) {
-    if (!controlled) {
+    if (controlled) {
+      if (!items?.length) return;
+      if (!selectedId) {
+        const id = items?.[items?.length - 1]?.id;
+        setSelectedId(id);
+      }
+      const index = items.findIndex((x) => x?.id == selectedId) - 1;
+      if (index < 0) return;
+      setSelectedId(items[index]?.id);
+    } else {
       ev.preventDefault();
       focusPrevElem();
-    } else {
-      if (!items?.length) return;
-      const item = items.findIndex((x) => x?.id == selectedId) - 1;
-      if (item < 0) return;
-      setSelectedId(items[item]?.id);
     }
   }
   function setSelectedIdNext(ev: KeyboardEvent | FormEvent) {
-    if (!controlled) {
+    if (controlled) {
+      if (!items?.length) return;
+      if (!selectedId) {
+        const id = items?.[0]?.id;
+        setSelectedId(id);
+      }
+      const index = items.findIndex((x) => x?.id == selectedId) + 1;
+      if (index > items.length - 1) return;
+      setSelectedId(items[index]?.id);
+    } else {
       ev.preventDefault();
       focusNextElem();
-    } else {
-      if (!items?.length) return;
-      const item = items.findIndex((x) => x?.id == selectedId) + 1;
-      if (item > items.length - 1) return;
-      setSelectedId(items[item]?.id);
     }
   }
 
@@ -69,6 +78,7 @@ const useCollection = <T extends { id: string }>(
   };
 
   return {
+    items: isInverted ? items?.reverse() : items ?? [],
     collectionPropList,
     selectedId,
     setSelectedId,
