@@ -1,23 +1,26 @@
 import { ReactNode } from "react";
 import { stylesType } from "../../../util/stylesType";
-import {
-  focusingOnTextform,
-  TextformType,
-} from "../../textform/components/Textform";
+import { TextformType } from "../../textform/components/Textform";
 import { useSearchform, useSearchformType } from "../hook/useSearchform";
+import { focusingOnTextform } from "../../util/focusingOnTextform";
 
 export type SearchformType<T> = stylesType<{
-  isHovered: boolean;
-  isFocused: boolean;
+  isHovered?: boolean;
+  isFocused?: boolean;
+  isValid?: boolean;
 }> &
   TextformType &
   useSearchformType<T> & {
     children: ({
       items,
+      isValid,
       remove,
+      selectedId,
     }: {
       items: T[];
-      remove: () => void;
+      isValid?: boolean;
+      remove?: () => void;
+      selectedId: string;
     }) => ReactNode;
   };
 
@@ -25,12 +28,20 @@ const Searchform = <T extends { id: string; name: string }>(
   props: SearchformType<T>
 ) => {
   const { style, classStyle, children } = props;
-  const { filteredData, searchformPropList, removeText, isHovered, isFocused } =
-    useSearchform(props);
+  const {
+    filteredData,
+    searchformPropList,
+    searchResultPropList,
+    removeText,
+    isHovered,
+    isFocused,
+    selectedId,
+    isShow,
+  } = useSearchform(props);
 
   return (
     <div
-      style={{ ...style, cursor: "text" }}
+      style={{ ...style, cursor: "text", position: "relative" }}
       onClick={focusingOnTextform}
       className={
         typeof classStyle != "function"
@@ -47,8 +58,15 @@ const Searchform = <T extends { id: string; name: string }>(
           background: "none",
         }}
       />
-
-      {children?.({ items: filteredData, remove: removeText })}
+      {isShow && (
+        <div {...searchResultPropList}>
+          {children?.({
+            items: filteredData ?? [],
+            remove: removeText,
+            selectedId,
+          })}
+        </div>
+      )}
     </div>
   );
 };

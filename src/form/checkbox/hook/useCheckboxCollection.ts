@@ -9,7 +9,7 @@ export type useCheckboxCollectionType = {
     | ((args: useCheckboxType[]) => useCheckboxType[]);
 };
 
-export const CheckboxCollectionCtxt = createContext(
+const CheckboxCollectionCtxt = createContext(
   {} as unknown as useCheckboxCollectionType
 );
 
@@ -24,4 +24,4 @@ const useCheckboxCollection = (props: useCheckboxCollectionType) => {
   };
 };
 
-export { useCheckboxCollection };
+export { useCheckboxCollection, CheckboxCollectionCtxt };

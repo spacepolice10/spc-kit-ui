@@ -45,16 +45,18 @@ const useSlider = (props: useSliderType) => {
     });
   }
   function offsetSlider(value: number) {
+    const thumb = thumbRef.current;
+    if (!isMoving || !thumb) return;
     const slideUnitAmount = slideRef?.current?.[unit] ?? 0;
     const thumbUnitAmount = thumbRef?.current?.[unit] ?? 0;
     const offset =
       ((slideUnitAmount - thumbUnitAmount) * ((value * 100) / maxVal)) / 100;
-    const thumb = thumbRef.current;
-    if (!thumb) return;
-    thumb.style.left = `${offset}px`;
+    const chosenAxis = { x: "left", y: "top" }[axis] as "left" | "top";
+    thumb.style[chosenAxis] = `${offset}px`;
+    setCoords((state) => ({ ...state, [axis]: `${offset}px` }));
   }
 
-  const { setCoords, coords, movePropList } = useMove({
+  const { setCoords, coords, isMoving, movePropList } = useMove({
     onMoveFinishes: () => onChangeFinishes?.(value),
   });
   const value = useMemo(() => {
@@ -112,6 +114,7 @@ const useSlider = (props: useSliderType) => {
     value,
     slidePropList,
     thumbPropList,
+    offsetSlider,
     isHovered,
     isFocused,
   };

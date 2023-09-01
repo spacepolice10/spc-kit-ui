@@ -1,17 +1,26 @@
+import { ReactNode } from "react";
 import { stylesType } from "../../../util/stylesType";
+import { useNumberform, useNumberformType } from "../hook/useNumberform";
 import { focusingOnTextform } from "../../util/focusingOnTextform";
-import { useTextform, useTextformType } from "../hook/useTextform";
 
-export type TextformType = stylesType<{
+export type NumberformType = stylesType<{
   isHovered: boolean;
   isFocused: boolean;
 }> &
-  useTextformType;
+  useNumberformType & {
+    children: ({
+      increm,
+      decrem,
+    }: {
+      increm: () => void;
+      decrem: () => void;
+    }) => ReactNode;
+  };
 
-const Textform = (props: TextformType) => {
-  const { style, classStyle } = props;
-  const { textformPropList, isFocused, isHovered } = useTextform(props);
-
+const Numberform = (props: NumberformType) => {
+  const { style, classStyle, children } = props;
+  const { increm, decrem, numberformPropList, isHovered, isFocused } =
+    useNumberform(props);
   return (
     <div
       style={{ ...style, cursor: "text" }}
@@ -29,10 +38,11 @@ const Textform = (props: TextformType) => {
           outline: "none",
           background: "none",
         }}
-        {...textformPropList}
+        {...numberformPropList}
       />
+      {children?.({ increm, decrem })}
     </div>
   );
 };
 
-export { Textform };
+export { Numberform };

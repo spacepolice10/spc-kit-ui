@@ -11,6 +11,7 @@ export type useTextformType = {
   onPaste?: (args: { val: string; file?: File }) => void;
   onHover?: () => void;
   onFocus?: (args: string) => void;
+  onFocusLoose?: (args: string) => void;
 };
 
 const useTextform = (props: useTextformType) => {
@@ -23,6 +24,7 @@ const useTextform = (props: useTextformType) => {
     onPaste,
     onHover,
     onFocus,
+    onFocusLoose,
   } = props;
   const uncontrolledText = useRef("");
   const textform = useRef<HTMLInputElement>(null);
@@ -53,6 +55,7 @@ const useTextform = (props: useTextformType) => {
   });
   const { focusPropList, isFocused } = useFocus({
     onFocus: () => onFocus?.(val ?? uncontrolledText.current),
+    onFocusLoose: () => onFocusLoose?.(val ?? uncontrolledText.current),
   });
 
   const textformPropList = {
