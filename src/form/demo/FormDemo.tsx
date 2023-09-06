@@ -6,7 +6,7 @@ import TextformDemo from "../textform/test/TextformDemo";
 import RadioDemo from "../radio_group/test/RadioDemo";
 import { SliderDemo } from "../slider/test/SliderDemo";
 import { useCheckboxType } from "../checkbox/hook/useCheckbox";
-import SearchformDemo from "../searchform/test/SearchformDemo";
+import SearchformDemo from "../searchform/test/SearchFormDemo";
 import NumberformDemo from "../numberform/test/NumberformDemo";
 import MailformDemo from "../mailform/test/MailformDemo";
 
