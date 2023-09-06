@@ -15,6 +15,12 @@ export { useLongPushButton } from "./src/button/long_push_button/hook/useLongPus
 export { LongPushButton } from "./src/button/long_push_button/components/LongPushButton";
 export { ToggleButton } from "./src/button/toggle_button/components/ToggleButton";
 export { ButtonCollection } from "./src/button/button_collection/components/ButtonCollection";
+export { GridButtonCollection } from "./src/button/grid_button_collection/components/GridButtonCollection";
+
+//collection
+
+export { useCollection } from "./src/collection/collection/hook/useCollection";
+export { useGridCollection } from "./src/collection/grid_collection/hook/useGridCollection";
 
 //overlays
 
