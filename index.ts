@@ -42,8 +42,10 @@ export { Trigger as TooltipTrigger } from "./src/overlays/tooltip/components/Too
 
 export { useTextform } from "./src/form/textform/hook/useTextform";
 export { Textform } from "./src/form/textform/components/Textform";
-export { useSearchform } from "./src/form/searchform/hook/useSearchform";
-export { Searchform } from "./src/form/searchform/components/Searchform";
+export { useSearchForm } from "./src/form/searchform/hook/useSearchForm";
+export { Search as SearchWrap } from "./src/form/searchform/components/SearchForm";
+export { Form as SearchForm } from "./src/form/searchform/components/SearchForm";
+export { Body as SearchResult } from "./src/form/searchform/components/SearchForm";
 export { useMailform } from "./src/form/mailform/hook/useMailform";
 export { Mailform } from "./src/form/mailform/components/Mailform";
 export { useNumberform } from "./src/form/numberform/hook/useNumberform";
