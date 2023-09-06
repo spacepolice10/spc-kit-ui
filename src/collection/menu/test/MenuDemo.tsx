@@ -1,5 +1,9 @@
 import { Button } from "../../../button/button/components/Button";
-import { Menu, Body as MenuBody, Button as MenuButton } from "./Menu";
+import {
+  Menu,
+  Body as MenuBody,
+  Button as MenuButton,
+} from "../components/Menu";
 
 export default function MenuDemo() {
   return (

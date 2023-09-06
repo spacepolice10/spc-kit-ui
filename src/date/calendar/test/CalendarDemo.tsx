@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "../../../button/button/components/Button";
-import { Calendar, Item } from "./Calendar";
+import { Calendar, Item } from "../components/Calendar";
 
 export default function CalendarDemo() {
   const [selectedDate, setSelectedDate] = useState<string | undefined>(

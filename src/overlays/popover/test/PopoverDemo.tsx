@@ -1,4 +1,4 @@
-import { Popover, Trigger } from "./Popover";
+import { Popover, Trigger } from "../components/Popover";
 
 export function PopoverDemo() {
   return (

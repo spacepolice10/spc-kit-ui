@@ -1,4 +1,4 @@
-import { Tooltip, Trigger as TooltipTrigger } from "./Tooltip";
+import { Tooltip, Trigger as TooltipTrigger } from "../components/Tooltip";
 
 export default function TooltipDemo() {
   return (

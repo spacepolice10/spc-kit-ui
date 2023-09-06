@@ -4,7 +4,7 @@ import DateDemo from "./date/DateDemo";
 import FormDemo from "./form/demo/FormDemo";
 
 import InteractionsDemo from "./interactions/demo/InteractionsDemo";
-import { OverlaysDemo } from "./overlays/OverlaysDemo";
+import { OverlaysDemo } from "./overlays/demo/OverlaysDemo";
 
 function App() {
   return (

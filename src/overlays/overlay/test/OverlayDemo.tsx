@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Overlay, Trigger as OverlayTrigger } from "./Overlay";
+import { Overlay, Trigger as OverlayTrigger } from "../components/Overlay";
 
 export default function OverlayDemo() {
   const [isOpen, setIsOpen] = useState(false);
