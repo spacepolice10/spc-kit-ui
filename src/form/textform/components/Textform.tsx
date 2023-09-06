@@ -17,7 +17,6 @@ const Textform = (props: TextformType) => {
   return (
     <div
       style={{ ...style, cursor: "text" }}
-      onClick={focusingOnTextform}
       className={
         typeof classStyle != "function"
           ? classStyle
@@ -25,13 +24,13 @@ const Textform = (props: TextformType) => {
       }
     >
       <input
+        {...textformPropList}
         style={{
           width: "100%",
           border: "none",
           outline: "none",
           background: "none",
         }}
-        {...textformPropList}
       />
     </div>
   );

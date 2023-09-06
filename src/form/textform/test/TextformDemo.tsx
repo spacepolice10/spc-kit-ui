@@ -10,7 +10,7 @@ export default function TextformDemo() {
           width: 200,
         }}
         classStyle={({ isFocused }) =>
-          isFocused ? "textform_focusing" : "textform"
+          isFocused ? "border-violet-400 border" : "border"
         }
       />
       <div style={{ display: "flex" }}>
@@ -22,7 +22,7 @@ export default function TextformDemo() {
             width: 200,
           }}
           classStyle={({ isFocused }) =>
-            isFocused ? "textform_focusing" : "textform"
+            isFocused ? "border-violet-400 border" : "border"
           }
         />
       </div>

@@ -39,17 +39,18 @@ const Form = (props: stylesType) => {
   return (
     <div
       style={{ cursor: "text", position: "relative" }}
-      onClick={focusingOnTextform}
+      // onClick={focusingOnTextform}
+
       className={
         typeof classStyle != "function"
           ? classStyle
           : classStyle?.({ isHovered, isFocused })
       }
       {...hoverPropList}
-      {...focusPropList}
     >
       <input
         {...searchFormPropList}
+        {...focusPropList}
         style={{
           width: "100%",
           border: "none",
