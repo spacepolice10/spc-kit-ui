@@ -50,6 +50,15 @@ const useOverlay = (props?: useOverlayType) => {
     setUncontrolledIsShow(false);
     onHideCallback?.();
   }
+  useEffect(() => {
+    if (!isShow) return;
+    const html = document.querySelector("html");
+    if (!html) return;
+    html.style.overflow = "hidden";
+    return () => {
+      html.style.overflow = "auto";
+    };
+  }, [isShow]);
 
   const overlayBackgroundPropList = {
     style: {
