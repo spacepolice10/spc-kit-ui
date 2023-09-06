@@ -4,9 +4,8 @@ import { MenuCtxt, useMenu, useMenuType } from "../hook/useMenu";
 export type MenuType<T> = useMenuType<T> & { children: ReactNode[] };
 
 const Menu = <T extends { id: string }>(props: MenuType<T>) => {
-  const { children } = props;
   const { isShow, hide, ...ctxtPropList } = useMenu(props);
-  const [button, ...body] = Children.toArray(children);
+  const [button, ...body] = Children.toArray(props?.children);
   return (
     <MenuCtxt.Provider value={ctxtPropList}>
       <div style={{ position: "relative" }}>

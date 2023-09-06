@@ -1,4 +1,4 @@
-import react, { CSSProperties, useMemo } from "react";
+import react, { useMemo } from "react";
 import { usePopover } from "../../../overlays/popover/hook/usePopover";
 import {
   useCollection,
@@ -10,13 +10,8 @@ export type useMenuType<T> = useCollectionType<T>;
 
 export const MenuCtxt = react.createContext(
   {} as {
-    menuTriggerPropList: { onClick: () => void };
-    menuPropList: {
-      tabIndex?: number;
-      onKeyDown: (ev: React.KeyboardEvent) => void;
-      ref: (elem: HTMLDivElement) => void;
-      style: CSSProperties;
-    };
+    menuTriggerPropList: object;
+    menuPropList: object;
     isInverted: boolean;
   }
 );

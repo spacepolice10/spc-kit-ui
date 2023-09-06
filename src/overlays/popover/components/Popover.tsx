@@ -17,7 +17,7 @@ const Popover = (props: PopoverType) => {
   } = usePopover(props);
   const [button, body] = Children.toArray(children);
   return (
-    <div>
+    <div style={{ position: "relative" }}>
       <PopoverContext.Provider value={popoverTriggerPropList}>
         <div {...wrapperPropList}>
           {isShow && (
