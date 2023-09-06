@@ -7,6 +7,8 @@ export type useKeyboardType = {
 const useKeyboard = (keys: useKeyboardType) => {
   function keysHandle(ev: React.KeyboardEvent) {
     if (!keys[ev.key]) return;
+    ev.preventDefault();
+    ev.stopPropagation();
     keys[ev.key](ev);
   }
   const keyboardPropList = {
