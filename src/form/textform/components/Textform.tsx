@@ -3,8 +3,10 @@ import { focusingOnTextform } from "../../util/focusingOnTextform";
 import { useTextform, useTextformType } from "../hook/useTextform";
 
 export type TextformType = stylesType<{
-  isHovered: boolean;
-  isFocused: boolean;
+  isHovered?: boolean;
+  isFocused?: boolean;
+  isDisabled?: boolean;
+  isValid?: boolean;
 }> &
   useTextformType;
 

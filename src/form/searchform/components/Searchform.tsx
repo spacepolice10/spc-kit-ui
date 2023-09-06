@@ -1,15 +1,9 @@
 import { ReactNode } from "react";
-import { stylesType } from "../../../util/stylesType";
 import { TextformType } from "../../textform/components/Textform";
 import { useSearchform, useSearchformType } from "../hook/useSearchform";
 import { focusingOnTextform } from "../../util/focusingOnTextform";
 
-export type SearchformType<T> = stylesType<{
-  isHovered?: boolean;
-  isFocused?: boolean;
-  isValid?: boolean;
-}> &
-  TextformType &
+export type SearchformType<T> = TextformType &
   useSearchformType<T> & {
     children: ({
       items,
