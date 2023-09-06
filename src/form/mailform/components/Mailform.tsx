@@ -1,8 +1,19 @@
 import { useMailform } from "../hook/useMailform";
 import { focusingOnTextform } from "../../util/focusingOnTextform";
-import { SearchformType } from "../../searchform/components/SearchForm";
+import { TextformType } from "../../textform/components/Textform";
+import { useSearchFormType } from "../../searchform/hook/useSearchForm";
+import { ReactNode } from "react";
 
-export type MailformType<T> = SearchformType<T>;
+export type MailformType<T> = TextformType &
+  useSearchFormType<T> & {
+    children: ({
+      items,
+      selectedId,
+    }: {
+      items: T[];
+      selectedId: string;
+    }) => ReactNode;
+  };
 
 const Mailform = (props: MailformType<{ id: string; name: string }>) => {
   const { children, classStyle } = props;
