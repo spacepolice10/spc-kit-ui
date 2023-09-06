@@ -8,10 +8,7 @@ import {
 import { useTextform, useTextformType } from "../../textform/hook/useTextform";
 import useDebounce from "../../util/useDebounce";
 import { useCollection } from "../../../collection/collection/hook/useCollection";
-import {
-  usePopover,
-  usePopoverType,
-} from "../../../overlays/popover/hook/usePopover";
+import { usePopover } from "../../../overlays/popover/hook/usePopover";
 import { useKeyboard } from "../../../interactions/keyboard/hook/useKeyboard";
 
 export type useSearchFormType<T> = useTextformType & {
