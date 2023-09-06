@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { CSSProperties, useEffect, useMemo, useState } from "react";
 import { useTextform, useTextformType } from "../../textform/hook/useTextform";
 import useDebounce from "../../util/useDebounce";
 import { useCollection } from "../../../collection/collection/hook/useCollection";
@@ -12,12 +12,23 @@ export type useSearchformType<T> = useTextformType & {
   delay?: number;
   onKeyboardSelect: (selectedElemId: string) => void;
   onInput?: (text: string) => void;
+  withRelativePosition?: boolean;
+  alwaysShowResult?: boolean;
 };
 
 const useSearchform = <T extends { id: string; name: string }>(
   props: useSearchformType<T>
 ) => {
-  const { data, val, filter, delay, onKeyboardSelect, onInput } = props;
+  const {
+    data,
+    val,
+    filter,
+    delay,
+    onKeyboardSelect,
+    onInput,
+    withRelativePosition,
+    alwaysShowResult,
+  } = props;
   const [controlledText, setControlledText] = useState("");
 
   const debounceText = useDebounce(val ?? controlledText, delay ?? 0);
@@ -78,6 +89,9 @@ const useSearchform = <T extends { id: string; name: string }>(
 
   const searchResultPropList = {
     ...popoverPropList,
+    ...(withRelativePosition && {
+      style: { position: "relative" } as CSSProperties,
+    }),
   };
   return {
     searchformPropList,
@@ -87,7 +101,7 @@ const useSearchform = <T extends { id: string; name: string }>(
     isHovered,
     isFocused,
     selectedId,
-    isShow,
+    isShow: alwaysShowResult ? true : isShow,
   };
 };
 
