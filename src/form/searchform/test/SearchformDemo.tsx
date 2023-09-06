@@ -1,5 +1,9 @@
 import { Button } from "../../../button/button/components/Button";
-import { Searchform } from "../components/Searchform";
+import {
+  Search,
+  Form as Searchform,
+  Body as SearchResult,
+} from "../components/SearchForm";
 
 export default function SearchformDemo() {
   const data = [
@@ -68,50 +72,49 @@ export default function SearchformDemo() {
           </>
         )}
       </Searchform> */}
-      <Searchform
+      <Search
         data={data}
         onKeyboardSelect={(selectedElemId) =>
           alert(data.find((x) => x.id == selectedElemId)?.value)
         }
         filter={filter}
-        style={{
-          width: 200,
-        }}
-        withRelativePosition={true}
-        alwaysShowResult={true}
-        classStyle={({ isFocused }: { isFocused?: boolean }) =>
-          isFocused ? "textform_focusing" : "textform"
-        }
+        // alwaysShowResult={true}
+        // withRelativePosition={true}
       >
-        {({ items, selectedId }) => (
-          <div
-            style={{
-              width: 200,
-
-              display: items?.length ? "flex" : "none",
-              flexDirection: "column",
-            }}
-            className="border p-2 h-52"
-          >
-            {items?.map((x) => (
-              <Button
-                key={x.id}
-                onPush={() => alert(selectedId)}
-                style={{
-                  backgroundColor: selectedId == x.id ? "seagreen" : "",
-                  padding: 10,
-                  width: 240,
-                }}
-                classStyle={({ isHovered }) =>
-                  isHovered ? "buttonHovered" : ""
-                }
-              >
-                {x.name}
-              </Button>
-            ))}
-          </div>
-        )}
-      </Searchform>
+        <Searchform
+          classStyle={({ isFocused }: { isFocused?: boolean }) =>
+            isFocused ? "border p-2 border-violet-400" : "border p-2"
+          }
+        />
+        <SearchResult classStyle="">
+          {({
+            items,
+            selectedId,
+          }: {
+            items: typeof data;
+            selectedId: string;
+          }) => (
+            <div className="border p-2 flex flex-col gap-2">
+              {items?.map((x) => (
+                <Button
+                  key={x.id}
+                  onPush={() => alert(selectedId)}
+                  style={{
+                    backgroundColor: selectedId == x.id ? "seagreen" : "",
+                    padding: 10,
+                    width: 240,
+                  }}
+                  classStyle={({ isHovered }) =>
+                    isHovered ? "buttonHovered" : ""
+                  }
+                >
+                  {x.name}
+                </Button>
+              ))}
+            </div>
+          )}
+        </SearchResult>
+      </Search>
     </>
   );
 }
