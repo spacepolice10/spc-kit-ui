@@ -14,7 +14,7 @@ export type usePopoverType = {
   position?: "b" | "t" | "l" | "r";
   offset?: number;
   onHideCallback?: () => void;
-  onHideClassnames?: string;
+  onShowCallback?: () => void;
 };
 
 export const PopoverContext = createContext({} as { onClick: () => void });
@@ -31,21 +31,58 @@ const usePopover = <T extends HTMLElement>(props?: usePopoverType) => {
     if (!focusElem) return;
     focusElem?.focus();
   }, [isShow]);
-
   function focusTrapsOnTrigger() {
     if (!props?.focusTrapsOnTrigger) return;
     triggerRef.current?.focus({ preventScroll: true });
   }
 
   const show = () => {
+    setIsShow(true);
+    detectPosition();
+  };
+  function detectPosition() {
+    const offsetNumber = props?.offset ?? 0;
     if (!triggerRef.current) return;
     if (!window) return;
-
     const triggerRect = triggerRef.current.getBoundingClientRect();
-    const dimensions = { width: window.innerWidth, height: window.innerHeight };
+    const dimensions = {
+      width: window.innerWidth,
+      height: window.innerHeight,
+    };
     const elemIsOnTopHalf = triggerRect.y < dimensions.height / 2;
     const elemIsOnLeftHalf = triggerRect.x <= dimensions.width / 2;
-    setIsShow(true);
+
+    let left = "auto" as number | "auto";
+    let right = "auto" as number | "auto";
+    let top = "auto" as number | "auto";
+    let bottom = "auto" as number | "auto";
+
+    switch (props?.position) {
+      case "b": {
+        top = triggerRect.height + offsetNumber;
+        break;
+      }
+      case "t": {
+        bottom = triggerRect.height + triggerRect.height + offsetNumber;
+        break;
+      }
+      case "l": {
+        left = -(triggerRect.width * 2 + offsetNumber);
+        top = 0;
+        break;
+      }
+      case "r": {
+        left = triggerRect.width + offsetNumber;
+        top = 0;
+        break;
+      }
+      default: {
+        elemIsOnLeftHalf ? (left = offsetNumber) : (right = offsetNumber);
+        elemIsOnTopHalf
+          ? (top = triggerRect.height + offsetNumber)
+          : (bottom = triggerRect.height + triggerRect.height + offsetNumber);
+      }
+    }
     setStyle({
       position: "absolute",
       opacity: "0%",
@@ -54,24 +91,20 @@ const usePopover = <T extends HTMLElement>(props?: usePopoverType) => {
       setStyle({
         position: "absolute",
         opacity: "100%",
-        ...(elemIsOnLeftHalf ? { left: 0 } : { right: 0 }),
-        ...(elemIsOnTopHalf
-          ? { top: triggerRect.height }
-          : { bottom: triggerRect.height + triggerRect.height }),
+        left,
+        right,
+        top,
+        bottom,
       });
     });
-  };
+  }
+
   const hide = () => {
     setStyle({});
     focusTrapsOnTrigger();
     props?.onHideCallback?.();
-    if (props?.onHideClassnames && popoverRef.current) {
-      popoverRef.current.className = props.onHideClassnames;
-    } else {
-      setIsShow(false);
-    }
+    setIsShow(false);
   };
-
   const { keyboardPropList } = useKeyboard({
     Escape: (ev: KeyboardEvent | FormEvent) => {
       ev.preventDefault();
@@ -88,18 +121,15 @@ const usePopover = <T extends HTMLElement>(props?: usePopoverType) => {
     } as CSSProperties,
     ...keyboardPropList,
   };
-
   const popoverPropList = {
     ref: popoverRef,
     style,
     ...keyboardPropList,
   };
-
   const popoverTriggerPropList = {
     ref: triggerRef,
     onClick: () => (isShow ? hide() : show()),
   };
-
   return {
     wrapperPropList,
     popoverPropList,

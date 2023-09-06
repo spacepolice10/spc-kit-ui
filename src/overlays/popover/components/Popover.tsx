@@ -28,6 +28,7 @@ const Popover = (props: PopoverType) => {
                 width: "100%",
                 height: "100vh",
                 background: "none",
+                cursor: "default",
               }}
               onClick={hide}
             ></button>
@@ -40,9 +41,19 @@ const Popover = (props: PopoverType) => {
   );
 };
 
-function Trigger({ children }: { children: ReactNode }) {
+function Trigger({
+  classStyle,
+  children,
+}: {
+  classStyle?: string;
+  children: ReactNode;
+}) {
   const popoverTriggerPropList = useContext(PopoverContext);
-  return <button {...popoverTriggerPropList}>{children}</button>;
+  return (
+    <button className={classStyle} {...popoverTriggerPropList}>
+      {children}
+    </button>
+  );
 }
 
 export { Popover, Trigger };
