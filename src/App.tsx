@@ -1,8 +1,9 @@
-import "./App.css";
-import ButtonListDemo from "./button/ButtonListDemo";
-import FormDemo from "./form/FormDemo";
+import ButtonListDemo from "./button/demo/ButtonListDemo";
+import CollectionListDemo from "./collection/demo/CollectionListDemo";
+import DateDemo from "./date/DateDemo";
+import FormDemo from "./form/demo/FormDemo";
 
-import InteractionsDemo from "./interactions/InteractionsDemo";
+import InteractionsDemo from "./interactions/demo/InteractionsDemo";
 import { OverlaysDemo } from "./overlays/OverlaysDemo";
 
 function App() {
@@ -10,8 +11,10 @@ function App() {
     <>
       <h1>spc-kit</h1>
       <OverlaysDemo />
+      <DateDemo />
       <InteractionsDemo />
       <ButtonListDemo />
+      <CollectionListDemo />
       <FormDemo />
     </>
   );

@@ -4,7 +4,6 @@ import { useKeyboard } from "../../../interactions/keyboard/hook/useKeyboard";
 
 export type useCollectionType<T> = {
   items?: T[];
-  focusTraps?: boolean;
   controlled?: boolean;
   isHorizontal?: boolean;
   isInverted?: boolean;

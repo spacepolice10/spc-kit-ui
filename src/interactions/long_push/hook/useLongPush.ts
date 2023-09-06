@@ -13,7 +13,7 @@ const useLongPush = (props: useLongPushType) => {
   const [isLongPushed, setIsLongPushed] = useState(false);
   const timerRef = useRef<number>(0);
   function hold(ev: React.MouseEvent | React.KeyboardEvent) {
-    ev.preventDefault();
+    ev.stopPropagation();
     setIsLongPushed(true);
     if (ev.type == "keydown") {
       const customEv = ev as unknown as KeyboardEvent;
