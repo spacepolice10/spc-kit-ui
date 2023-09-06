@@ -1,9 +1,9 @@
 import {
-  useSearchform,
-  useSearchformType,
-} from "../../searchform/hook/useSearchform";
+  useSearchForm,
+  useSearchFormType,
+} from "../../searchform/hook/useSearchForm";
 
-export type useMailformType = useSearchformType<{
+export type useMailformType = useSearchFormType<{
   id: string;
   name: string;
 }> & { onKeyboardSelect: (args: string) => void };
@@ -22,18 +22,18 @@ const useMailform = (props: useMailformType) => {
   function changeMailInForm(domain: string) {
     onKeyboardSelect?.(`${val + domain}`);
   }
-  const { searchResultPropList, searchformPropList, ...mailform } =
-    useSearchform({
+  const { searchResultPropList, searchFormPropList, ...mailform } =
+    useSearchForm({
       ...props,
       data: mailList,
       filter: filterMail,
       onKeyboardSelect: changeMailInForm,
     });
   return {
-    mailformPropList: searchformPropList,
+    mailformPropList: searchFormPropList,
     mailResultPropList: searchResultPropList,
     ...mailform,
-    isMail: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(searchformPropList.value),
+    isMail: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(searchFormPropList.value),
   };
 };
 

@@ -1,11 +1,20 @@
-import { CSSProperties, useEffect, useMemo, useState } from "react";
+import {
+  createContext,
+  CSSProperties,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { useTextform, useTextformType } from "../../textform/hook/useTextform";
 import useDebounce from "../../util/useDebounce";
 import { useCollection } from "../../../collection/collection/hook/useCollection";
-import { usePopover } from "../../../overlays/popover/hook/usePopover";
+import {
+  usePopover,
+  usePopoverType,
+} from "../../../overlays/popover/hook/usePopover";
 import { useKeyboard } from "../../../interactions/keyboard/hook/useKeyboard";
 
-export type useSearchformType<T> = useTextformType & {
+export type useSearchFormType<T> = useTextformType & {
   data: T[];
   val?: string;
   filter?: (query: string) => void;
@@ -16,8 +25,18 @@ export type useSearchformType<T> = useTextformType & {
   alwaysShowResult?: boolean;
 };
 
-const useSearchform = <T extends { id: string; name: string }>(
-  props: useSearchformType<T>
+export const SearchFormCtxt = createContext(
+  {} as {
+    searchFormPropList: object;
+    searchResultPropList: object;
+    filteredData?: object[];
+    removeText: () => void;
+    selectedId?: string;
+  }
+);
+
+const useSearchForm = <T extends { id: string; name: string }>(
+  props: useSearchFormType<T>
 ) => {
   const {
     data,
@@ -32,7 +51,7 @@ const useSearchform = <T extends { id: string; name: string }>(
   const [controlledText, setControlledText] = useState("");
 
   const debounceText = useDebounce(val ?? controlledText, delay ?? 0);
-  const { textformPropList, value, isHovered, isFocused } = useTextform({
+  const { textformPropList, value } = useTextform({
     val,
     onInput: onInput ?? setControlledText,
     onFocusLoose: () => hide(),
@@ -70,7 +89,7 @@ const useSearchform = <T extends { id: string; name: string }>(
     },
   });
 
-  const searchformPropList = {
+  const searchFormPropList = {
     ...textformPropList,
     ref: triggerRef,
     onKeyDown: (ev: React.KeyboardEvent) => {
@@ -93,16 +112,15 @@ const useSearchform = <T extends { id: string; name: string }>(
       style: { position: "relative" } as CSSProperties,
     }),
   };
+
   return {
-    searchformPropList,
+    searchFormPropList,
     searchResultPropList,
-    filteredData: collectionData,
-    removeText,
-    isHovered,
-    isFocused,
-    selectedId,
     isShow: alwaysShowResult ? true : isShow,
+    filteredData: collectionData,
+    selectedId,
+    removeText,
   };
 };
 
-export { useSearchform };
+export { useSearchForm };

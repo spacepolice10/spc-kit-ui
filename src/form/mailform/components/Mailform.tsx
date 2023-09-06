@@ -1,6 +1,6 @@
 import { useMailform } from "../hook/useMailform";
 import { focusingOnTextform } from "../../util/focusingOnTextform";
-import { SearchformType } from "../../searchform/components/Searchform";
+import { SearchformType } from "../../searchform/components/SearchForm";
 
 export type MailformType<T> = SearchformType<T>;
 
