@@ -11,7 +11,7 @@ const useLongPush = (props: useLongPushType) => {
   const { onPush, delay } = props;
   const { pushPropList } = usePush(props);
   const [isLongPushed, setIsLongPushed] = useState(false);
-  const timerRef = useRef<number>(0);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | number>(0);
   function hold(ev: React.MouseEvent | React.KeyboardEvent) {
     ev.stopPropagation();
     setIsLongPushed(true);
