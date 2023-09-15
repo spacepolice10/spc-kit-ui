@@ -7,6 +7,8 @@ export { useFocus } from "./src/interactions/focus/hook/useFocus";
 export { useFocusScope } from "./src/interactions/focus_scope/hook/useFocusScope";
 export { useKeyboard } from "./src/interactions/keyboard/hook/useKeyboard";
 export { useMove } from "./src/interactions/move/hook/useMove";
+export { useDrag } from "./src/interactions/drag/hook/useDrag";
+export { useDrop } from "./src/interactions/drop/hook/useDrop";
 
 //button
 
