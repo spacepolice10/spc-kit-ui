@@ -130,6 +130,7 @@ const usePopover = <T extends HTMLElement>(props?: usePopoverType) => {
     ref: triggerRef,
     onClick: () => (isShow ? hide() : show()),
   };
+
   return {
     wrapperPropList,
     popoverPropList,
@@ -138,7 +139,7 @@ const usePopover = <T extends HTMLElement>(props?: usePopoverType) => {
     isShow,
     show,
     hide,
-    isInverted: !!style.bottom,
+    isInverted: !!style.bottom && style.bottom != "auto",
   };
 };
 
