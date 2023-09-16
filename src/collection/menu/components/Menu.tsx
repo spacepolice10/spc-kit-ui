@@ -16,7 +16,8 @@ const Menu = <T extends { id: string }>(props: MenuType<T>) => {
               inset: 0,
               width: "100%",
               height: "100vh",
-              background: "none",
+              cursor: "default",
+              background: "transparent",
             }}
             onClick={hide}
           ></button>
@@ -35,14 +36,14 @@ function Button({ children }: { children: ReactNode }) {
 
 function Body({
   children,
-  classStyle,
+  className,
 }: {
   children: ReactNode[];
-  classStyle: string;
+  className: string;
 }) {
   const { menuPropList, isInverted } = useContext(MenuCtxt);
   return (
-    <div tabIndex={-1} className={classStyle} {...menuPropList}>
+    <div tabIndex={-1} className={className} {...menuPropList}>
       {isInverted
         ? Children.toArray(children).reverse()
         : Children.toArray(children)}
