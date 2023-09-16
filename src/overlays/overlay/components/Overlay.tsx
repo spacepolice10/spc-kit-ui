@@ -5,7 +5,7 @@ import { OverlayContext, useOverlay, useOverlayType } from "../hook/useOverlay";
 export type OverlayType = stylesType & useOverlayType & { children: ReactNode };
 
 const Overlay = (props: OverlayType) => {
-  const { children, classStyle } = props;
+  const { children, className } = props;
   const {
     isShow,
     overlayTriggerPropList,
@@ -19,7 +19,7 @@ const Overlay = (props: OverlayType) => {
       <OverlayContext.Provider value={overlayTriggerPropList}>
         {props?.isShow == undefined && button}
         {isShow && (
-          <div className={classStyle as string} {...overlayBackgroundPropList}>
+          <div className={className as string} {...overlayBackgroundPropList}>
             <div {...overlayPropList}>
               {body ?? Children.toArray(children)[0]}
             </div>

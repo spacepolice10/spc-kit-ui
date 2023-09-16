@@ -63,12 +63,7 @@ const useOverlay = (props?: useOverlayType) => {
   const overlayBackgroundPropList = {
     style: {
       padding: 0,
-      zIndex: 20000,
-      position: "absolute",
       inset: 0,
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
       width: "100%",
       height: "100dvh",
     } as CSSProperties,
