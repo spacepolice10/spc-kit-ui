@@ -1,8 +1,10 @@
 import { Children, ReactNode, useContext } from "react";
 import { stylesType } from "../../../util/stylesType";
 import { OverlayContext, useOverlay, useOverlayType } from "../hook/useOverlay";
+import { createPortal } from "react-dom";
 
-export type OverlayType = stylesType & useOverlayType & { children: ReactNode };
+export type OverlayType = stylesType &
+  useOverlayType & { children: ReactNode; withPortal?: boolean };
 
 const Overlay = (props: OverlayType) => {
   const { children, className } = props;
@@ -14,8 +16,8 @@ const Overlay = (props: OverlayType) => {
   } = useOverlay(props);
   const [button, body] = Children.toArray(children);
 
-  return (
-    <div>
+  return typeof document == "object" ? (
+    createPortal(
       <OverlayContext.Provider value={overlayTriggerPropList}>
         {props?.isShow == undefined && button}
         {isShow && (
@@ -25,8 +27,11 @@ const Overlay = (props: OverlayType) => {
             </div>
           </div>
         )}
-      </OverlayContext.Provider>
-    </div>
+      </OverlayContext.Provider>,
+      document?.body
+    )
+  ) : (
+    <></>
   );
 };
 
