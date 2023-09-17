@@ -16,22 +16,22 @@ const Overlay = (props: OverlayType) => {
   } = useOverlay(props);
   const [button, body] = Children.toArray(children);
 
-  return typeof document == "object" ? (
-    createPortal(
-      <OverlayContext.Provider value={overlayTriggerPropList}>
-        {props?.isShow == undefined && button}
-        {isShow && (
+  return (
+    <OverlayContext.Provider value={overlayTriggerPropList}>
+      {props?.isShow == undefined && button}
+      {isShow && typeof document == "object" ? (
+        createPortal(
           <div className={className as string} {...overlayBackgroundPropList}>
             <div {...overlayBodyPropList}>
               {body ?? Children.toArray(children)[0]}
             </div>
-          </div>
-        )}
-      </OverlayContext.Provider>,
-      document?.body
-    )
-  ) : (
-    <></>
+          </div>,
+          document.body
+        )
+      ) : (
+        <></>
+      )}
+    </OverlayContext.Provider>
   );
 };
 
