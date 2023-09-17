@@ -12,7 +12,7 @@ const Overlay = (props: OverlayType) => {
     isShow,
     overlayTriggerPropList,
     overlayBackgroundPropList,
-    overlayPropList,
+    overlayBodyPropList,
   } = useOverlay(props);
   const [button, body] = Children.toArray(children);
 
@@ -22,7 +22,7 @@ const Overlay = (props: OverlayType) => {
         {props?.isShow == undefined && button}
         {isShow && (
           <div className={className as string} {...overlayBackgroundPropList}>
-            <div {...overlayPropList}>
+            <div {...overlayBodyPropList}>
               {body ?? Children.toArray(children)[0]}
             </div>
           </div>

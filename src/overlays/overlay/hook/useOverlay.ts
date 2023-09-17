@@ -13,8 +13,8 @@ export type useOverlayType = {
   initIsShow?: boolean;
   hideOnBackdropPush?: boolean;
   focusingElem?: RefObject<HTMLButtonElement>;
-  onHideCallback?: () => void;
-  onShowCallback?: () => void;
+  onHide?: () => void;
+  onShow?: () => void;
 };
 
 export const OverlayContext = createContext({} as { onClick: () => void });
@@ -25,8 +25,8 @@ const useOverlay = (props?: useOverlayType) => {
     initIsShow,
     hideOnBackdropPush,
     focusingElem,
-    onShowCallback,
-    onHideCallback,
+    onShow,
+    onHide,
   } = props ?? {};
   const [uncontrolledIsShow, setUncontrolledIsShow] = useState(initIsShow);
 
@@ -44,11 +44,11 @@ const useOverlay = (props?: useOverlayType) => {
   });
   function show() {
     setUncontrolledIsShow(true);
-    onShowCallback?.();
+    onShow?.();
   }
   function hide() {
     setUncontrolledIsShow(false);
-    onHideCallback?.();
+    onHide?.();
   }
   useEffect(() => {
     if (!isShow) return;
@@ -72,11 +72,13 @@ const useOverlay = (props?: useOverlayType) => {
     ...keyboardPropList,
   };
 
-  const overlayPropList = {
+  const overlayBodyPropList = {
     onClick: (ev: React.MouseEvent) => ev.stopPropagation(),
     style: {
       width: "100%",
       height: "auto",
+      margin: "auto",
+      padding: "auto",
     } as CSSProperties,
   };
 
@@ -90,7 +92,7 @@ const useOverlay = (props?: useOverlayType) => {
     hide,
     overlayTriggerPropList,
     overlayBackgroundPropList,
-    overlayPropList,
+    overlayBodyPropList,
   };
 };
 
