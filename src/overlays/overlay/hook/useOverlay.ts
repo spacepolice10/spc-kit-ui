@@ -75,7 +75,7 @@ const useOverlay = (props?: useOverlayType) => {
   const overlayBodyPropList = {
     onClick: (ev: React.MouseEvent) => ev.stopPropagation(),
     style: {
-      width: "100%",
+      width: "auto",
       height: "auto",
       margin: "auto",
       padding: "auto",
