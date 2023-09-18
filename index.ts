@@ -25,8 +25,8 @@ export { useCollection } from "./src/collection/collection/hook/useCollection";
 export { useGridCollection } from "./src/collection/grid_collection/hook/useGridCollection";
 export { useMenu } from "./src/collection/menu/hook/useMenu";
 export { Menu } from "./src/collection/menu/components/Menu";
-export { Button as MenuButton } from "./src/collection/menu/components/Menu";
-export { Body as MenuBody } from "./src/collection/menu/components/Menu";
+export { MenuButton } from "./src/collection/menu/components/Menu";
+export { MenuBody } from "./src/collection/menu/components/Menu";
 
 //overlays
 
