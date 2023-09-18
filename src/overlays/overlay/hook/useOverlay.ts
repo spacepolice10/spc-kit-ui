@@ -19,7 +19,12 @@ export type useOverlayType = {
 };
 
 export const OverlayContext = createContext(
-  {} as { overlayTriggerCallback: () => void; hide: () => void }
+  {} as {
+    isShow?: boolean;
+    hideOnBackdropPush?: boolean;
+    show: () => void;
+    hide: () => void;
+  }
 );
 
 const useOverlay = (props?: useOverlayType) => {
@@ -82,13 +87,14 @@ const useOverlay = (props?: useOverlayType) => {
     () => ({
       overlayTriggerCallback: () => (isShow ? hide() : show()),
       hide,
+      show,
+      hideOnBackdropPush,
     }),
     []
   );
 
   return {
     isShow: isShow ?? uncontrolledIsShow,
-    show,
     overlayBackgroundPropList,
     ...memoized,
   };

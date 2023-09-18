@@ -2,6 +2,7 @@ import {
   createContext,
   CSSProperties,
   FormEvent,
+  MutableRefObject,
   useEffect,
   useRef,
   useState,
@@ -13,11 +14,18 @@ export type usePopoverType = {
   focusTrapsOnPopover?: boolean;
   position?: "b" | "t" | "l" | "r";
   offset?: number;
-  onHideCallback?: () => void;
-  onShowCallback?: () => void;
+  onHide?: () => void;
+  onShow?: () => void;
 };
 
-export const PopoverContext = createContext({} as { onClick: () => void });
+export const PopoverContext = createContext(
+  {} as {
+    isShow: boolean;
+    triggerRef: MutableRefObject<HTMLElement | null>;
+    show: () => void;
+    hide: () => void;
+  }
+);
 
 const usePopover = <T extends HTMLElement>(props?: usePopoverType) => {
   const [isShow, setIsShow] = useState(false);
@@ -105,7 +113,7 @@ const usePopover = <T extends HTMLElement>(props?: usePopoverType) => {
   const hide = () => {
     setStyle({});
     focusTrapsOnTrigger();
-    props?.onHideCallback?.();
+    props?.onHide?.();
     setIsShow(false);
   };
   const { keyboardPropList } = useKeyboard({
@@ -115,15 +123,6 @@ const usePopover = <T extends HTMLElement>(props?: usePopoverType) => {
     },
   });
 
-  const wrapperPropList = {
-    style: {
-      position: "static",
-      display: "block",
-      width: "fit-content",
-      height: "fit-content",
-    } as CSSProperties,
-    ...keyboardPropList,
-  };
   const popoverPropList = {
     ref: popoverRef,
     style,
@@ -135,7 +134,6 @@ const usePopover = <T extends HTMLElement>(props?: usePopoverType) => {
   };
 
   return {
-    wrapperPropList,
     popoverPropList,
     popoverTriggerPropList,
     triggerRef,

@@ -11,13 +11,12 @@ export type OverlayType = stylesType &
 
 const Overlay = (props: OverlayType) => {
   const { children, className } = props;
-  const { isShow, hide, overlayTriggerCallback, overlayBackgroundPropList } =
-    useOverlay(props);
+  const { overlayBackgroundPropList, ...rest } = useOverlay(props);
   const [button, body] = Children.toArray(children);
   return (
-    <OverlayContext.Provider value={{ overlayTriggerCallback, hide }}>
+    <OverlayContext.Provider value={rest}>
       {props?.isShow == undefined && button}
-      {isShow && typeof document == "object" ? (
+      {rest.isShow && typeof document == "object" ? (
         createPortal(
           <div className={className as string} {...overlayBackgroundPropList}>
             {body ?? button}
@@ -31,11 +30,17 @@ const Overlay = (props: OverlayType) => {
   );
 };
 
-function Trigger(props: ButtonType & { children: ReactNode }) {
-  const { overlayTriggerCallback } = useContext(OverlayContext);
+function Trigger(
+  props: ButtonType & {
+    children: ((isShow: boolean) => ReactNode) | ReactNode;
+  }
+) {
+  const { show, isShow } = useContext(OverlayContext);
   return (
-    <Button {...props} onPush={overlayTriggerCallback}>
-      {props?.children}
+    <Button {...props} onPush={show}>
+      {typeof props.children == "function"
+        ? props?.children(isShow ?? false)
+        : props?.children}
     </Button>
   );
 }
