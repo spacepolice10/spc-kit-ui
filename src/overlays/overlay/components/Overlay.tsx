@@ -5,21 +5,22 @@ import { createPortal } from "react-dom";
 import { Button, ButtonType } from "../../../button/button/components/Button";
 
 export type OverlayType = stylesType &
-  useOverlayType & { children: ReactNode; withPortal?: boolean };
+  useOverlayType & {
+    children: ReactNode;
+  };
 
 const Overlay = (props: OverlayType) => {
   const { children, className } = props;
-  const { isShow, overlayTriggerCallback, overlayBackgroundPropList } =
+  const { isShow, hide, overlayTriggerCallback, overlayBackgroundPropList } =
     useOverlay(props);
   const [button, body] = Children.toArray(children);
-
   return (
-    <OverlayContext.Provider value={overlayTriggerCallback}>
+    <OverlayContext.Provider value={{ overlayTriggerCallback, hide }}>
       {props?.isShow == undefined && button}
       {isShow && typeof document == "object" ? (
         createPortal(
           <div className={className as string} {...overlayBackgroundPropList}>
-            {body ?? Children.toArray(children)[0]}
+            {body ?? button}
           </div>,
           document.body
         )
@@ -31,7 +32,7 @@ const Overlay = (props: OverlayType) => {
 };
 
 function Trigger(props: ButtonType & { children: ReactNode }) {
-  const overlayTriggerCallback = useContext(OverlayContext);
+  const { overlayTriggerCallback } = useContext(OverlayContext);
   return (
     <Button {...props} onPush={overlayTriggerCallback}>
       {props?.children}
@@ -39,4 +40,13 @@ function Trigger(props: ButtonType & { children: ReactNode }) {
   );
 }
 
-export { Overlay, Trigger };
+function Content({
+  children,
+}: {
+  children: ((hide: () => void) => ReactNode) | ReactNode;
+}) {
+  const { hide } = useContext(OverlayContext);
+  return <>{typeof children == "function" ? children(hide) : children}</>;
+}
+
+export { Overlay, Trigger, Content };

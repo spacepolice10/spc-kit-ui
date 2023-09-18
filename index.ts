@@ -33,6 +33,7 @@ export { Body as MenuBody } from "./src/collection/menu/components/Menu";
 export { useOverlay } from "./src/overlays/overlay/hook/useOverlay";
 export { Overlay } from "./src/overlays/overlay/components/Overlay";
 export { Trigger as OverlayTrigger } from "./src/overlays/overlay/components/Overlay";
+export { Content as OverlayContent } from "./src/overlays/overlay/components/Overlay";
 export { usePopover } from "./src/overlays/popover/hook/usePopover";
 export { Popover } from "./src/overlays/popover/components/Popover";
 export { Trigger as PopoverTrigger } from "./src/overlays/popover/components/Popover";

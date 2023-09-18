@@ -3,6 +3,7 @@ import {
   CSSProperties,
   RefObject,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
@@ -17,7 +18,9 @@ export type useOverlayType = {
   onShow?: () => void;
 };
 
-export const OverlayContext = createContext({} as () => void);
+export const OverlayContext = createContext(
+  {} as { overlayTriggerCallback: () => void; hide: () => void }
+);
 
 const useOverlay = (props?: useOverlayType) => {
   const {
@@ -75,14 +78,19 @@ const useOverlay = (props?: useOverlayType) => {
     ...keyboardPropList,
   };
 
-  const overlayTriggerCallback = () => (isShow ? hide() : show());
+  const memoized = useMemo(
+    () => ({
+      overlayTriggerCallback: () => (isShow ? hide() : show()),
+      hide,
+    }),
+    []
+  );
 
   return {
     isShow: isShow ?? uncontrolledIsShow,
     show,
-    hide,
-    overlayTriggerCallback,
     overlayBackgroundPropList,
+    ...memoized,
   };
 };
 
