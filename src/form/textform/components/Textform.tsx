@@ -1,5 +1,4 @@
 import { stylesType } from "../../../util/stylesType";
-import { focusingOnTextform } from "../../util/focusingOnTextform";
 import { useTextform, useTextformType } from "../hook/useTextform";
 
 export type TextformType = stylesType<{

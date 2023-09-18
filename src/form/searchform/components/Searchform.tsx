@@ -1,6 +1,5 @@
 import { Children, ReactNode, useContext } from "react";
 import { TextformType } from "../../textform/components/Textform";
-import { focusingOnTextform } from "../../util/focusingOnTextform";
 import { useHover } from "../../../interactions/hover/hook/useHover";
 import { useFocus } from "../../../interactions/focus/hook/useFocus";
 import { stylesType } from "../../../util/stylesType";
