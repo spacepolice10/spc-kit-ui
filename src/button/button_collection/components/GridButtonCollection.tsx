@@ -11,13 +11,13 @@ export type GridButtonCollectionType = stylesType &
   };
 
 const GridButtonCollection = (props: GridButtonCollectionType) => {
-  const { children, classStyle, columnNumber, isInverted } = props;
+  const { children, className, columnNumber, isInverted } = props;
   const { gridCollectionPropList } = useGridCollection({
     columnNumber,
     isInverted,
   });
   return (
-    <div className={classStyle as string} {...gridCollectionPropList}>
+    <div className={className as string} {...gridCollectionPropList}>
       {children}
     </div>
   );

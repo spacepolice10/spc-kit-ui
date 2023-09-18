@@ -42,15 +42,15 @@ const Popover = (props: PopoverType) => {
 };
 
 function Trigger({
-  classStyle,
+  className,
   children,
 }: {
-  classStyle?: string;
+  className?: string;
   children: ReactNode;
 }) {
   const popoverTriggerPropList = useContext(PopoverContext);
   return (
-    <button className={classStyle} {...popoverTriggerPropList}>
+    <button className={className} {...popoverTriggerPropList}>
       {children}
     </button>
   );

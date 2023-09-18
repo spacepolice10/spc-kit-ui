@@ -31,7 +31,7 @@ const Search = <T extends { id: string; name: string }>(
 };
 
 const Form = (props: stylesType) => {
-  const { classStyle } = props;
+  const { className } = props;
   const { searchFormPropList } = useContext(SearchFormCtxt);
   const { isHovered, hoverPropList } = useHover();
   const { isFocused, focusPropList } = useFocus();
@@ -42,9 +42,9 @@ const Form = (props: stylesType) => {
       // onClick={focusingOnTextform}
 
       className={
-        typeof classStyle != "function"
-          ? classStyle
-          : classStyle?.({ isHovered, isFocused })
+        typeof className != "function"
+          ? className
+          : className?.({ isHovered, isFocused })
       }
       {...hoverPropList}
     >
@@ -75,13 +75,13 @@ function Body<T>(
     }) => ReactNode;
   } & stylesType
 ) {
-  const { children, classStyle } = props;
+  const { children, className } = props;
   const { searchResultPropList, filteredData, removeText, selectedId } =
     useContext(SearchFormCtxt);
   const items = filteredData as T[];
   return (
     <>
-      <div className={classStyle as string} {...searchResultPropList}>
+      <div className={className as string} {...searchResultPropList}>
         {children?.({
           items,
           removeText,

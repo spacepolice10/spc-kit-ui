@@ -1,4 +1,5 @@
 import { useFocusType } from "../../../interactions/focus/hook/useFocus";
+import { useHoverType } from "../../../interactions/hover/hook/useHover";
 import { usePushType } from "../../../interactions/push/hook/usePush";
 import { childrenStatesType } from "../../../util/childrenStatesType";
 
@@ -16,11 +17,11 @@ type ButtonElemType = stylesType<buttonStates> & {
   id?: string;
   children?: buttonStatesType;
 };
-type ButtonType = usePushType & useFocusType & ButtonElemType;
+type ButtonType = usePushType & useFocusType & useHoverType & ButtonElemType;
 export type { ButtonElemType, ButtonType };
 
 export function Button(props: ButtonType) {
-  const { children, classStyle, style, ...restPropList } = props;
+  const { children, className, style, ...restPropList } = props;
   const { isHovered, isFocused, isPushed, buttonPropList } = useButton({
     ...restPropList,
   });
@@ -29,9 +30,9 @@ export function Button(props: ButtonType) {
     <button
       style={style}
       className={
-        typeof classStyle != "function"
-          ? classStyle
-          : classStyle?.({ isPushed, isHovered, isFocused })
+        typeof className != "function"
+          ? className
+          : className?.({ isPushed, isHovered, isFocused })
       }
       {...buttonPropList}
     >

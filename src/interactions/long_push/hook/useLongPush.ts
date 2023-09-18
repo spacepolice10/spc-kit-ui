@@ -44,7 +44,6 @@ const useLongPush = (props: useLongPushType) => {
     onKeyDown: hold,
     onKeyUp: release,
   };
-
   return {
     isLongPushed,
     longPushPropList,

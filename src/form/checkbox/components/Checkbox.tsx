@@ -10,7 +10,7 @@ export type CheckboxType = useToggleType &
   };
 
 const Checkbox = (props: CheckboxType) => {
-  const { children, id, style, classStyle } = props || {};
+  const { children, id, style, className } = props || {};
   const { isHovered, isFocused, isToggle, checkboxPropList } = useCheckbox({
     id,
   });
@@ -20,9 +20,9 @@ const Checkbox = (props: CheckboxType) => {
         {...checkboxPropList}
         style={style}
         className={
-          typeof classStyle != "function"
-            ? classStyle
-            : classStyle?.({ isToggle, isHovered, isFocused })
+          typeof className != "function"
+            ? className
+            : className?.({ isToggle, isHovered, isFocused })
         }
       >
         {children?.(isToggle)}

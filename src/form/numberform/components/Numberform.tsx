@@ -18,7 +18,7 @@ export type NumberformType = stylesType<{
   };
 
 const Numberform = (props: NumberformType) => {
-  const { style, classStyle, children } = props;
+  const { style, className, children } = props;
   const { increm, decrem, numberformPropList, isHovered, isFocused } =
     useNumberform(props);
   return (
@@ -26,9 +26,9 @@ const Numberform = (props: NumberformType) => {
       style={{ ...style, cursor: "text" }}
       onClick={focusingOnTextform}
       className={
-        typeof classStyle != "function"
-          ? classStyle
-          : classStyle?.({ isHovered, isFocused })
+        typeof className != "function"
+          ? className
+          : className?.({ isHovered, isFocused })
       }
     >
       <input

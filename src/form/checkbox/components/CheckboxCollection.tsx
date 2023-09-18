@@ -12,7 +12,7 @@ export type CheckboxCollectionType = stylesType &
   };
 
 const CheckboxCollection = (props: CheckboxCollectionType) => {
-  const { items, style, classStyle } = props || {};
+  const { items, style, className } = props || {};
   const { onChange, checkboxCollectionPropList } = useCheckboxCollection(props);
   const data = useMemo(
     () => ({
@@ -26,7 +26,7 @@ const CheckboxCollection = (props: CheckboxCollectionType) => {
       <div
         {...checkboxCollectionPropList}
         style={style}
-        className={classStyle as string}
+        className={className as string}
       >
         {Children.toArray(props?.children).map((elem) => elem)}
       </div>

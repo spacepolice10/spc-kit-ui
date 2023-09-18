@@ -11,7 +11,7 @@ export type SliderType = stylesType &
 export const SliderCtxt = createContext({} as useSlideType);
 
 const Slider = (props: SliderType) => {
-  const { children, style, classStyle } = props;
+  const { children, style, className } = props;
   const { slidePropList, thumbPropList, offsetSlider, value } =
     useSlider(props);
   function offsetSliderDemo() {
@@ -24,7 +24,7 @@ const Slider = (props: SliderType) => {
       <div
         {...slidePropList}
         style={{ ...style, ...slidePropList.style }}
-        className={classStyle as string}
+        className={className as string}
       >
         <SliderCtxt.Provider value={thumbPropList}>
           {typeof children != "function" ? children : children?.({ value })}

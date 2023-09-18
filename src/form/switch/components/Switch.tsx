@@ -6,7 +6,7 @@ export type SwitchType = stylesType<{ isSwitched: boolean }> &
   useSwitchType & { children: ReactNode };
 
 const Switch = (props?: SwitchType) => {
-  const { children, style, classStyle } = props || {};
+  const { children, style, className } = props || {};
   const {
     isSwitched,
     isHovered,
@@ -20,9 +20,9 @@ const Switch = (props?: SwitchType) => {
         {...switchWrapPropList}
         style={{ position: "relative", ...style }}
         className={
-          typeof classStyle != "function"
-            ? classStyle
-            : classStyle?.({ isSwitched, isHovered, isFocused })
+          typeof className != "function"
+            ? className
+            : className?.({ isSwitched, isHovered, isFocused })
         }
       >
         <div {...switchPropList}>{children}</div>

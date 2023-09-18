@@ -68,16 +68,16 @@ const usePush = (props: usePushType) => {
   const pushPropList = {
     disabled: isDisabled,
     title: hoverTitle,
+    onPointerDown: handlePushStarts,
+    onPointerUp: handlePushFinishes,
+    onClick: push,
+    onDoubleClick: push,
     ...keyboardPropList,
     ...(isntSemanticPushableElem && {
       role: "button" as const,
       tabIndex: 0,
       style: { cursor: "pointer" } as CSSProperties,
     }),
-    onPointerDown: handlePushStarts,
-    onPointerUp: handlePushFinishes,
-    onClick: push,
-    onDoubleClick: push,
   };
   return { isPushed, name: title, pushPropList };
 };

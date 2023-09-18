@@ -1,12 +1,14 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useHover } from "../../../interactions/hover/hook/useHover";
 import { useFocus } from "../../../interactions/focus/hook/useFocus";
 
 export type useTextformType = {
-  val?: string;
+  value?: string;
   defVal?: string;
   autoComplete?: boolean;
   type?: "text" | "password" | "email" | "number";
+  regexp?: string;
+  placeholdingText?: string;
   onInput?: (args: string) => void;
   onPaste?: (args: { val: string; file?: File }) => void;
   onHover?: () => void;
@@ -16,10 +18,12 @@ export type useTextformType = {
 
 const useTextform = (props: useTextformType) => {
   const {
-    val,
+    value,
     defVal,
-    autoComplete = true,
+    autoComplete = false,
     type = "text",
+    regexp,
+    placeholdingText,
     onInput,
     onPaste,
     onHover,
@@ -54,23 +58,32 @@ const useTextform = (props: useTextformType) => {
     onHover: () => onHover?.(),
   });
   const { focusPropList, isFocused } = useFocus({
-    onFocus: () => onFocus?.(val ?? uncontrolledText.current),
-    onFocusLoose: () => onFocusLoose?.(val ?? uncontrolledText.current),
+    onFocus: () => onFocus?.(value ?? uncontrolledText.current),
+    onFocusLoose: () => onFocusLoose?.(value ?? uncontrolledText.current),
   });
 
+  const isValid = useMemo(() => {
+    if (!regexp || !value) return;
+    const rg = new RegExp(regexp);
+    const val = value ?? uncontrolledText;
+    return rg.test(val);
+  }, [regexp, value, uncontrolledText]);
   const textformPropList = {
     autoComplete: autoComplete ? "on" : "off",
     type,
+    pattern: regexp,
+    placeholder: placeholdingText,
     onInput: changeText,
     onPaste: handlePasting,
     ...focusPropList,
     ...hoverPropList,
   };
   return {
-    value: val ?? uncontrolledText.current,
+    value: value ?? uncontrolledText.current,
     textformPropList,
     isHovered,
     isFocused,
+    isValid,
   };
 };
 

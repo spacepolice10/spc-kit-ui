@@ -16,7 +16,7 @@ export type MailformType<T> = TextformType &
   };
 
 const Mailform = (props: MailformType<{ id: string; name: string }>) => {
-  const { children, classStyle } = props;
+  const { children, className } = props;
   const {
     isShow,
     selectedId,
@@ -29,9 +29,9 @@ const Mailform = (props: MailformType<{ id: string; name: string }>) => {
     <div
       style={{ cursor: "text", position: "relative" }}
       className={
-        typeof classStyle != "function"
-          ? classStyle
-          : classStyle?.({ isValid: isMail })
+        typeof className != "function"
+          ? className
+          : className?.({ isValid: isMail })
       }
       onClick={focusingOnTextform}
     >

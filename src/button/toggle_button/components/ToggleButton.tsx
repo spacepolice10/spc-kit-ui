@@ -3,7 +3,7 @@ import { useButton } from "../../button/hook/useButton";
 import { ButtonType } from "../../button/components/Button";
 
 export function ToggleButton(props: ButtonType & useToggleType) {
-  const { children, classStyle, style, ...restPropList } = props;
+  const { children, className, style, ...restPropList } = props;
   const { isToggle, toggle } = useToggle(props);
   const { isHovered, isFocused, isPushed, buttonPropList } = useButton({
     ...restPropList,
@@ -14,9 +14,9 @@ export function ToggleButton(props: ButtonType & useToggleType) {
     <button
       style={style}
       className={
-        typeof classStyle != "function"
-          ? classStyle
-          : classStyle?.({ isPushed, isToggle, isHovered, isFocused })
+        typeof className != "function"
+          ? className
+          : className?.({ isPushed, isToggle, isHovered, isFocused })
       }
       {...buttonPropList}
     >

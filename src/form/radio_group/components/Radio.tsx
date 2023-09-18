@@ -10,15 +10,15 @@ export type RadioType = useRadioType &
   };
 
 const Radio = (props: RadioType) => {
-  const { children, style, classStyle } = props;
+  const { children, style, className } = props;
   const { isSelected, radioPropList, isHovered, isFocused } = useRadio(props);
   return (
     <button
       style={style}
       className={
-        typeof classStyle != "function"
-          ? classStyle
-          : classStyle?.({ isHovered, isFocused, isSelected })
+        typeof className != "function"
+          ? className
+          : className?.({ isHovered, isFocused, isSelected })
       }
       {...radioPropList}
     >

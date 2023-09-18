@@ -11,28 +11,22 @@ export type TextformType = stylesType<{
   useTextformType;
 
 const Textform = (props: TextformType) => {
-  const { style, classStyle } = props;
-  const { textformPropList, isFocused, isHovered } = useTextform(props);
-
+  const { className } = props;
+  const { textformPropList, isFocused, isHovered, isValid } =
+    useTextform(props);
   return (
-    <div
-      style={{ ...style, cursor: "text" }}
+    <input
+      {...textformPropList}
       className={
-        typeof classStyle != "function"
-          ? classStyle
-          : classStyle?.({ isHovered, isFocused })
+        typeof className != "function"
+          ? className
+          : className?.({ isHovered, isFocused, isValid })
       }
-    >
-      <input
-        {...textformPropList}
-        style={{
-          width: "100%",
-          border: "none",
-          outline: "none",
-          background: "none",
-        }}
-      />
-    </div>
+      style={{
+        width: "100%",
+        outline: "none",
+      }}
+    />
   );
 };
 

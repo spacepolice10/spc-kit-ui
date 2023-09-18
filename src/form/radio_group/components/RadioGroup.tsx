@@ -10,7 +10,7 @@ export type RadioGroupType = stylesType &
   useRadioGroupType & { children: ReactNode[] };
 
 const RadioGroup = (props: RadioGroupType) => {
-  const { style, classStyle, children } = props || {};
+  const { style, className, children } = props || {};
   const { radioGroupPropList, ...ctxtPropList } = useRadioGroup(props);
 
   return (
@@ -18,7 +18,7 @@ const RadioGroup = (props: RadioGroupType) => {
       <div
         {...radioGroupPropList}
         style={style}
-        className={classStyle as string}
+        className={className as string}
       >
         {Children.toArray(children).map((elem) => elem)}
       </div>
