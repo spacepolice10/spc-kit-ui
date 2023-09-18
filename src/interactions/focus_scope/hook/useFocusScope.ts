@@ -65,6 +65,11 @@ const useFocusScope = () => {
     const focussable = detectFocussable();
     focusElem(focussable?.length ? focussable?.length - 1 : 0);
   }
+
+  const focusScopePropList = {
+    ref: focusScopeRef,
+  };
+
   return {
     focusNextElem,
     focusPrevElem,
@@ -72,6 +77,7 @@ const useFocusScope = () => {
     focusLastElem,
     focusPrevElemGrid,
     focusNextElemGrid,
+    focusScopePropList,
     focusScopeRef,
   };
 };

@@ -1,4 +1,4 @@
-import { Children, ReactNode, useMemo } from "react";
+import { Children, ReactNode } from "react";
 import {
   CheckboxCollectionCtxt,
   useCheckboxCollection,
@@ -12,21 +12,12 @@ export type CheckboxCollectionType = stylesType &
   };
 
 const CheckboxCollection = (props: CheckboxCollectionType) => {
-  const { items, style, className } = props || {};
-  const { onChange, checkboxCollectionPropList } = useCheckboxCollection(props);
-  const data = useMemo(
-    () => ({
-      items,
-      onChange,
-    }),
-    [onChange, items]
-  );
+  const { checkboxCollectionPropList, ...rest } = useCheckboxCollection(props);
   return (
-    <CheckboxCollectionCtxt.Provider value={data}>
+    <CheckboxCollectionCtxt.Provider value={rest}>
       <div
         {...checkboxCollectionPropList}
-        style={style}
-        className={className as string}
+        className={props?.className as string}
       >
         {Children.toArray(props?.children).map((elem) => elem)}
       </div>

@@ -1,4 +1,4 @@
-import { createContext, Dispatch, SetStateAction } from "react";
+import { createContext, Dispatch, SetStateAction, useMemo } from "react";
 import { useCollection } from "../../../collection/collection/hook/useCollection";
 import { useCheckboxType } from "./useCheckbox";
 
@@ -14,14 +14,17 @@ const CheckboxCollectionCtxt = createContext(
 );
 
 const useCheckboxCollection = (props: useCheckboxCollectionType) => {
-  const { items, onChange } = props;
   const { collectionPropList } = useCollection({
-    items,
+    items: props?.items,
   });
-  return {
-    onChange,
-    checkboxCollectionPropList: collectionPropList,
-  };
+  const memoized = useMemo(
+    () => ({
+      ...props,
+      checkboxCollectionPropList: collectionPropList,
+    }),
+    [props]
+  );
+  return { ...memoized };
 };
 
 export { useCheckboxCollection, CheckboxCollectionCtxt };
