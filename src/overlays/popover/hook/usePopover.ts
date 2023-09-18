@@ -29,7 +29,7 @@ const usePopover = <T extends HTMLElement>(props?: usePopoverType) => {
     if (!props?.focusTrapsOnPopover || !isShow) return;
     const focusElem = popoverRef.current as unknown as HTMLButtonElement;
     if (!focusElem) return;
-    focusElem?.focus();
+    focusElem?.focus({ preventScroll: true });
   }, [isShow]);
   function focusTrapsOnTrigger() {
     if (!props?.focusTrapsOnTrigger) return;
@@ -57,7 +57,24 @@ const usePopover = <T extends HTMLElement>(props?: usePopoverType) => {
     let top = "auto" as number | "auto";
     let bottom = "auto" as number | "auto";
 
+    function basePosition() {
+      elemIsOnLeftHalf ? (left = offsetNumber) : (right = offsetNumber);
+      elemIsOnTopHalf
+        ? (top = triggerRect.height + offsetNumber)
+        : (bottom = triggerRect.height + offsetNumber);
+    }
+    basePosition();
+
     switch (props?.position) {
+      case "l": {
+        left = -(triggerRect.width * 2 + offsetNumber);
+        top = 0;
+        break;
+      }
+      case "r": {
+        left = triggerRect.width + offsetNumber;
+        break;
+      }
       case "b": {
         top = triggerRect.height + offsetNumber;
         break;
@@ -66,22 +83,8 @@ const usePopover = <T extends HTMLElement>(props?: usePopoverType) => {
         bottom = triggerRect.height + triggerRect.height + offsetNumber;
         break;
       }
-      case "l": {
-        left = -(triggerRect.width * 2 + offsetNumber);
-        top = 0;
-        break;
-      }
-      case "r": {
-        left = triggerRect.width + offsetNumber;
-        top = 0;
-        break;
-      }
-      default: {
-        elemIsOnLeftHalf ? (left = offsetNumber) : (right = offsetNumber);
-        elemIsOnTopHalf
-          ? (top = triggerRect.height + offsetNumber)
-          : (bottom = triggerRect.height + triggerRect.height + offsetNumber);
-      }
+      default:
+        basePosition();
     }
     setStyle({
       position: "absolute",
