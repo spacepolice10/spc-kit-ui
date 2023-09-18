@@ -17,7 +17,7 @@ export type useOverlayType = {
   onShow?: () => void;
 };
 
-export const OverlayContext = createContext({} as { onClick: () => void });
+export const OverlayContext = createContext({} as () => void);
 
 const useOverlay = (props?: useOverlayType) => {
   const {
@@ -68,31 +68,21 @@ const useOverlay = (props?: useOverlayType) => {
       height: "100dvh",
     } as CSSProperties,
     ref: overlayRef,
-    onClick: () => hideOnBackdropPush && hide(),
+    onClick: (ev: React.MouseEvent) => {
+      if (ev.target != ev.currentTarget) return;
+      hideOnBackdropPush && hide();
+    },
     ...keyboardPropList,
   };
 
-  const overlayBodyPropList = {
-    onClick: (ev: React.MouseEvent) => ev.stopPropagation(),
-    style: {
-      width: "auto",
-      height: "auto",
-      margin: "auto",
-      padding: "auto",
-    } as CSSProperties,
-  };
-
-  const overlayTriggerPropList = {
-    onClick: () => (isShow ? hide() : show()),
-  };
+  const overlayTriggerCallback = () => (isShow ? hide() : show());
 
   return {
     isShow: isShow ?? uncontrolledIsShow,
     show,
     hide,
-    overlayTriggerPropList,
+    overlayTriggerCallback,
     overlayBackgroundPropList,
-    overlayBodyPropList,
   };
 };
 
