@@ -1,4 +1,4 @@
-import react, { useMemo } from "react";
+import react, { MutableRefObject, useMemo } from "react";
 import { usePopover } from "../../../overlays/popover/hook/usePopover";
 import {
   useCollection,
@@ -10,15 +10,18 @@ export type useMenuType<T> = useCollectionType<T>;
 
 export const MenuCtxt = react.createContext(
   {} as {
-    menuTriggerPropList: object;
     menuPropList: object;
+    triggerRef: MutableRefObject<HTMLElement | null>;
+    show: () => void;
+    hide: () => void;
+    isShow: boolean;
     isInverted: boolean;
   }
 );
 
 const useMenu = <T extends { id: string }>(props: useMenuType<T>) => {
   const { items } = props;
-  const { isShow, hide, popoverTriggerPropList, popoverPropList, isInverted } =
+  const { isShow, show, hide, triggerRef, popoverPropList, isInverted } =
     usePopover<HTMLButtonElement>({
       focusTrapsOnPopover: true,
       focusTrapsOnTrigger: true,
@@ -30,17 +33,26 @@ const useMenu = <T extends { id: string }>(props: useMenuType<T>) => {
 
   const memoized = useMemo(
     () => ({
-      menuTriggerPropList: popoverTriggerPropList,
       menuPropList: {
         ...mergeProps<HTMLDivElement>([popoverPropList, collectionPropList]),
       },
+      triggerRef,
+      isShow,
+      show,
+      hide,
       isInverted,
     }),
-    [collectionPropList, isInverted, popoverPropList, popoverTriggerPropList]
+    [
+      collectionPropList,
+      hide,
+      isInverted,
+      isShow,
+      popoverPropList,
+      show,
+      triggerRef,
+    ]
   );
   return {
-    isShow,
-    hide,
     ...memoized,
   };
 };

@@ -1,13 +1,14 @@
-import { Children, ReactNode, useContext } from "react";
+import { Children, ReactNode, RefObject, useContext } from "react";
 import { MenuCtxt, useMenu, useMenuType } from "../hook/useMenu";
+import { Button, ButtonType } from "../../../button/button/components/Button";
 
 export type MenuType<T> = useMenuType<T> & { children: ReactNode[] };
 
 const Menu = <T extends { id: string }>(props: MenuType<T>) => {
-  const { isShow, hide, ...ctxtPropList } = useMenu(props);
+  const { isShow, hide, ...rest } = useMenu(props);
   const [button, ...body] = Children.toArray(props?.children);
   return (
-    <MenuCtxt.Provider value={ctxtPropList}>
+    <MenuCtxt.Provider value={{ isShow, hide, ...rest }}>
       <div style={{ position: "relative" }}>
         {isShow && (
           <button
@@ -29,12 +30,23 @@ const Menu = <T extends { id: string }>(props: MenuType<T>) => {
   );
 };
 
-function Button({ children }: { children: ReactNode }) {
-  const { menuTriggerPropList } = useContext(MenuCtxt);
-  return <button {...menuTriggerPropList}>{children}</button>;
+function MenuButton(
+  props: ButtonType & {
+    children: ((isShow: boolean) => ReactNode) | ReactNode;
+  }
+) {
+  const { show, isShow, triggerRef } = useContext(MenuCtxt);
+  const ref = triggerRef as RefObject<HTMLButtonElement>;
+  return (
+    <Button {...props} ref={ref} onPush={show}>
+      {typeof props.children == "function"
+        ? props?.children(isShow ?? false)
+        : props?.children}
+    </Button>
+  );
 }
 
-function Body({
+function MenuBody({
   children,
   className,
 }: {
@@ -51,4 +63,4 @@ function Body({
   );
 }
 
-export { Menu, Button, Body };
+export { Menu, MenuButton, MenuBody };
