@@ -1,3 +1,4 @@
+import { ForwardedRef, forwardRef } from "react";
 import { useFocusType } from "../../../interactions/focus/hook/useFocus";
 import { useHoverType } from "../../../interactions/hover/hook/useHover";
 import { usePushType } from "../../../interactions/push/hook/usePush";
@@ -20,7 +21,10 @@ type ButtonElemType = stylesType<buttonStates> & {
 type ButtonType = usePushType & useFocusType & useHoverType & ButtonElemType;
 export type { ButtonElemType, ButtonType };
 
-export function Button(props: ButtonType) {
+const Button = forwardRef(function Button(
+  props: ButtonType,
+  ref: ForwardedRef<HTMLButtonElement>
+) {
   const { children, className, style, ...restPropList } = props;
   const { isHovered, isFocused, isPushed, buttonPropList } = useButton({
     ...restPropList,
@@ -35,10 +39,12 @@ export function Button(props: ButtonType) {
           : className?.({ isPushed, isHovered, isFocused })
       }
       {...buttonPropList}
+      ref={ref}
     >
       {typeof children != "function"
         ? children
         : children?.({ isPushed, isHovered, isFocused })}
     </button>
   );
-}
+});
+export { Button };
