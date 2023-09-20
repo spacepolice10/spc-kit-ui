@@ -1,6 +1,7 @@
 import {
   createContext,
   CSSProperties,
+  MutableRefObject,
   RefObject,
   useEffect,
   useMemo,
@@ -13,15 +14,17 @@ export type useOverlayType = {
   isShow?: boolean;
   initIsShow?: boolean;
   hideOnBackdropPush?: boolean;
-  focusingElem?: RefObject<HTMLButtonElement>;
+  isScrollBlocking?: boolean;
   onHide?: () => void;
   onShow?: () => void;
+  focusingElemOnShow?: RefObject<HTMLButtonElement>;
+  focusingElemOnHide?: RefObject<HTMLButtonElement>;
 };
 
 export const OverlayContext = createContext(
   {} as {
-    isShow?: boolean;
-    hideOnBackdropPush?: boolean;
+    triggerRef: MutableRefObject<HTMLButtonElement | null>;
+    overlayRef: MutableRefObject<HTMLDivElement | null>;
     show: () => void;
     hide: () => void;
   }
@@ -29,23 +32,21 @@ export const OverlayContext = createContext(
 
 const useOverlay = (props?: useOverlayType) => {
   const {
-    isShow,
-    initIsShow,
     hideOnBackdropPush,
-    focusingElem,
     onShow,
     onHide,
+    isScrollBlocking,
+    focusingElemOnHide,
+    focusingElemOnShow,
   } = props ?? {};
-  const [uncontrolledIsShow, setUncontrolledIsShow] = useState(initIsShow);
+
+  const [uncontrolledIsShow, setUncontrolledIsShow] = useState(
+    props?.initIsShow
+  );
+  const isShow = props?.isShow ?? uncontrolledIsShow;
 
   const overlayRef = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    if (focusingElem) {
-      focusingElem?.current?.focus();
-    } else {
-      overlayRef.current?.focus();
-    }
-  });
+  const triggerRef = useRef<HTMLButtonElement>(null);
 
   const { keyboardPropList } = useKeyboard({
     Escape: () => hide(),
@@ -55,11 +56,25 @@ const useOverlay = (props?: useOverlayType) => {
     onShow?.();
   }
   function hide() {
+    if (!focusingElemOnHide?.current) {
+      triggerRef.current?.focus({ preventScroll: true });
+    } else {
+      focusingElemOnHide.current?.focus({ preventScroll: true });
+    }
     setUncontrolledIsShow(false);
     onHide?.();
   }
+
   useEffect(() => {
     if (!isShow) return;
+    if (focusingElemOnShow) {
+      focusingElemOnShow?.current?.focus();
+    } else {
+      overlayRef.current?.focus();
+    }
+  }, [isShow]);
+  useEffect(() => {
+    if (!isShow || !isScrollBlocking) return;
     const html = document.querySelector("html");
     if (!html) return;
     html.style.overflow = "hidden";
@@ -75,7 +90,6 @@ const useOverlay = (props?: useOverlayType) => {
       width: "100%",
       height: "100dvh",
     } as CSSProperties,
-    ref: overlayRef,
     onClick: (ev: React.MouseEvent) => {
       if (ev.target != ev.currentTarget) return;
       hideOnBackdropPush && hide();
@@ -85,10 +99,10 @@ const useOverlay = (props?: useOverlayType) => {
 
   const memoized = useMemo(
     () => ({
-      overlayTriggerCallback: () => (isShow ? hide() : show()),
       hide,
       show,
-      hideOnBackdropPush,
+      triggerRef: focusingElemOnHide ?? triggerRef,
+      overlayRef,
     }),
     []
   );
