@@ -5,12 +5,11 @@ import { useFocus } from "../../../interactions/focus/hook/useFocus";
 export type useTextformType = {
   value?: string;
   defVal?: string;
-  autoComplete?: boolean;
-  type?: "text" | "password" | "email" | "number";
   regexp?: string;
   placeholdingText?: string;
+  focusTrapsAfterMount?: boolean;
   onInput?: (args: string) => void;
-  onPaste?: (args: { val: string; file?: File }) => void;
+  onPaste?: (args: { value: string; files?: File }) => void;
   onHover?: () => void;
   onFocus?: (args: string) => void;
   onFocusLoose?: (args: string) => void;
@@ -20,18 +19,18 @@ const useTextform = (props: useTextformType) => {
   const {
     value,
     defVal,
-    autoComplete = false,
-    type = "text",
     regexp,
     placeholdingText,
+    focusTrapsAfterMount,
     onInput,
     onPaste,
     onHover,
     onFocus,
     onFocusLoose,
   } = props;
+
   const uncontrolledText = useRef("");
-  const textform = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   function changeText(ev: React.FormEvent) {
     const target = ev.currentTarget as HTMLInputElement;
@@ -40,19 +39,24 @@ const useTextform = (props: useTextformType) => {
     onInput?.(val);
   }
   function handlePasting(ev: React.ClipboardEvent) {
-    const val = ev.clipboardData?.getData("text") ?? "";
-    const file = ev.clipboardData?.files?.[0];
-    uncontrolledText.current = val;
-    onPaste?.({ val, file });
+    const value = ev.clipboardData?.getData("text") ?? "";
+    const files = ev.clipboardData?.files?.[0];
+    uncontrolledText.current = value;
+    onPaste?.({ value, files });
   }
+
   useEffect(() => {
     if (!defVal) return;
     uncontrolledText.current = defVal;
-    const form = textform.current;
+    const form = inputRef.current;
     if (!form) return;
     form.value = defVal;
     onInput?.(defVal);
   }, [defVal]);
+  useEffect(() => {
+    if (!focusTrapsAfterMount) return;
+    inputRef.current?.focus();
+  }, [focusTrapsAfterMount]);
 
   const { hoverPropList, isHovered } = useHover({
     onHover: () => onHover?.(),
@@ -69,8 +73,9 @@ const useTextform = (props: useTextformType) => {
     return rg.test(val);
   }, [regexp, value, uncontrolledText]);
   const textformPropList = {
-    autoComplete: autoComplete ? "on" : "off",
-    type,
+    ref: inputRef,
+    autoComplete: "off",
+    type: "text",
     pattern: regexp,
     placeholder: placeholdingText,
     onInput: changeText,
@@ -78,6 +83,7 @@ const useTextform = (props: useTextformType) => {
     ...focusPropList,
     ...hoverPropList,
   };
+
   return {
     value: value ?? uncontrolledText.current,
     textformPropList,
