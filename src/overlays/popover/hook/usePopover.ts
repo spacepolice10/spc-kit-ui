@@ -10,8 +10,6 @@ import {
 import { useKeyboard } from "../../../interactions/keyboard/hook/useKeyboard";
 
 export type usePopoverType = {
-  focusTrapsOnTrigger?: boolean;
-  focusTrapsOnPopover?: boolean;
   position?: "b" | "t" | "l" | "r";
   offset?: number;
   onHide?: () => void;
@@ -34,15 +32,11 @@ const usePopover = <T extends HTMLElement>(props?: usePopoverType) => {
   const popoverRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    if (!props?.focusTrapsOnPopover || !isShow) return;
+    if (!isShow) return;
     const focusElem = popoverRef.current as unknown as HTMLButtonElement;
     if (!focusElem) return;
     focusElem?.focus({ preventScroll: true });
   }, [isShow]);
-  function focusTrapsOnTrigger() {
-    if (!props?.focusTrapsOnTrigger) return;
-    triggerRef.current?.focus({ preventScroll: true });
-  }
 
   const show = () => {
     setIsShow(true);
@@ -112,7 +106,7 @@ const usePopover = <T extends HTMLElement>(props?: usePopoverType) => {
 
   const hide = () => {
     setStyle({});
-    focusTrapsOnTrigger();
+    triggerRef.current?.focus({ preventScroll: true });
     props?.onHide?.();
     setIsShow(false);
   };
