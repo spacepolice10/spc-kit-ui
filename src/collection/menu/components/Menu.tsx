@@ -64,8 +64,8 @@ function MenuBody({
     <div className={className} {...menuPropList} tabIndex={-1}>
       {[
         isInverted
-          ? Children.toArray(children)
-          : Children.toArray(children).reverse(),
+          ? Children.toArray(children).reverse()
+          : Children.toArray(children),
       ].flatMap((elemList) => {
         return elemList.map((item) => {
           const elem = item as JSX.Element;
