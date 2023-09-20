@@ -22,13 +22,10 @@ export const MenuCtxt = react.createContext(
 const useMenu = <T extends { id: string }>(props: useMenuType<T>) => {
   const { items } = props;
   const { isShow, show, hide, triggerRef, popoverPropList, isInverted } =
-    usePopover<HTMLButtonElement>({
-      focusTrapsOnPopover: true,
-      focusTrapsOnTrigger: true,
-    });
+    usePopover<HTMLButtonElement>();
   const { collectionPropList } = useCollection({
     items,
-    isInverted,
+    isInverted: props?.isInverted ?? isInverted,
   });
 
   const memoized = useMemo(
