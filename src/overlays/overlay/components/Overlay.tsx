@@ -35,23 +35,27 @@ function Trigger(
     children: ((isShow: boolean) => ReactNode) | ReactNode;
   }
 ) {
-  const { show, isShow } = useContext(OverlayContext);
+  const { show, triggerRef } = useContext(OverlayContext);
   return (
-    <Button {...props} onPush={show}>
-      {typeof props.children == "function"
-        ? props?.children(isShow ?? false)
-        : props?.children}
+    <Button {...props} ref={triggerRef} onPush={show}>
+      {props?.children}
     </Button>
   );
 }
 
 function Content({
   children,
+  className,
 }: {
+  className?: string;
   children: ((hide: () => void) => ReactNode) | ReactNode;
 }) {
-  const { hide } = useContext(OverlayContext);
-  return <>{typeof children == "function" ? children(hide) : children}</>;
+  const { hide, overlayRef } = useContext(OverlayContext);
+  return (
+    <div className={className} ref={overlayRef} tabIndex={-1}>
+      {typeof children == "function" ? children(hide) : children}
+    </div>
+  );
 }
 
 export { Overlay, Trigger, Content };
