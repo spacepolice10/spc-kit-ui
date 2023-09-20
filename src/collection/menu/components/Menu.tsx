@@ -1,4 +1,10 @@
-import { Children, ReactNode, RefObject, useContext } from "react";
+import {
+  Children,
+  cloneElement,
+  ReactNode,
+  RefObject,
+  useContext,
+} from "react";
 import { MenuCtxt, useMenu, useMenuType } from "../hook/useMenu";
 import { Button, ButtonType } from "../../../button/button/components/Button";
 
@@ -53,12 +59,19 @@ function MenuBody({
   children: ReactNode[];
   className: string;
 }) {
-  const { menuPropList, isInverted } = useContext(MenuCtxt);
+  const { menuPropList, isInverted, hide } = useContext(MenuCtxt);
   return (
-    <div tabIndex={-1} className={className} {...menuPropList}>
-      {isInverted
-        ? Children.toArray(children).reverse()
-        : Children.toArray(children)}
+    <div className={className} {...menuPropList} tabIndex={-1}>
+      {[
+        isInverted
+          ? Children.toArray(children)
+          : Children.toArray(children).reverse(),
+      ].flatMap((elemList) => {
+        return elemList.map((item) => {
+          const elem = item as JSX.Element;
+          return cloneElement(elem, { hide });
+        });
+      })}
     </div>
   );
 }
