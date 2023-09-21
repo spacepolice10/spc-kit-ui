@@ -1,6 +1,7 @@
 import {
   Children,
   cloneElement,
+  ReactElement,
   ReactNode,
   RefObject,
   useContext,
@@ -68,7 +69,7 @@ function MenuBody({
           : Children.toArray(children),
       ].flatMap((elemList) => {
         return elemList.map((item) => {
-          const elem = item as JSX.Element;
+          const elem = item as ReactElement;
           return cloneElement(elem, { hide });
         });
       })}
