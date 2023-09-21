@@ -19,7 +19,6 @@ const useNumberform = (props: useNumberformType) => {
 
   const { textformPropList, isHovered, isFocused } = useTextform({
     onInput: (text) => setNumber(text),
-    type: "number",
   });
   const numberformPropList = {
     ...textformPropList,
