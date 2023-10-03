@@ -1,5 +1,5 @@
-import { useFocus } from "../hook/useFocus";
-import { useHover } from "../../hover/hook/useHover";
+import { useFocus } from "../components/useFocus.js";
+import { useHover } from "../../hover/components/useHover.js";
 
 export default function FocusDemo() {
   const { isFocused, focusPropList } = useFocus();

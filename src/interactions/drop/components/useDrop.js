@@ -1,29 +1,31 @@
 import { useState } from "react";
 
-export type useDropType = {
-  onDragOver?: (dataTransfer: string) => void;
-  onDrop?: (dataTransfer: string) => void;
-};
-
-const useDrop = (props?: useDropType) => {
+/**
+ *
+ * @param {object} props
+ * @param {(dataTransfer: string) => void} props.onDragOver
+ * @param {(dataTransfer: string) => void} props.onDrop
+ * @returns
+ */
+const useDrop = (props) => {
   const { onDragOver, onDrop } = props ?? {};
   const [isDragOver, setIsDragOver] = useState(false);
 
-  const handleDragOver = (ev: React.DragEvent) => {
+  const handleDragOver = (ev) => {
     ev.preventDefault();
     setIsDragOver(true);
     const data = ev.dataTransfer.getData("dataTransfer");
     onDragOver?.(data);
   };
-  const handleDragLeave = (ev: React.DragEvent) => {
+  const handleDragLeave = (ev) => {
     ev.preventDefault();
     setIsDragOver(false);
   };
-  const handleDragEnd = (ev: React.DragEvent) => {
+  const handleDragEnd = (ev) => {
     ev.preventDefault();
     setIsDragOver(false);
   };
-  const handleDrop = (ev: React.DragEvent) => {
+  const handleDrop = (ev) => {
     ev.preventDefault();
     const data = ev.dataTransfer.getData("dataTransfer");
     setIsDragOver(false);
