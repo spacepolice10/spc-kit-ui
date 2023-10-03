@@ -10,11 +10,15 @@ section {
   @apply relative flex gap-4 bg-slate-100 p-2;
 }
 
-input[type="number"] {
+/* input:invalid {
+  color: red;
+} */
+
+/* input[type="number"] {
   -webkit-appearance: textfield;
   appearance: textfield;
 }
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
-}
+} */

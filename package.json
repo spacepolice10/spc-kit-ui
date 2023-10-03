@@ -8,6 +8,10 @@
     "react aria"
   ],
   "type": "module",
+  "main": "dist/spcKitUI.umd.cjs",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "eslint & vite build",
