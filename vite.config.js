@@ -6,6 +6,7 @@ import react from '@vitejs/plugin-react-swc'
 export default defineConfig({
   plugins: [react()],
   build: {
+    copyPublicDir: false,
     lib: {
       entry: resolve('index.js'),
       name: 'spc-kit-ui',
