@@ -37,7 +37,7 @@ const useTextform = (props) => {
   } = props
 
   const uncontrolledText = useRef('')
-  const inputRef = useRef < HTMLInputElement > null
+  const inputRef = useRef(null)
 
   function changeText(ev) {
     const target = ev.currentTarget
