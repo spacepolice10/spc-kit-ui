@@ -8,7 +8,7 @@
     "react aria"
   ],
   "type": "module",
-  "main": "dist/spcKitUI.umd.cjs",
+  "main": "dist/spcKitUI.js",
   "files": [
     "dist"
   ],
