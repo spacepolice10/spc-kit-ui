@@ -13,8 +13,10 @@ export { useDrop } from './src/interactions/drop/components/useDrop'
 //button
 
 export { useButton } from './src/button/button/components/useButton'
+export { Button } from './src/button/button/components/Button'
 export { useLongPushButton } from './src/button/long_push_button/components/useLongPushButton'
 export { LongPushButton } from './src/button/long_push_button/components/LongPushButton'
+export { useToggleButton } from './src/button/toggle_button/components/useToggleButton'
 export { ToggleButton } from './src/button/toggle_button/components/ToggleButton'
 
 //collection
