@@ -11,6 +11,7 @@ export default defineConfig({
       entry: resolve('index.js'),
       name: 'spc-kit-ui',
       fileName: 'spcKitUI',
+      formats: ['es'],
     },
     rollupOptions: {
       external: ['react', 'react/jsx-runtime', 'react-dom'],
