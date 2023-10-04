@@ -2,23 +2,40 @@
 @tailwind components;
 @tailwind utilities;
 
+*:focus {
+  outline: none;
+}
+
+*:focus-visible {
+  outline: none;
+}
+
 section {
-  @apply p-2 border m-2;
+  @apply p-2 m-2 selection:bg-prim/20;
+}
+
+section h2 {
+  @apply font-bold font-mono italic uppercase mb-4;
 }
 
 .demo_section {
-  @apply relative flex gap-4 bg-slate-100 p-2;
+  @apply relative border align-top content-start p-4 grid gap-4 font-mono bg-[#FAFAFA] rounded-md border-b pb-2 mb-2;
 }
 
-/* input:invalid {
-  color: red;
-} */
-
-/* input[type="number"] {
-  -webkit-appearance: textfield;
-  appearance: textfield;
+.demo_section p {
+  @apply text-xs text-textSecond;
 }
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-} */
+
+/* interactions demo */
+
+.press_hover_focus {
+  @apply bg-prim text-second font-bold italic p-2 h-14 w-20 rounded-md duration-150;
+}
+
+.drag {
+  @apply p-0 w-5 h-5 rounded-md shadow-sm cursor-grab;
+}
+
+.focus_scope_items {
+  @apply bg-pastelGray/20 text-xs text-second p-2 rounded-md border border-transparent focus:border-prim;
+}
