@@ -1,21 +1,15 @@
-import ButtonListDemo from './button/demo/ButtonListDemo'
-import CollectionListDemo from './collection/demo/CollectionListDemo'
-import DateDemo from './date/DateDemo'
-import FormDemo from './form/demo/FormDemo'
-
-import InteractionsDemo from './interactions/demo/InteractionsDemo'
-import { OverlaysDemo } from './overlays/demo/OverlaysDemo'
+import InteractionsDemo from './demo/InteractionsDemo'
 
 function App() {
   return (
     <>
       <h1>spc-kit</h1>
-      <DateDemo />
+      {/* <DateDemo /> */}
       <InteractionsDemo />
-      <ButtonListDemo />
-      <CollectionListDemo />
-      <FormDemo />
-      <OverlaysDemo />
+      {/* <ButtonListDemo /> */}
+      {/* <CollectionListDemo /> */}
+      {/* <FormDemo /> */}
+      {/* <OverlaysDemo /> */}
     </>
   )
 }

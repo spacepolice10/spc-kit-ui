@@ -3,11 +3,7 @@ import { useButton } from './useButton.js'
 
 /**
  * @typedef ButtonType
- * @type {React.FC<
- * import('../../../interactions/push/components/usePush.js').usePushType &
- * import('../../../interactions/hover/components/useHover.js').useHoverType &
- * import('../../../interactions/focus/components/useFocus.js').useFocusType> &
- * {children: ReactNode | () => ReactNode, className: string}}
+ * @type {React.FC<import('./useButton.js').useButtonType & {children: ReactNode | () => ReactNode, className: string}}
  * @returns
  */
 
@@ -16,7 +12,7 @@ import { useButton } from './useButton.js'
  */
 const Button = forwardRef(function Button(props, ref) {
   const { children, className, ...restPropList } = props
-  const { isHovered, isFocused, isPushed, buttonPropList } = useButton({
+  const { buttonPropList, ...restButtonPropList } = useButton({
     ...restPropList,
   })
   return (
@@ -24,14 +20,14 @@ const Button = forwardRef(function Button(props, ref) {
       className={
         typeof className != 'function'
           ? className
-          : className?.({ isPushed, isHovered, isFocused })
+          : className?.(restButtonPropList)
       }
       {...buttonPropList}
       ref={ref}
     >
       {typeof children != 'function'
         ? children
-        : children?.({ isPushed, isHovered, isFocused })}
+        : children?.(restButtonPropList)}
     </button>
   )
 })
