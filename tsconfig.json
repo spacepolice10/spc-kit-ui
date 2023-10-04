@@ -1,7 +1,4 @@
 {
-  "compilerOptions": {
-    "jsx": "react"
-  }
   "include": ["src", "lib"],
   "exclude": ["src/**/demo", "src/**/test"],
   "compilerOptions": {
@@ -11,6 +8,6 @@
     "emitDeclarationOnly": true,
     "outDir": "dist",
     "declarationMap": true,
-    "jsx": "react-jsx",
+    "jsx": "react",
   }
 }
