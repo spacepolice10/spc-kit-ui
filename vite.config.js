@@ -8,9 +8,7 @@ export default defineConfig({
   build: {
     copyPublicDir: false,
     lib: {
-      entry: resolve('index.js'),
-      name: 'spc-kit-ui',
-      fileName: 'spcKitUI',
+      entry: resolve(__dirname, 'lib/main.js'),
       formats: ['es'],
     },
     rollupOptions: {

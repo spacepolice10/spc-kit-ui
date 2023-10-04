@@ -8,15 +8,17 @@
     "react aria"
   ],
   "type": "module",
-  "main": "dist/spcKitUI.js",
+  "main": "dist/spc-kit-ui.js",
+  "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
   "scripts": {
     "dev": "vite",
-    "build": "eslint & vite build",
+    "build": "tsc --p ./tsconfig-dist.json & eslint & vite build",
     "lint": "eslint",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "prepublishOnly": "npm run build"
   },
   "peerDependencies": {
     "react": "^18.2.0",
@@ -24,6 +26,7 @@
   },
   "devDependencies": {
     "@phosphor-icons/react": "^2.0.10",
+    "@types/react": "^18.2.24",
     "@vitejs/plugin-react-swc": "^3.3.2",
     "autoprefixer": "^10.4.15",
     "eslint": "^8.45.0",
@@ -34,6 +37,7 @@
     "postcss": "^8.4.29",
     "prettier": "3.0.1",
     "tailwindcss": "^3.3.3",
+    "typescript": "^5.2.2",
     "vite": "^4.4.5"
   }
 }
