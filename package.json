@@ -2,14 +2,14 @@
   "name": "spc-kit-ui",
   "private": false,
   "author": "spcpolice",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "keywords": [
     "components",
     "react aria"
   ],
   "type": "module",
   "main": "dist/spc-kit-ui.js",
-  "types": "dist/index.d.ts",
+  "types": "dist/main.d.ts",
   "files": [
     "dist"
   ],
