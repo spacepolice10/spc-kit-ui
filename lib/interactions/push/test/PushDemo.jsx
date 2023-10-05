@@ -1,3 +1,4 @@
+import { CursorClick } from '@phosphor-icons/react'
 import { useHover } from '../../hover/components/useHover.js'
 import { usePush } from '../components/usePush.js'
 
@@ -14,6 +15,7 @@ export default function PushDemo() {
       className={`press_hover_focus 
       ${isHovered && '!bg-primHovering'}`}
     >
+      <CursorClick />
       Press
     </button>
   )

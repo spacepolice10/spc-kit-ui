@@ -69,7 +69,7 @@ export default function KeyboardDemo() {
           ))}
         </div>
         <div className="text-textSecond font-bold opacity-20">
-          FOCUS ON ME AND PUSH KEYBOARD
+          FOCUS ON ME AND PUSH SOME ARROWS
         </div>
       </div>
     </div>

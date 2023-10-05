@@ -1,3 +1,4 @@
+import { Hand } from '@phosphor-icons/react'
 import { useHover } from '../components/useHover.js'
 
 export default function HoverDemo() {
@@ -5,11 +6,19 @@ export default function HoverDemo() {
   return (
     <button
       {...hoverPropList}
-      className={`press_hover_focus ${
+      className={`press_hover_focus relative ${
         isHovered && '!bg-primHovering'
       }`}
     >
+      <Hand />
       Hover
+      <p
+        className={`absolute inset-2 !text-textPrim ${
+          isHovered ? 'opacity-100' : 'opacity-0'
+        }`}
+      >
+        [ed]
+      </p>
     </button>
   )
 }
