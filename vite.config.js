@@ -1,25 +1,25 @@
 // https://vitejs.dev/config/
-import { resolve } from 'path'
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react-swc'
+import { resolve } from "path";
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react-swc";
 
 export default defineConfig({
-  plugins: [react()],
-  build: {
-    copyPublicDir: false,
-    lib: {
-      entry: resolve(__dirname, 'lib/main.js'),
-      formats: ['es'],
-    },
-    rollupOptions: {
-      external: ['react', 'react/jsx-runtime', 'react-dom'],
-      output: {
-        globals: {
-          react: 'React',
-          'react/jsx-runtime': 'jsxRuntime',
-          'react-dom': 'reactDom',
-        },
-      },
-    },
-  },
-})
+	plugins: [react()],
+	build: {
+		copyPublicDir: false,
+		lib: {
+			entry: resolve(__dirname, "lib/main.js"),
+			formats: ["es"],
+		},
+		rollupOptions: {
+			external: ["react", "react/jsx-runtime", "react-dom"],
+			output: {
+				globals: {
+					react: "React",
+					"react/jsx-runtime": "jsxRuntime",
+					"react-dom": "reactDom",
+				},
+			},
+		},
+	},
+});

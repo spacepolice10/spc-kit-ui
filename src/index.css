@@ -3,39 +3,47 @@
 @tailwind utilities;
 
 *:focus {
-  outline: none;
+	outline: none;
 }
 
 *:focus-visible {
-  outline: none;
+	outline: none;
 }
 
 section {
-  @apply p-2 m-2 selection:bg-prim/20;
+	@apply p-2 m-2 selection:bg-prim/20;
 }
 
 section h2 {
-  @apply font-bold font-mono italic uppercase mb-4;
+	@apply font-bold font-mono italic uppercase mb-4;
 }
 
 .demo_section {
-  @apply relative border align-top content-start p-4 grid gap-4 font-mono bg-[#FAFAFA] rounded-md border-b pb-2 mb-2;
+	@apply relative border align-top content-start p-4 grid gap-4 font-mono bg-[#FAFAFA] rounded-md border-b pb-2 mb-2;
 }
 
 .demo_section p {
-  @apply text-xs text-textSecond;
+	@apply text-xs text-textSecond;
 }
 
 /* interactions demo */
 
 .press_hover_focus {
-  @apply bg-prim text-second font-bold italic p-2 h-14 w-20 rounded-md duration-150;
-}
-
-.drag {
-  @apply p-0 w-5 h-5 rounded-md shadow-sm cursor-grab;
+	@apply bg-prim text-second font-bold italic p-2 h-14 w-20 rounded-md duration-150;
 }
 
 .focus_scope_items {
-  @apply bg-pastelGray/20 text-xs text-second p-2 rounded-md border border-transparent focus:border-prim;
+	@apply bg-pastelGray/20 text-xs text-second p-2 rounded-md border border-transparent focus:border-prim;
+}
+
+/* button demo */
+
+.button {
+	@apply flex items-center gap-4 bg-prim w-52 hover:bg-primHovering text-textPrim rounded-full py-2 px-4 border border-transparent focus:!outline outline-yellow-400 duration-75;
+}
+.button.second {
+	@apply !bg-textPrim hover:!bg-textSecond text-white;
+}
+.button.tertiary {
+	@apply !bg-pastelGray/40 hover:!bg-pastelGray/80 text-textPrim;
 }

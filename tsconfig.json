@@ -2,12 +2,16 @@
   "include": ["src", "lib"],
   "exclude": ["src/**/demo", "src/**/test"],
   "compilerOptions": {
+    "target": "ES6",
     "allowJs": true,
     "skipLibCheck": true,
     "declaration": true,
+     "esModuleInterop": true,
     "emitDeclarationOnly": true,
     "outDir": "dist",
     "declarationMap": true,
-    "jsx": "react",
+    "jsx": "react-jsx",
+    "allowImportingTsExtensions": true,
+    "moduleResolution": "node"  
   }
 }

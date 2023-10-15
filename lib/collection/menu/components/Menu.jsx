@@ -73,8 +73,7 @@ function MenuButton(props) {
  */
 function MenuBody(props) {
   const { className, children } = props
-  const { menuPropList, isInverted, hide } =
-    useContext(MenuCtxt)
+  const { menuPropList, isInverted, hide } = useContext(MenuCtxt)
   return (
     <div className={className} {...menuPropList}>
       {[
