@@ -10,14 +10,13 @@ import clamp from "../../util/clamp";
 import { useKeyboard } from "../../keyboard/components/useKeyboard";
 
 /**
- 
  * @param onMoveStarts — callback to fire on pointing device down
  * @param onMove — callback to fire on pointing device change position
  * @param onMoveFinishes — callback to fire on pointing device up
  */
 export type useMoveType = {
 	onMoveStarts?: () => void;
-	onMove?: () => void;
+	onMove?: (coords: coordsType) => void;
 	onMoveFinishes?: () => void;
 };
 
@@ -78,7 +77,7 @@ const useMove = (props: useMoveType): useMoveReturnType => {
 	// moving element
 	function move({ x, y }: coordsType) {
 		setCoords({ x, y });
-		onMove?.();
+		onMove?.({ x, y });
 	}
 
 	function detectCursorCoords(ev: PointerEvent) {
@@ -117,8 +116,6 @@ const useMove = (props: useMoveType): useMoveReturnType => {
 
 	function handleMoveFinishes(event: PointerEvent) {
 		event.preventDefault();
-		event.stopPropagation();
-		console.log("finishes");
 		setTarget(undefined);
 		setIsMoving(false);
 		onMoveFinishes?.();

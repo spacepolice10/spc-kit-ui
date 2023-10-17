@@ -8,19 +8,21 @@ import { Button } from "../../../main";
 
 export default function PopoverDemo() {
 	return (
-		<Popover offset={10}>
+		<Popover offset={10} isOverflow={false}>
 			<PopoverTrigger
 				hoverTitle="Popover trigger"
 				className={({ isShow }) =>
 					`button !p-0 tertiary !w-auto ${
 						isShow && "!font-bold"
 					}`
-				}>
+				}
+			>
 				<>
 					<div
 						className={
 							"flex items-center justify-center w-full gap-4"
-						}>
+						}
+					>
 						<DotsThreeCircle
 							size={28}
 							className="text-textPrim"
@@ -44,7 +46,8 @@ export default function PopoverDemo() {
 				</ul>
 				<Button
 					hoverTitle="Button with name `Say hi`"
-					className="button second mx-auto mt-4">
+					className="button second mx-auto mt-4"
+				>
 					Say hi! 👋
 				</Button>
 			</PopoverContent>

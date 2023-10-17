@@ -2,6 +2,7 @@ import { createContext, useContext, useState } from "react";
 import {
 	collectionPropListType,
 	useCollection,
+	useCollectionType,
 } from "../../../collection/collection/components/useCollection";
 
 /**
@@ -12,7 +13,7 @@ const RadioGroupCtxt = createContext(
 );
 const useRadioGroupCtxt = () => useContext(RadioGroupCtxt);
 
-export type useRadioGroupType<T> = {
+export type useRadioGroupType<T> = useCollectionType<T> & {
 	items: T[];
 	onChange: (args: string) => void;
 	selectedId?: string;
@@ -29,9 +30,10 @@ type useRadioGroupReturnType = useRadioGroupType<{
 const useRadioGroup = <T extends { id: string }>(
 	props: useRadioGroupType<T>
 ): useRadioGroupReturnType => {
-	const { items } = props;
+	const { items, isHorizontal } = props;
 	const { collectionPropList } = useCollection({
 		items,
+		isHorizontal,
 	});
 
 	const [controlledSelectedId, setControlledSelectedId] =

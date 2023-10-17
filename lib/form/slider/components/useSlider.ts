@@ -4,6 +4,7 @@ import {
 	useEffect,
 	useMemo,
 	useRef,
+	useState,
 } from "react";
 import {
 	movePropListType,
@@ -11,6 +12,7 @@ import {
 } from "../../../interactions/move/components/useMove.ts";
 
 export type useSliderType = {
+	value?: number;
 	minVal?: number;
 	maxVal: number;
 	defVal?: number;
@@ -56,17 +58,34 @@ const useSlider = (
 		if (isMoving) return;
 		const target = ev.currentTarget as HTMLElement;
 		const thumb = thumbRef.current;
+		const coordsDirections = { x: "x", y: "y" };
+		const chosenDirections = coordsDirections[axis];
 		if (!thumb) return;
-		const sliderOffsetLeft =
-			target?.getBoundingClientRect()?.left;
-		const halfOfThumbWidth = thumb.clientWidth / 2;
+		const halfOfThumbW = thumb.clientWidth / 2;
+		const halfOfThumbH = thumb.clientHeight / 2;
+		const sliderOffset =
+			target?.getBoundingClientRect()?.[chosenDirections];
+		const x =
+			axis == "x"
+				? ev.clientX - (sliderOffset + halfOfThumbW)
+				: 0;
+		const y =
+			axis == "y"
+				? ev.clientY - (sliderOffset + halfOfThumbH)
+				: 0;
+		const singleCoordsUnit = { x, y }[chosenDirections];
+		const slideUnitAmount = slideRef?.current?.[unit] ?? 0;
+		const thumbUnitAmount = thumbRef?.current?.[unit] ?? 0;
+		const val = +(
+			(maxVal *
+				((singleCoordsUnit /
+					(slideUnitAmount - thumbUnitAmount)) *
+					100)) /
+			100
+		).toFixed(0);
 		setIsMoving(true);
-		setCoords((state) => {
-			return {
-				x: ev.clientX - (sliderOffsetLeft + halfOfThumbWidth),
-				y: state.y,
-			};
-		});
+		onChange?.(val);
+		setCoords({ x, y });
 		setIsMoving(false);
 	}
 	function offsetSlider(value: number) {
@@ -81,7 +100,7 @@ const useSlider = (
 		thumb.style[chosenAxis] = `${offset}px`;
 		setCoords((state) => ({
 			...state,
-			[axis]: `${offset}px`,
+			[axis]: offset,
 		}));
 	}
 
@@ -92,32 +111,37 @@ const useSlider = (
 		isMoving,
 		movePropList,
 	} = useMove({
+		onMove: (coords) => {
+			const coordsDirections = { x: "x", y: "y" };
+			const chosenDirections = coordsDirections[axis];
+			const slideUnitAmount = slideRef?.current?.[unit] ?? 0;
+			const thumbUnitAmount = thumbRef?.current?.[unit] ?? 0;
+			const coord = coords[chosenDirections];
+			const value = +(
+				(maxVal *
+					((coord / (slideUnitAmount - thumbUnitAmount)) *
+						100)) /
+				100
+			).toFixed(0);
+			setControlledValue(isNaN(value) ? defVal ?? 0 : value);
+			onChange?.(value);
+		},
 		onMoveFinishes: () => onChangeFinishes?.(value),
 	});
-	const value = useMemo(() => {
-		const coordsDirections = { x: "x", y: "y" };
-		const chosenDirections = coordsDirections[axis];
-		const slideUnitAmount = slideRef?.current?.[unit] ?? 0;
-		const thumbUnitAmount = thumbRef?.current?.[unit] ?? 0;
-		const coord = coords[chosenDirections];
-		const value = +(
-			(maxVal *
-				((coord / (slideUnitAmount - thumbUnitAmount)) *
-					100)) /
-			100
-		).toFixed(0);
-		return isNaN(value) ? defVal ?? 0 : value;
-	}, [coords]);
+	const [controlledValue, setControlledValue] =
+		useState(defVal);
+	const value = props.value ?? controlledValue;
+
+	// useEffect(() => {
+	// 	if (!defVal) return;
+	// 	offsetSlider(defVal);
+	// 	onChange?.(defVal);
+	// }, [defVal]);
 
 	useEffect(() => {
-		if (!defVal) return;
-		offsetSlider(defVal);
-	}, [defVal]);
-
-	useEffect(() => {
-		if (!onChange || !value) return;
-		onChange?.(value);
-	}, [value]);
+		if (isMoving) return;
+		offsetSlider(props?.value ?? defVal);
+	}, [props?.value]);
 
 	const slidePropList = {
 		onPointerDown: offsetSliderByPush,
@@ -129,12 +153,14 @@ const useSlider = (
 			padding: 0,
 			margin: 0,
 			touchAction: "none",
+			cursor: "pointer",
 		} as CSSProperties,
 	};
 	const thumbPropList = {
 		...movePropList,
 		ref: thumbRef,
 		style: {
+			cursor: "drag",
 			display: "block",
 			position: "absolute",
 			left: axis == "x" ? `${coords.x}px` : "auto",
@@ -143,7 +169,7 @@ const useSlider = (
 	};
 
 	return {
-		value,
+		value: value ?? controlledValue,
 		offsetSlider,
 		slidePropList,
 		thumbPropList,

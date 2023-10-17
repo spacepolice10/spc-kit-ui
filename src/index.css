@@ -33,7 +33,7 @@ section h2 {
 }
 
 .focus_scope_items {
-	@apply bg-pastelGray/20 text-xs text-second p-2 rounded-md border border-transparent focus:border-prim;
+	@apply bg-pastelGray/20 text-xs text-second p-2 rounded-md border border-transparent focus:border-prim hover:bg-prim hover:text-white duration-100;
 }
 
 /* button demo */

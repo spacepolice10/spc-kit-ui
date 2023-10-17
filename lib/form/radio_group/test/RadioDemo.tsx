@@ -29,134 +29,141 @@ export default function RadioDemo() {
 	];
 	const [selected, setSelected] = useState("xs");
 	const [chosenColor, setChosenColor] = useState("black");
-	const [chosenPayment, setChosenPayment] = useState("");
+	const [chosenPayment, setChosenPayment] = useState("card");
 	return (
 		<div>
-			<div className="flex pl-4 gap-4 mb-4 w-52 h-16 border rounded-lg items-center">
-				<SneakerMove
-					style={{
-						color: colors.find(
-							(color) => color.id == chosenColor
-						).color,
-					}}
-					size={
-						sizes.find((size) => size.id == selected).pixels
-					}
-					className="text-pastelGray duration-100"
-				/>
-				<Sneaker
-					style={{
-						color: colors.find(
-							(color) => color.id == chosenColor
-						).color,
-					}}
-					size={
-						sizes.find((size) => size.id == selected).pixels
-					}
-					className="text-pastelGray duration-100"
-				/>
-			</div>
-			<div className="p-2 rounded-md">
-				<p className="mb-2">What size?</p>
-				<RadioGroup
-					items={sizes as { id: string; pixels: number }[]}
-					selectedId={selected}
-					isSelectOnFocusing={true}
-					className="flex items-start gap-2"
-					onChange={setSelected}
-				>
-					{sizes.map((x) => (
-						<Radio
-							hoverTitle={x.id}
-							className={({ isToggle, isHovered }) =>
-								`${
-									isToggle
-										? "bg-prim !text-white"
-										: "bg-pastelGray/20"
-								} 
-              ${isHovered && "!bg-primHovering !text-white"} 
-              rounded-md p-2 text-textPrim w-10 h-10 duration-100`
+			<div className="flex gap-2 border">
+				<div>
+					<div className="p-2 rounded-md">
+						<p className="mb-2">What size?</p>
+						<RadioGroup
+							isHorizontal={true}
+							items={
+								sizes as { id: string; pixels: number }[]
 							}
-							key={x?.id}
-							{...x}
+							selectedId={selected}
+							isSelectOnFocusing={true}
+							className="flex items-start gap-2"
+							onChange={setSelected}
 						>
-							<p>{x.id}</p>
-						</Radio>
-					))}
-				</RadioGroup>
-			</div>
-			<div className="p-2 rounded-md">
-				<p className="mb-2">What colour?</p>
-				<RadioGroup
-					items={colors}
-					selectedId={chosenColor}
-					onChange={setChosenColor}
-					className="flex items-start gap-2"
-				>
-					{colors.map((x) => (
-						<Radio
-							hoverTitle={x.id}
-							className={({ isToggle, isHovered }) =>
-								`${
-									isToggle
-										? "border-second"
-										: "border-pastelGray/20"
-								} 
-              ${
-								isHovered && "!border-primHovering text-white"
-							} 
-              rounded-full border bg-pastelGray/20 p-2 text-textPrim w-10 h-10 duration-100 flex items-center justify-center`
-							}
-							key={x?.id}
-							{...x}
+							{sizes.map((x) => (
+								<Radio
+									hoverTitle={x.id}
+									className={({ isToggle, isHovered }) =>
+										`${
+											isToggle
+												? "bg-prim !text-white"
+												: "bg-pastelGray/20"
+										} 
+						${isHovered && "!bg-primHovering !text-white"} 
+						rounded-sm p-2 text-textPrim w-10 h-10 duration-100 focus:border-prim border`
+									}
+									key={x?.id}
+									{...x}
+								>
+									<p className="uppercase">{x.id}</p>
+								</Radio>
+							))}
+						</RadioGroup>
+					</div>
+					<div className="p-2 rounded-md">
+						<p className="mb-2">What colour?</p>
+						<RadioGroup
+							isHorizontal={true}
+							items={colors}
+							selectedId={chosenColor}
+							onChange={setChosenColor}
+							className="flex items-start gap-2"
 						>
-							{({ isToggle }) =>
-								isToggle && (
-									<span
-										style={{ backgroundColor: x.color }}
-										className="w-8 h-8 flex-shrink-0 rounded-full block"
-									></span>
-								)
-							}
-						</Radio>
-					))}
-				</RadioGroup>
-			</div>
-			<div className="p-2 rounded-md">
-				<p className="mb-2">Cash or card?</p>
-				<RadioGroup
-					items={payment}
-					selectedId={chosenPayment}
-					onChange={setChosenPayment}
-					className="flex flex-col items-start gap-2"
-				>
-					{payment.map((x) => (
-						<Radio
-							hoverTitle={x.text}
-							className={({ isToggle, isHovered }) =>
-								`${
-									isToggle
-										? "border-second"
-										: "border-pastelGray/20"
-								} 
-              ${isHovered && "!bg-pastelGray/60"} 
-              rounded-sm border bg-pastelGray/20 p-2 text-textPrim w-full h-8 duration-100 flex items-center justify-center`
-							}
-							key={x?.id}
-							{...x}
+							{colors.map((x) => (
+								<Radio
+									hoverTitle={x.id}
+									className={({ isToggle, isHovered }) =>
+										`${
+											isToggle
+												? "border-second"
+												: "border-pastelGray/20"
+										} 
+						${isHovered && "!border-primHovering text-white"} 
+						rounded-full border bg-pastelGray/20 p-2 text-textPrim w-10 h-10 duration-100 flex items-center justify-center focus:border-prim`
+									}
+									key={x?.id}
+									{...x}
+								>
+									{({ isToggle }) =>
+										isToggle && (
+											<span
+												style={{ backgroundColor: x.color }}
+												className="w-8 h-8 flex-shrink-0 rounded-full block"
+											></span>
+										)
+									}
+								</Radio>
+							))}
+						</RadioGroup>
+					</div>
+					<div className="p-2 rounded-md">
+						<p className="mb-2">Cash or card?</p>
+						<RadioGroup
+							items={payment}
+							selectedId={chosenPayment}
+							onChange={setChosenPayment}
+							className="flex flex-col items-start gap-2"
 						>
-							{({ isToggle }) => (
-								<div className="w-full flex items-center gap-4 p-2">
-									<div className="h-5 w-5">
-										{isToggle && <Check />}
-									</div>
-									{x.icon}
-									<p>{x.text}</p>
-								</div>
-							)}
-						</Radio>
-					))}
-				</RadioGroup>
+							{payment.map((x) => (
+								<Radio
+									hoverTitle={x.text}
+									className={({ isToggle, isHovered }) =>
+										`${
+											isToggle
+												? "border-second"
+												: "border-pastelGray/20"
+										} 
+						${isHovered && "!bg-pastelGray/60"} 
+						rounded-sm border bg-pastelGray/20 p-2 text-textPrim w-full h-8 duration-100 flex items-center justify-center focus:border-prim`
+									}
+									key={x?.id}
+									{...x}
+								>
+									{({ isToggle }) => (
+										<div className="w-full flex items-center gap-4 p-2">
+											<div className="h-5 w-5">
+												{isToggle && <Check />}
+											</div>
+											{x.icon}
+											<p>{x.text}</p>
+										</div>
+									)}
+								</Radio>
+							))}
+						</RadioGroup>
+					</div>
+				</div>
+				<div className="w-full relative h-full">
+					<div className="border-white overflow-hidden">
+						<img
+							src="/pullover.png"
+							alt="Photo of `a sneaker` by Erik Mclean"
+							className="object-cover p-8"
+						/>
+					</div>
+					<p className="text-xs absolute -bottom-2 px-2 text-right">
+						Photo by{" "}
+						<a
+							className="text-prim hover:underline"
+							href="https://unsplash.com/@ryanhoffman007?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash"
+						>
+							Ryan Hoffman
+						</a>{" "}
+						on{" "}
+						<a
+							className="text-prim hover:underline"
+							href="https://unsplash.com/photos/czLSitCJ3Dw?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash"
+						>
+							Unsplash
+						</a>
+					</p>
+				</div>
 			</div>
 		</div>
 	);

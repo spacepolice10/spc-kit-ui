@@ -12,7 +12,7 @@ import { eventsReturnType } from "../../../interactions/util/formEventsArgs";
  */
 
 export type usePopoverType = {
-	position?: "absolute" | "fixed";
+	isOverflow?: boolean;
 	side?: "left" | "right";
 	offset?: number;
 	isIgnoreFocusingOnHide?: boolean;
@@ -45,7 +45,7 @@ const usePopover = (
 	props: usePopoverType
 ): usePopoverReturnType => {
 	const {
-		position = "absolute",
+		isOverflow = false,
 		side = "left",
 		offset = 0,
 		onHide,
@@ -99,11 +99,11 @@ const usePopover = (
 	 */
 	useEffect(() => {
 		function backgroundPushHandle(ev: PointerEvent) {
-			const target = ev.currentTarget as HTMLElement;
+			const target = ev.target as HTMLElement;
+			if (!popoverRef.current) return;
 			if (popoverRef.current?.contains(target)) return;
 			hide();
 		}
-		if (!isShow) return;
 		document.addEventListener(
 			"pointerdown",
 			backgroundPushHandle
@@ -118,34 +118,42 @@ const usePopover = (
 	 * this effect calculates and imperatively sets the position of popover. It is important to use pure JS and imperative model here so we are not provoking rerenders before the correct position of elements are set. In any other case `IntersectionObserver` will generate unpleasant flickers
 	 */
 	useEffect(() => {
-		if (!popoverRef.current || !isShow) return;
 		const popover = popoverRef.current;
 		const trigger = triggerRef.current;
+		if (!popover || !trigger) return;
 		popover.style[side] = `${offset}px`;
-		popover.style.position = position;
+		popover.style.position = isOverflow
+			? "fixed"
+			: "absolute";
 		popover.style.opacity = "0%";
-		const callback = function (entries) {
+		popover.style.margin = "auto";
+		const callback = function (
+			entries: IntersectionObserverEntry[]
+		) {
 			const entry = entries[0];
 			const entryHeight = entry.intersectionRect.height;
 			const entryWidth = entry.intersectionRect.width;
-			const target = entry.target;
-			// if (isOverflow) {
-			// 	console.log(trigger.getBoundingClientRect());
-			// 	target.style.top = `${
-			// 		trigger.getBoundingClientRect().top +
-			// 		trigger.offsetHeight
-			// 	}px`;
-			// }
-			if (!entry.isIntersecting) {
-				if (entryHeight < popover.offsetHeight) {
-					target.style.bottom = `${
-						trigger.offsetHeight + offset
-					}px`;
-				}
-				if (entryWidth < popover.offsetWidth) {
-					target.style[side] = `-${
-						popover.offsetWidth - entryWidth + offset
-					}px`;
+			const target = entry.target as HTMLElement;
+			if (isOverflow) {
+				const triggerRect = trigger.getBoundingClientRect();
+				target.style.left = `${
+					triggerRect.left + trigger.offsetWidth
+				}px`;
+				target.style.top = `${
+					triggerRect.top + trigger.offsetHeight
+				}px`;
+			} else {
+				if (!entry.isIntersecting) {
+					if (entryHeight < popover.offsetHeight) {
+						target.style.bottom = `${
+							trigger.offsetHeight + offset
+						}px`;
+					}
+					if (entryWidth < popover.offsetWidth) {
+						target.style[side] = `-${
+							popover.offsetWidth - entryWidth + offset
+						}px`;
+					}
 				}
 			}
 			setTimeout(() => {

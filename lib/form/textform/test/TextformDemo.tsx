@@ -21,8 +21,8 @@ export default function TextformDemo() {
 			</div>
 			<div className="w-full">
 				<div className="flex gap-2 items-center mb-2">
-					<p className="">controlled depends on prop data</p>
-					<div className="w-16 border  flex items-center overflow-scroll">
+					<p className="">controlled depends on prop data:</p>
+					<div className="w-16 h-4 border  flex items-center overflow-scroll">
 						<p>{val}</p>
 					</div>
 				</div>
