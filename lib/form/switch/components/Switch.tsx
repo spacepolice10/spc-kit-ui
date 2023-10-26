@@ -1,10 +1,6 @@
-import {
-	cloneElement,
-	createContext,
-	useContext,
-} from "react";
-import { useSwitch, useSwitchType } from "./useSwitch";
+import { createContext, useContext } from "react";
 import { ButtonType } from "../../../button/button/components/Button";
+import { useSwitch, useSwitchType } from "./useSwitch";
 
 const SwitchCtxt = createContext({});
 

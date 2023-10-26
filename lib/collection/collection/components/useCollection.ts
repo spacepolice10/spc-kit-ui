@@ -8,6 +8,10 @@ import {
 	useKeyboard,
 } from "../../../interactions/keyboard/components/useKeyboard";
 
+/**
+ * Collection hook helps to control one-directional lists of data. It serves as a tool that provides ergonomic keyboard control with keyboard arrows and makes it possuble to select items from list without focusing on it
+ * @param items list of any data in a form of object with id
+ */
 export type useCollectionType<T> = {
 	items: T[];
 	isControlled?: boolean;
@@ -16,11 +20,11 @@ export type useCollectionType<T> = {
 };
 
 export type collectionPropListType = keyboardPropListType &
-	focusScopePropListType;
+	focusScopePropListType & {};
 
 export type useCollectionReturnType<T> = {
-	items: T[];
 	collectionPropList: collectionPropListType;
+	items: T[];
 	selectedId: string;
 	setSelectedId: Dispatch<SetStateAction<string>>;
 	removeSelectedId: () => void;
@@ -91,8 +95,8 @@ const useCollection = <T extends { id: string }>(
 	};
 
 	return {
-		items: isInverted ? items?.reverse() : items ?? [],
 		collectionPropList,
+		items: isInverted ? items?.reverse() : items ?? [],
 		selectedId,
 		setSelectedId,
 		removeSelectedId,

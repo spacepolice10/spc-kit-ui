@@ -36,6 +36,8 @@ const useTooltip = (props: useTooltipType) => {
 		onFocusLoose: release,
 	});
 	const tooltipTriggerPropList = {
+		"aria-describedby": "Tooltip",
+		role: "tooltip",
 		ref: triggerRef,
 		...hoverPropList,
 		...focusPropList,

@@ -1,9 +1,9 @@
-import { useCheckbox, useCheckboxType } from "./useCheckbox";
 import {
 	Button,
 	ButtonType,
 } from "../../../button/button/components/Button";
-import { eventsReturnType } from "../../../interactions/util/formEventsArgs";
+import { eventsReturnType } from "../../../interactions/util/formMouseEventArgs";
+import { useCheckbox, useCheckboxType } from "./useCheckbox";
 
 type CheckboxType = useCheckboxType & ButtonType;
 
@@ -15,12 +15,12 @@ const Checkbox = (propList: CheckboxType) => {
 		<>
 			<Button
 				{...propList}
+				{...checkboxPropList}
 				className={
 					typeof className != "function"
 						? className
 						: className?.(restCheckboxPropList)
 				}
-				{...checkboxPropList}
 				onPush={(returnEventsData: eventsReturnType) =>
 					checkboxPropList.onClick(returnEventsData.ev)
 				}

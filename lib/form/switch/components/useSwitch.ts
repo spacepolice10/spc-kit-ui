@@ -9,16 +9,19 @@ export type useSwitchType = useToggleButtonType & {
 };
 
 const useSwitch = (propList: useSwitchType) => {
-	const { buttonPropList, isToggle, ...restButtonPropList } =
-		useToggleButton({
-			...propList,
-			isntSemanticPushableElem: true,
-		});
+	const {
+		isToggle,
+		toggleButtonPropList,
+		...restToggleButtonPropList
+	} = useToggleButton({
+		...propList,
+		isntSemanticPushableElem: true,
+	});
 
 	const [outerWidth, setOuterWidth] = useState(0);
 	const [innerWidth, setInnerWidth] = useState(0);
 	const switchWrapPropList = {
-		...buttonPropList,
+		...toggleButtonPropList,
 		ref: (ref: HTMLButtonElement) => {
 			if (!ref) return;
 			setOuterWidth(ref?.offsetWidth);
@@ -43,7 +46,7 @@ const useSwitch = (propList: useSwitchType) => {
 		isToggle,
 		switchWrapPropList,
 		switchPropList,
-		...restButtonPropList,
+		...restToggleButtonPropList,
 	};
 };
 

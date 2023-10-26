@@ -36,7 +36,10 @@ const useDrag = (props: useDragType): useDragReturnType => {
 	const dragPropList = {
 		draggable: true,
 		onDragStart: handleDragStarts,
-		style: { cursor: "grab" },
+		style: {
+			cursor: "grab",
+			webkitUserDrag: Element,
+		} as CSSProperties,
 	};
 
 	return {

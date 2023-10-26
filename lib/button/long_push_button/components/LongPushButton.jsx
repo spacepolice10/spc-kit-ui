@@ -35,7 +35,8 @@ const LongPushButton = (props) => {
 							isFocused,
 					  })
 			}
-			{...longPushButtonPropList}>
+			{...longPushButtonPropList}
+		>
 			{typeof children != "function"
 				? children
 				: children?.({

@@ -6,15 +6,15 @@ import {
 	useContext,
 } from "react";
 import {
-	usePopover,
-	usePopoverReturnType,
-	usePopoverType,
-} from "./usePopover";
-import {
 	Button,
 	ButtonType,
 	buttonChildrenType,
 } from "../../../button/button/components/Button";
+import {
+	usePopover,
+	usePopoverReturnType,
+	usePopoverType,
+} from "./usePopover";
 
 const PopoverContext = createContext(
 	{} as usePopoverReturnType
@@ -35,7 +35,7 @@ const Popover = (props: PopoverType) => {
 					position: "relative",
 					height: "fit-content",
 					width: "fit-content",
-					zIndex: 1,
+					margin: "auto",
 				}}
 			>
 				{popoverProList.isShow && (
@@ -71,8 +71,6 @@ function PopoverTrigger(props: PopoverTriggerType) {
 		useContext(PopoverContext);
 	const triggerRef =
 		triggerPropList.ref as RefObject<HTMLButtonElement>;
-	console.log(triggerPropList);
-	console.log(triggerPropList.onClick);
 	return (
 		<Button
 			{...props}
@@ -113,4 +111,4 @@ function PopoverContent(props: PopoverContentType) {
 	);
 }
 
-export { Popover, PopoverTrigger, PopoverContent };
+export { Popover, PopoverContent, PopoverTrigger };

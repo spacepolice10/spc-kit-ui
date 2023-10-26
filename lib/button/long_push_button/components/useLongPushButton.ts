@@ -1,6 +1,6 @@
 import { useFocus } from "../../../interactions/focus/components/useFocus.ts";
 import { useHover } from "../../../interactions/hover/components/useHover.ts";
-import { useLongPush } from "../../../interactions/long_push/components/useLongPush.js";
+import { useLongPush } from "../../../main.ts";
 
 /**
  * @typedef {import('../../../interactions/long_push/components/useLongPush.js').useLongPushType} useLongPushType

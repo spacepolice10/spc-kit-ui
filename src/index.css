@@ -19,7 +19,7 @@ section h2 {
 }
 
 .demo_section {
-	@apply relative border align-top content-start p-4 grid gap-4 font-mono bg-[#FAFAFA] rounded-md border-b pb-2 mb-2;
+	@apply border align-top content-start p-4 grid gap-4 font-mono bg-[#FAFAFA] rounded-md border-b pb-2 mb-2;
 }
 
 .demo_section p {
@@ -46,4 +46,10 @@ section h2 {
 }
 .button.tertiary {
 	@apply !bg-pastelGray/40 hover:!bg-pastelGray/80 text-textPrim;
+}
+
+/* textform demo */
+
+.textform {
+	@apply border rounded-md p-2 font-sans font-light text-textPrim placeholder:text-xs;
 }

@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
-import { Slider, Thumb } from "../components/Slider";
 import { Button } from "../../../main";
+import { Slider, Thumb } from "../components/Slider";
 
 export default function SliderDemo() {
 	const [contrast, setContrast] = useState(100);
@@ -19,12 +19,14 @@ export default function SliderDemo() {
 		<div className="w-full flex flex-col gap-8 p-2 border">
 			<div className="flex gap-4">
 				<div className="overflow-hidden">
-					<img
-						src="/girl.jpg"
-						alt="Photo of `a girl glaring at photos` by Andrey K"
-						className="w-40 h-52 object-cover "
-						style={params}
-					/>
+					<div className="border-white h-[208px] overflow-hidden">
+						<img
+							src="/girl.jpg"
+							alt="Photo of `a girl glaring at photos` by Andrey K"
+							className="w-40 h-52 object-cover "
+							style={params}
+						/>
+					</div>
 					<p className="mt-4">
 						Photo by{" "}
 						<a
@@ -79,6 +81,7 @@ export default function SliderDemo() {
 							<p className="text-pastelGray">{saturate}</p>
 						</div>
 						<Slider
+							value={saturate}
 							onChange={setSaturate}
 							className="bg-pastelGray w-full h-1 rounded-sm "
 							defVal={100}

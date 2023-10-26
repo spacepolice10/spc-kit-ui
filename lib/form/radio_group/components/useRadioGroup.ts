@@ -51,4 +51,4 @@ const useRadioGroup = <T extends { id: string }>(
 	};
 };
 
-export { useRadioGroup, RadioGroupCtxt, useRadioGroupCtxt };
+export { RadioGroupCtxt, useRadioGroup, useRadioGroupCtxt };

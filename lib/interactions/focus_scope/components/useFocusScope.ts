@@ -1,20 +1,44 @@
-import { RefObject, useRef } from "react";
+import {
+	MutableRefObject,
+	RefObject,
+	useEffect,
+	useRef,
+} from "react";
+import { useKeyboard } from "../../../main";
+
+export type useFocusScopeType = {
+	isTabbingTrapped?: boolean;
+	getOutOfFocusingList?: boolean;
+};
 
 export type focusScopePropListType = {
 	ref: RefObject<HTMLDivElement>;
+	onKeyDown: (ev: React.KeyboardEvent) => void;
+};
+export type useFocusScopeReturnType = {
+	focusNextElem: () => void;
+	focusPrevElem: () => void;
+	focusFirstElem: () => void;
+	focusLastElem: () => void;
+	focusPrevElemGrid: (colsNumber: number) => void;
+	focusNextElemGrid: (colsNumber: number) => void;
+	focusScopePropList: focusScopePropListType;
+	focusScopeRef: MutableRefObject<HTMLElement>;
 };
 
-const useFocusScope = () => {
+const useFocusScope = (
+	props?: useFocusScopeType
+): useFocusScopeReturnType => {
+	const { isTabbingTrapped, getOutOfFocusingList } =
+		props ?? {};
 	const focussableElements =
 		'a:not([disabled]), button:not([disabled]), input[type=text]:not([disabled]), [tabindex]:not([disabled]):not([tabindex="-1"])';
-	const focusScopeRef = useRef(null);
+	const ref = useRef(null);
 
 	function detectFocussable() {
 		if (!document.activeElement) return;
 		const focussable = Array.prototype.filter.call(
-			focusScopeRef?.current?.querySelectorAll(
-				focussableElements
-			),
+			ref?.current?.querySelectorAll(focussableElements),
 			function (element: HTMLElement) {
 				return (
 					element.offsetWidth > 0 ||
@@ -38,11 +62,10 @@ const useFocusScope = () => {
 			: position <= 0
 			? focussable?.[focussable.length - 1]
 			: focussable?.[0];
-
 		elem?.focus();
 	}
 	function focusNextElem() {
-		if (document.activeElement == focusScopeRef.current) {
+		if (document.activeElement == ref.current) {
 			focusFirstElem();
 			return;
 		}
@@ -50,7 +73,7 @@ const useFocusScope = () => {
 		focusElem((position ?? 0) + 1);
 	}
 	function focusPrevElem() {
-		if (document.activeElement == focusScopeRef.current) {
+		if (document.activeElement == ref.current) {
 			focusLastElem();
 			return;
 		}
@@ -77,9 +100,23 @@ const useFocusScope = () => {
 		);
 	}
 
+	const { keyboardPropList } = useKeyboard({
+		Tab: focusNextElem,
+	});
+
+	useEffect(() => {
+		if (!ref.current) return;
+		const children = Array.from(ref.current?.children);
+		if (!children) return;
+		children.forEach((x: HTMLElement, i: number) => {
+			if (i > 0) x.tabIndex = -1;
+		});
+	}, []);
+
 	const focusScopePropList = {
-		ref: focusScopeRef,
-	};
+		ref,
+		...(isTabbingTrapped && { ...keyboardPropList }),
+	} as focusScopePropListType;
 
 	return {
 		focusNextElem,
@@ -89,7 +126,7 @@ const useFocusScope = () => {
 		focusPrevElemGrid,
 		focusNextElemGrid,
 		focusScopePropList,
-		focusScopeRef,
+		focusScopeRef: ref,
 	};
 };
 

@@ -1,7 +1,9 @@
-import InteractionsDemo from "./demo/InteractionsDemo";
 import ButtonListDemo from "./demo/ButtonListDemo";
-import OverlaysListDemo from "./demo/OverlaysListDemo";
+import CollectionListDemo from "./demo/CollectionListDemo";
+import ComboboxDemo from "./demo/ComboboxDemo";
 import FormDemo from "./demo/FormDemo";
+import InteractionsDemo from "./demo/InteractionsDemo";
+import OverlaysListDemo from "./demo/OverlaysListDemo";
 
 function App() {
 	return (
@@ -19,6 +21,8 @@ function App() {
 				<ButtonListDemo />
 				<OverlaysListDemo />
 				<FormDemo />
+				<CollectionListDemo />
+				<ComboboxDemo />
 			</div>
 			{/* <CollectionListDemo /> */}
 		</>

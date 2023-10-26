@@ -9,12 +9,10 @@ export type useHoverType = {
 	onHover?: () => void;
 	onHoverLoose?: () => void;
 };
-
 export type hoverPropListType = {
 	onMouseEnter: () => void;
 	onMouseLeave: () => void;
 };
-
 export type useHoverReturnType = {
 	isHovered: boolean;
 	hoverPropList: hoverPropListType;

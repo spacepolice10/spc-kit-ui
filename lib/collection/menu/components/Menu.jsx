@@ -1,13 +1,13 @@
 import {
-  Children,
-  cloneElement,
-  createContext,
-  useContext,
-} from 'react'
-import { useMenu } from './useMenu'
-import { Button } from '../../../button/button/components/Button'
+	Children,
+	cloneElement,
+	createContext,
+	useContext,
+} from "react";
+import { Button } from "../../../button/button/components/Button";
+import { useMenu } from "./useMenu";
 
-const MenuCtxt = createContext({})
+const MenuCtxt = createContext({});
 
 /**
  * @typedef MenuType
@@ -20,30 +20,30 @@ const MenuCtxt = createContext({})
  * @returns
  */
 const Menu = (props) => {
-  const { children, ...restPropList } = props
-  const { isShow, hide, ...rest } = useMenu(restPropList)
-  const [button, ...body] = Children.toArray(children)
-  return (
-    <MenuCtxt.Provider value={{ isShow, hide, ...rest }}>
-      <div style={{ position: 'relative' }}>
-        {isShow && (
-          <div
-            style={{
-              position: 'fixed',
-              inset: 0,
-              width: '100%',
-              height: '100vh',
-              background: 'none',
-              cursor: 'default',
-            }}
-          ></div>
-        )}
-        {button}
-        {isShow && body}
-      </div>
-    </MenuCtxt.Provider>
-  )
-}
+	const { children, ...restPropList } = props;
+	const { isShow, hide, ...rest } = useMenu(restPropList);
+	const [button, ...body] = Children.toArray(children);
+	return (
+		<MenuCtxt.Provider value={{ isShow, hide, ...rest }}>
+			<div style={{ position: "relative" }}>
+				{isShow && (
+					<div
+						style={{
+							position: "fixed",
+							inset: 0,
+							width: "100%",
+							height: "100vh",
+							background: "none",
+							cursor: "default",
+						}}
+					></div>
+				)}
+				{button}
+				{isShow && body}
+			</div>
+		</MenuCtxt.Provider>
+	);
+};
 
 /**
  *
@@ -53,15 +53,15 @@ const Menu = (props) => {
  * @returns
  */
 function MenuButton(props) {
-  const { show, isShow, triggerRef } = useContext(MenuCtxt)
-  const ref = triggerRef
-  return (
-    <Button {...props} ref={ref} onPush={show}>
-      {typeof props.children == 'function'
-        ? props?.children(isShow ?? false)
-        : props?.children}
-    </Button>
-  )
+	const { show, isShow, triggerRef } = useContext(MenuCtxt);
+	const ref = triggerRef;
+	return (
+		<Button {...props} ref={ref} onPush={show}>
+			{typeof props.children == "function"
+				? props?.children(isShow ?? false)
+				: props?.children}
+		</Button>
+	);
 }
 
 /**
@@ -72,21 +72,22 @@ function MenuButton(props) {
  * @returns
  */
 function MenuBody(props) {
-  const { className, children } = props
-  const { menuPropList, isInverted, hide } = useContext(MenuCtxt)
-  return (
-    <div className={className} {...menuPropList}>
-      {[
-        isInverted
-          ? Children.toArray(children).reverse()
-          : Children.toArray(children),
-      ].flatMap((elemList) => {
-        return elemList.map((item) => {
-          return cloneElement(item, { hide })
-        })
-      })}
-    </div>
-  )
+	const { className, children } = props;
+	const { menuPropList, isInverted, hide } =
+		useContext(MenuCtxt);
+	return (
+		<div className={className} {...menuPropList}>
+			{[
+				isInverted
+					? Children.toArray(children).reverse()
+					: Children.toArray(children),
+			].flatMap((elemList) => {
+				return elemList.map((item) => {
+					return cloneElement(item, { hide });
+				});
+			})}
+		</div>
+	);
 }
 
-export { Menu, MenuButton, MenuBody }
+export { Menu, MenuBody, MenuButton };

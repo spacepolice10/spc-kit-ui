@@ -1,10 +1,10 @@
 import { CSSProperties, useState } from "react";
 
+import { useKeyboard } from "../../keyboard/components/useKeyboard";
 import formEventsArgs, {
 	eventsReturnType,
 	eventsType,
-} from "../../util/formEventsArgs";
-import { useKeyboard } from "../../keyboard/components/useKeyboard";
+} from "../../util/formMouseEventArgs";
 
 /**
  * @param onClick callback to fire on push (click and touch)

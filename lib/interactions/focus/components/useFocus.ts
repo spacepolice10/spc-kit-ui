@@ -9,12 +9,10 @@ export type useFocusType = {
 	onFocus?: () => void;
 	onFocusLoose?: () => void;
 };
-
 export type focusPropListType = {
 	onFocus: () => void;
 	onBlur: () => void;
 };
-
 export type useFocusReturnType = {
 	isFocused: boolean;
 	focusPropList: focusPropListType;

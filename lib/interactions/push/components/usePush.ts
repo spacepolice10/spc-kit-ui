@@ -1,26 +1,28 @@
 import { CSSProperties, useState } from "react";
 
-import formEventsArgs, {
-	eventsReturnType,
-	eventsType,
-} from "../../util/formEventsArgs";
 import { useKeyboard } from "../../keyboard/components/useKeyboard";
 
 /**
  * @param onPush callback to fire on push (click and touch)
  * @param onDoublePush  callback to fire on double push (click and touch)
- * @param onPushStarts callback to fire on push down
- * @param onPushFinishes callback to fire on push up
+ * @param onPushStarts callback to fire on push down (mousedown, keydown)
+ * @param onPushFinishes callback to fire on push up (mouseup, keyup)
  * @param isntSemanticPushableElem adds button-like properties to different HTML Elements (if you wish to make divs or spans clickable for some reason like taming typescript in "button in button" cases)
- * @param isDisabled `isDisabled` boolean returned as an aditional property to button so you can add some additional JavaScript or CSS to handle such cases
  * @param isBubbling  bubbling is turned off by default because in most cases your interface doesn't have to detect actions from elements placed above the button itself
- * @param isSubmitting  change type to submit
  */
 export type usePushType = {
-	onPush?: (args?: eventsReturnType) => void;
-	onDoublePush?: (args?: eventsReturnType) => void;
-	onPushStarts?: (args?: eventsReturnType) => void;
-	onPushFinishes?: (args?: eventsReturnType) => void;
+	onPush?: (
+		args?: React.MouseEvent | React.KeyboardEvent
+	) => void;
+	onDoublePush?: (
+		args?: React.MouseEvent | React.KeyboardEvent
+	) => void;
+	onPushStarts?: (
+		args?: React.MouseEvent | React.KeyboardEvent
+	) => void;
+	onPushFinishes?: (
+		args?: React.MouseEvent | React.KeyboardEvent
+	) => void;
 	isntSemanticPushableElem?: boolean;
 	isBubbling?: boolean;
 };
@@ -28,12 +30,14 @@ export type usePushType = {
 export type pushPropListType = {
 	onPointerDown: (ev: React.PointerEvent) => void;
 	onPointerUp: (ev: React.PointerEvent) => void;
-	onClick: (ev: eventsType) => void;
-	onKeyDown: (ev: eventsType) => void;
-	role?: "button";
+	onClick: (
+		ev: React.MouseEvent | React.KeyboardEvent
+	) => void;
+	onKeyDown: (ev: React.KeyboardEvent) => void;
+	role?: string;
 	tabIndex?: number;
 	style?: CSSProperties;
-	type?: "submit";
+	type?: "button" | "submit";
 };
 
 export type usePushReturnType = {
@@ -52,35 +56,47 @@ const usePush = (props: usePushType): usePushReturnType => {
 	} = props;
 	const [isPushed, setIsPushed] = useState(false);
 
-	function push(ev: eventsType) {
+	function handlePush(
+		ev: React.MouseEvent | React.KeyboardEvent
+	) {
 		if (!isBubbling) ev?.stopPropagation();
-		const args = formEventsArgs(ev);
-		onDoublePush?.(args);
-		onPush?.(args);
+
+		onPush?.(ev);
+	}
+	function handleDoublePush(
+		ev: React.MouseEvent | React.KeyboardEvent
+	) {
+		if (!isBubbling) ev?.stopPropagation();
+		onDoublePush?.(ev);
 	}
 
-	function handlePushStarts(ev: eventsType) {
+	function handlePushStarts(
+		ev: React.MouseEvent | React.KeyboardEvent
+	) {
 		setIsPushed(true);
-		onPushStarts?.(formEventsArgs(ev));
+		onPushStarts?.(ev);
 	}
-	function handlePushFinishes(ev: eventsType) {
+	function handlePushFinishes(
+		ev: React.MouseEvent | React.KeyboardEvent
+	) {
 		setIsPushed(false);
-		onPushFinishes?.(formEventsArgs(ev));
+		onPushFinishes?.(ev);
 	}
 
 	const { keyboardPropList } = useKeyboard({
-		"": push,
-		...(isntSemanticPushableElem && { Enter: push }),
+		"": handlePush,
+		...(isntSemanticPushableElem && { Enter: handlePush }),
 	});
 
 	const pushPropList = {
 		onPointerDown: handlePushStarts,
 		onPointerUp: handlePushFinishes,
-		onClick: push,
-		onDoubleClick: push,
+		onClick: handlePush,
+		onDoubleClick: handleDoublePush,
 		...keyboardPropList,
 		...(isntSemanticPushableElem && {
-			role: "button" as const,
+			type: "button" as const,
+			role: "button",
 			tabIndex: -1,
 			style: { cursor: "pointer" },
 		}),

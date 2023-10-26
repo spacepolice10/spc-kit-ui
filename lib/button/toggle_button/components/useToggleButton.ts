@@ -12,16 +12,22 @@ export type useToggleButtonType = useToggleType &
 
 const useToggleButton = (propList: useToggleButtonType) => {
 	const { toggle, isToggle } = useToggle(propList);
-	const buttonPropList = useButton({
-		...propList,
-		onPush: (ev) => {
-			console.log(ev);
-			toggle();
-		},
-	});
-	return {
-		isToggle,
+	const { buttonPropList, ...restButtonPropList } = useButton(
+		{
+			...propList,
+			onPush: toggle,
+		}
+	);
+	const toggleButtonPropList = {
 		...buttonPropList,
+		"aria-checked": isToggle,
+		"aria-describedby": "Switch toggle",
+		role: "checkbox",
+	};
+	return {
+		...restButtonPropList,
+		isToggle,
+		toggleButtonPropList,
 	};
 };
 

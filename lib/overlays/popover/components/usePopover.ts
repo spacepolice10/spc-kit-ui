@@ -1,11 +1,13 @@
 import {
+	CSSProperties,
 	RefObject,
 	useEffect,
 	useRef,
 	useState,
 } from "react";
 import { useKeyboard } from "../../../interactions/keyboard/components/useKeyboard";
-import { eventsReturnType } from "../../../interactions/util/formEventsArgs";
+import { useFocusScope } from "../../../main";
+import { mergeProps } from "../../../util/mergeProps";
 
 /**
  * @todo add option to make overlay `fixed`. It might be called `isOverflow`
@@ -21,6 +23,7 @@ export type usePopoverType = {
 };
 
 export type usePopoverReturnType = {
+	popoverWrapPropList: popoverWrapPropListType;
 	popoverPropList: popoverPropListType;
 	triggerPropList: triggerPropListType;
 	triggerRef: RefObject<HTMLButtonElement | HTMLInputElement>;
@@ -31,18 +34,23 @@ export type usePopoverReturnType = {
 	isInverted: boolean;
 };
 
+export type popoverWrapPropListType = {
+	style: CSSProperties;
+};
 export type popoverPropListType = {
-	ref: RefObject<HTMLDivElement>;
 	onKeyDown: (ev: React.KeyboardEvent) => void;
+	ref: (elem: HTMLDivElement) => void;
+	tabIndex?: number;
+	style?: CSSProperties;
 };
 
 export type triggerPropListType = {
 	ref: RefObject<HTMLButtonElement | HTMLInputElement>;
-	onClick: (ev: eventsReturnType) => void;
+	onClick: (ev: React.MouseEvent) => void;
 };
 
 const usePopover = (
-	props: usePopoverType
+	props?: usePopoverType
 ): usePopoverReturnType => {
 	const {
 		isOverflow = false,
@@ -72,11 +80,28 @@ const usePopover = (
 			hide();
 		},
 	});
+
+	const { focusScopePropList } = useFocusScope({
+		isTabbingTrapped: true,
+	});
+	const popoverWrapPropList = {
+		style: {
+			position: "relative",
+			height: "fit-content",
+			width: "fit-content",
+			margin: "auto",
+		} as CSSProperties,
+	};
 	const popoverPropList = {
-		ref: popoverRef,
-		...keyboardPropList,
+		...mergeProps<HTMLDivElement>([
+			focusScopePropList,
+			keyboardPropList,
+			{ ref: popoverRef },
+		]),
 	};
 	const triggerPropList = {
+		"aria-describedby": "Popover",
+		"aria-haspopup": true,
 		ref: triggerRef,
 		onClick: () => (isShow ? hide() : show()),
 	};
@@ -90,14 +115,13 @@ const usePopover = (
 	 */
 	useEffect(() => {
 		if (!isShow || isIgnoreFocusingOnHide) return;
-		const focusElem = popoverRef.current;
-		if (!focusElem) return;
-		focusElem?.focus({ preventScroll: true });
+		popoverRef.current?.focus({ preventScroll: true });
 	}, [isShow]);
 	/**
-	 * this effects handles closing popover when user clicks outside. In PopoverContent component it is upgraded with invisible fix-sized `div` that prevents any unnecessary clicks outside of `popover`
+	 * this effects handles closing popover when user clicks outside. In PopoverContent component it is upgraded with invisible fix-sized `div` that prevents any unnecessary clicsks outside of `popover`
 	 */
 	useEffect(() => {
+		if (!isShow) return;
 		function backgroundPushHandle(ev: PointerEvent) {
 			const target = ev.target as HTMLElement;
 			if (!popoverRef.current) return;
@@ -118,6 +142,7 @@ const usePopover = (
 	 * this effect calculates and imperatively sets the position of popover. It is important to use pure JS and imperative model here so we are not provoking rerenders before the correct position of elements are set. In any other case `IntersectionObserver` will generate unpleasant flickers
 	 */
 	useEffect(() => {
+		if (!isShow) return;
 		const popover = popoverRef.current;
 		const trigger = triggerRef.current;
 		if (!popover || !trigger) return;
@@ -130,7 +155,7 @@ const usePopover = (
 		const callback = function (
 			entries: IntersectionObserverEntry[]
 		) {
-			const entry = entries[0];
+			const entry = entries[0] as IntersectionObserverEntry;
 			const entryHeight = entry.intersectionRect.height;
 			const entryWidth = entry.intersectionRect.width;
 			const target = entry.target as HTMLElement;
@@ -144,21 +169,21 @@ const usePopover = (
 				}px`;
 			} else {
 				if (!entry.isIntersecting) {
-					if (entryHeight < popover.offsetHeight) {
+					if (entryHeight < popover.clientHeight) {
 						target.style.bottom = `${
-							trigger.offsetHeight + offset
+							trigger.clientHeight + offset
 						}px`;
 					}
 					if (entryWidth < popover.offsetWidth) {
 						target.style[side] = `-${
-							popover.offsetWidth - entryWidth + offset
+							popover.clientWidth - entryWidth + offset
 						}px`;
 					}
 				}
 			}
 			setTimeout(() => {
 				target.style.opacity = "100%";
-			}, 20);
+			}, 0);
 		};
 		const observer = new IntersectionObserver(callback, {
 			threshold: 1,
@@ -168,6 +193,7 @@ const usePopover = (
 	}, [isShow]);
 
 	return {
+		popoverWrapPropList,
 		popoverPropList,
 		triggerPropList,
 		triggerRef,

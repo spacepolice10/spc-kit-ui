@@ -1,5 +1,5 @@
 import { ButtonType } from "../../../button/button/components/Button";
-import { eventsReturnType } from "../../../interactions/util/formEventsArgs";
+import { eventsReturnType } from "../../../interactions/util/formMouseEventArgs";
 import { Button } from "../../../main";
 import { useRadio, useRadioType } from "./useRadio";
 

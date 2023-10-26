@@ -1,14 +1,11 @@
-import { useState } from "react";
-import { RadioGroup } from "../components/RadioGroup";
-import { Radio } from "../components/Radio";
 import {
 	Check,
 	CreditCard,
-	Dress,
 	Money,
-	Sneaker,
-	SneakerMove,
 } from "@phosphor-icons/react";
+import { useState } from "react";
+import { Radio } from "../components/Radio";
+import { RadioGroup } from "../components/RadioGroup";
 
 export default function RadioDemo() {
 	const sizes = [
@@ -31,9 +28,9 @@ export default function RadioDemo() {
 	const [chosenColor, setChosenColor] = useState("black");
 	const [chosenPayment, setChosenPayment] = useState("card");
 	return (
-		<div>
-			<div className="flex gap-2 border">
-				<div>
+		<div className="w-full flex justify-between">
+			<div className="flex flex-col md:flex-row gap-2 justify-between w-full border">
+				<div className="order-2 md:order-1">
 					<div className="p-2 rounded-md">
 						<p className="mb-2">What size?</p>
 						<RadioGroup
@@ -139,15 +136,15 @@ export default function RadioDemo() {
 						</RadioGroup>
 					</div>
 				</div>
-				<div className="w-full relative h-full">
-					<div className="border-white overflow-hidden">
+				<div className="mx-auto w-40 order-1 pt-2 relative h-full">
+					<div className="border-white h-[208px] overflow-hidden">
 						<img
 							src="/pullover.png"
 							alt="Photo of `a sneaker` by Erik Mclean"
-							className="object-cover p-8"
+							className="w-40 h-52 object-cover "
 						/>
 					</div>
-					<p className="text-xs absolute -bottom-2 px-2 text-right">
+					<p className="text-xs mt-4 px-2 text-right">
 						Photo by{" "}
 						<a
 							className="text-prim hover:underline"

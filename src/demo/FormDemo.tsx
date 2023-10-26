@@ -3,16 +3,17 @@ import {
 	Checks,
 	RadioButton,
 	Sliders,
-	Textbox,
 	ToggleLeft,
 } from "@phosphor-icons/react";
-import Demo from "./Demo";
-import SliderDemo from "../../lib/form/slider/test/SliderDemo";
-import RadioDemo from "../../lib/form/radio_group/test/RadioDemo";
-import CheckboxDemo from "../../lib/form/checkbox/test/CheckboxDemo";
-import TextformDemo from "../../lib/form/textform/test/TextformDemo";
-import SwitchDemo from "../../lib/form/switch/test/SwitchDemo";
 import CheckboxCollectionDemo from "../../lib/form/checkbox/test/CheckboxCollectionDemo";
+import CheckboxDemo from "../../lib/form/checkbox/test/CheckboxDemo";
+import RadioDemo from "../../lib/form/radio_group/test/RadioDemo";
+import SearchformDemo from "../../lib/form/searchform/test/SearchformDemo";
+import SelectDemo from "../../lib/form/select/test/SelectDemo";
+import SliderDemo from "../../lib/form/slider/test/SliderDemo";
+import SwitchDemo from "../../lib/form/switch/test/SwitchDemo";
+import TextformDemo from "../../lib/form/textform/test/TextformDemo";
+import Demo from "./Demo";
 
 export default function FormDemo() {
 	return (
@@ -64,15 +65,11 @@ export default function FormDemo() {
 						<CheckboxCollectionDemo />
 					</div>
 				</Demo>
-				<Demo
-					name="useTextform, Textform"
-					desc="Checkboxes allow user to select multiple options from the list. They might appear in food delivery applications in registrations forms, etc.."
-					Icon={Textbox}
-				>
-					<div className="flex gap-2">
-						<TextformDemo />
-					</div>
-				</Demo>
+				<TextformDemo />
+			</div>
+			<div className="grid sm:grid-cols-2 gap-2">
+				<SelectDemo />
+				<SearchformDemo />
 			</div>
 		</section>
 	);

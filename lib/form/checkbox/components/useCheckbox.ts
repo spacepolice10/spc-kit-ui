@@ -1,8 +1,8 @@
-import { useCheckboxCollectionCtxt } from "./useCheckboxCollection";
 import {
 	useToggleButton,
 	useToggleButtonType,
 } from "../../../button/toggle_button/components/useToggleButton";
+import { useCheckboxCollectionCtxt } from "./useCheckboxCollection";
 
 export type useCheckboxType = useToggleButtonType & {
 	id: string;
@@ -25,14 +25,14 @@ const useCheckbox = (propList: useCheckboxType) => {
 		(item) => item?.id == id
 	);
 
-	const { buttonPropList, ...rest } = useToggleButton({
+	const { toggleButtonPropList, ...rest } = useToggleButton({
 		hoverTitle: propList.hoverTitle,
 		isToggle: activeCheckbox?.isToggle,
 		onChange: toggleCheckbox,
 	});
 	return {
+		checkboxPropList: toggleButtonPropList,
 		...rest,
-		checkboxPropList: buttonPropList,
 	};
 };
 

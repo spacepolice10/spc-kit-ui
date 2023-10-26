@@ -1,14 +1,34 @@
-import { FormEvent, useEffect, useMemo, useRef } from "react";
-import { useHover } from "../../../interactions/hover/components/useHover.ts";
-import { useFocus } from "../../../interactions/focus/components/useFocus.ts";
+import { RefObject, useEffect, useMemo, useRef } from "react";
+import {
+	focusPropListType,
+	useFocus,
+} from "../../../interactions/focus/components/useFocus.ts";
+import {
+	hoverPropListType,
+	useHover,
+} from "../../../interactions/hover/components/useHover.ts";
 
+/**
+ * @param value text data passed to textform (it is usually controlled via `useRef` or `useState` in parent element)
+ * @param label special text data that describes textform's purpose
+ * @param name HTML name property (usually necessary when working with native HTML forms)
+ * @regexp regexp pattern that is converted into string inside `useTextform` hook. It change pseudo-class `:valid` using `pattern` property and also provides return property called `isValid` if you wish to validate forms using regexp on submit.
+ * @param placeholdingText native HTML placeholder
+ * @param isFocusTrapsAfterMount boolean property that defaults to `false` and determines wheter the textform should be focused right after it is rendered
+ * @param onInput callback that fires every time user writes anything inside textform. Instead of `event` it accepts string as an argument so it is possible to pass `useState` setter as a prop without additional target and value handling
+ * @param onPaste thin wrapper around basic `onPaste` event that scrapes clipboard's text and file-list, so you can use them immediately
+ * @param onFocus fires when user focuses on textform
+ * @param onFocusLoose fires when user looses focus on textform
+ * @param onHover fires when user hovers on textform
+ * @param onFocusLoose fires when user looses hover on textform
+ */
 export type useTextformType = {
 	value?: string;
-	defVal?: string;
+	label: string;
+	name?: string;
 	regexp?: string;
 	placeholdingText?: string;
 	isFocusTrapsAfterMount?: boolean;
-	isntSemanticTextformElem?: boolean;
 	onInput?: (args: string) => void;
 	onPaste?: (args: {
 		value: string;
@@ -20,14 +40,32 @@ export type useTextformType = {
 	onHoverLoose?: () => void;
 };
 
-const useTextform = (propList: useTextformType) => {
+export type textformPropListType = {
+	ref: RefObject<HTMLInputElement>;
+	pattern: string;
+	placeholder: string;
+	onInput: (ev: React.FormEvent) => void;
+	onPaste: (ev: React.ClipboardEvent) => void;
+} & focusPropListType &
+	hoverPropListType;
+
+export type useTextformReturnType = {
+	textformPropList: textformPropListType;
+	isValid: boolean;
+	isFocused: boolean;
+	isHovered: boolean;
+};
+
+const useTextform = (
+	propList: useTextformType
+): useTextformReturnType => {
 	const {
 		value,
-		defVal,
-		regexp,
+		name,
+		label,
 		placeholdingText,
+		regexp,
 		isFocusTrapsAfterMount,
-		isntSemanticTextformElem,
 		onInput,
 		onPaste,
 		onHover,
@@ -35,70 +73,53 @@ const useTextform = (propList: useTextformType) => {
 		onFocusLoose,
 	} = propList;
 
-	const uncontrolledText = useRef("");
-	const inputRef = useRef(null);
-
-	function changeText(ev: React.FormEvent) {
+	function input(ev: React.FormEvent) {
 		const target = ev.currentTarget as HTMLInputElement;
 		const val = target?.value;
-		uncontrolledText.current = val;
 		onInput?.(val);
 	}
 
-	function handlePasting(ev: React.ClipboardEvent) {
+	function paste(ev: React.ClipboardEvent) {
 		const value = ev.clipboardData?.getData("text") ?? "";
 		const files = ev.clipboardData?.files;
-		uncontrolledText.current = value;
 		onPaste?.({ value, files });
 	}
-
-	useEffect(() => {
-		if (!defVal) return;
-		uncontrolledText.current = defVal;
-		const form = inputRef.current;
-		if (!form) return;
-		form.value = defVal;
-		onInput?.(defVal);
-	}, [defVal]);
-	useEffect(() => {
-		if (!isFocusTrapsAfterMount) return;
-		inputRef.current?.focus({ preventScroll: true });
-	}, [isFocusTrapsAfterMount]);
 
 	const { hoverPropList, isHovered } = useHover({
 		onHover,
 	});
 	const { focusPropList, isFocused } = useFocus({
-		onFocus: () =>
-			onFocus?.(value ?? uncontrolledText.current),
-		onFocusLoose: () =>
-			onFocusLoose?.(value ?? uncontrolledText.current),
+		onFocus: () => onFocus?.(value),
+		onFocusLoose: () => onFocusLoose?.(value),
 	});
+
+	const inputRef = useRef(null);
+	useEffect(() => {
+		if (!isFocusTrapsAfterMount) return;
+		inputRef.current?.focus({ preventScroll: true });
+	}, [isFocusTrapsAfterMount]);
 
 	const isValid = useMemo(() => {
 		if (!regexp || !value) return;
 		const rg = new RegExp(regexp);
-		const val = value ?? uncontrolledText.current;
+		const val = value;
 		return rg.test(val);
-	}, [value, uncontrolledText]);
+	}, [value]);
 
 	const textformPropList = {
+		value,
+		name,
 		ref: inputRef,
-		autoComplete: "off",
-		type: "text",
+		"aria-labelledby": label,
 		pattern: regexp,
 		placeholder: placeholdingText,
-		...(isntSemanticTextformElem && {
-			contenteditable: true,
-		}),
-		onInput: changeText,
-		onPaste: handlePasting,
+		onInput: input,
+		onPaste: paste,
 		...focusPropList,
 		...hoverPropList,
 	};
 
 	return {
-		value: value ?? uncontrolledText.current,
 		textformPropList,
 		isHovered,
 		isFocused,

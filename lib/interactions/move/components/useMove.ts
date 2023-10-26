@@ -6,8 +6,8 @@ import {
 	useRef,
 	useState,
 } from "react";
-import clamp from "../../util/clamp";
 import { useKeyboard } from "../../keyboard/components/useKeyboard";
+import clamp from "../../util/clamp";
 
 /**
  * @param onMoveStarts — callback to fire on pointing device down
@@ -18,6 +18,7 @@ export type useMoveType = {
 	onMoveStarts?: () => void;
 	onMove?: (coords: coordsType) => void;
 	onMoveFinishes?: () => void;
+	isClamping?: boolean;
 };
 
 type coordsType = { x: number; y: number };
@@ -100,6 +101,8 @@ const useMove = (props: useMoveType): useMoveReturnType => {
 
 	// moving element with cursor or finger
 	function moveWithCursor(ev: PointerEvent) {
+		ev.preventDefault();
+		ev.stopPropagation();
 		const coords = detectCursorCoords(ev);
 		coords && move(coords);
 	}
