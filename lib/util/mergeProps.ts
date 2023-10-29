@@ -8,44 +8,72 @@ type mergePropsType<T> = {
 	ref?: MutableRefObject<T>;
 } & HTMLAttributes<T>;
 
-const mergeProps = <T>(propList: mergePropsType<T>[]) => {
+const mergeProps = <T>(
+	propList: mergePropsType<T>[]
+): mergePropsType<T> => {
 	let mergedStyles = {} as { style: CSSProperties };
-	let mergedRefs = {} as { ref: (elem: T) => void };
-	let mergedCallback = {};
 	let mergedPropList = {};
 	for (const prop of propList) {
 		for (const item in prop) {
+			if (typeof item != "undefined") {
+				Object.assign(mergedPropList, { [item]: prop[item] });
+			}
 			if (item == "style") {
 				Object.assign(mergedStyles, { [item]: prop[item] });
 			}
-			if (item == "ref") {
-				const r = prop[item] as
-					| MutableRefObject<T>
-					| ((elem: T) => void);
-				const callback = (elem: T) => {
+		}
+	}
+
+	function generateMergedCallback() {
+		let callbackArgs = {};
+		let mergedCallback = {};
+		propList.forEach((prop) => {
+			Object.keys(prop).map((item) => {
+				if (item?.[0] == "o" && item?.[1] == "n") {
+					if (callbackArgs[item]) {
+						Object.assign(callbackArgs, {
+							[item]: [...callbackArgs[item], prop[item]],
+						});
+					} else {
+						Object.assign(callbackArgs, {
+							[item]: [prop[item]],
+						});
+					}
+				}
+			});
+			Object.keys(callbackArgs).forEach((item) => {
+				Object.assign(mergedCallback, {
+					[item]: (ev: Event) => {
+						return callbackArgs[item]?.map(
+							(callback: (ev: Event) => void) => callback(ev)
+						);
+					},
+				});
+			});
+		});
+		return mergedCallback;
+	}
+	function generateMergedRefs(): MutableRefObject<T> {
+		return {
+			ref: (elem: T) =>
+				propList.forEach((prop) => {
+					if (!prop.ref) return;
+					const r = prop.ref as
+						| MutableRefObject<T>
+						| ((elem: T) => void);
 					if (typeof r == "function") {
 						r(elem);
 					} else if (r != null) {
 						r.current = elem;
 					}
-				};
-				Object.assign(mergedRefs, callback);
-			}
-			if (item[0] == "o" && item[1] == "n") {
-				Object.assign(mergedCallback, {
-					[item]: prop[item],
-				});
-			}
-			if (typeof item != "undefined") {
-				Object.assign(mergedPropList, { [item]: prop[item] });
-			}
-		}
+				}),
+		} as unknown as MutableRefObject<T>;
 	}
 	return {
-		...mergedStyles,
-		...mergedRefs,
-		...mergedCallback,
 		...mergedPropList,
+		...mergedStyles,
+		...generateMergedCallback(),
+		...generateMergedRefs(),
 	};
 };
 

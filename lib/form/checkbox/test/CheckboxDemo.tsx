@@ -1,7 +1,5 @@
-import { useState } from "react";
-import { Checkbox } from "../components/Checkbox";
-import { CheckboxCollection } from "../components/CheckboxCollection";
 import { Check } from "@phosphor-icons/react";
+import { Checkbox } from "../components/Checkbox";
 
 export default function CheckboxDemo() {
 	return (
@@ -14,7 +12,8 @@ export default function CheckboxDemo() {
 			</p>
 			<Checkbox
 				id="0"
-				hoverTitle="Checkbox"
+				label="Checkbox imitating cookie acception"
+				title="Checkbox"
 				className="flex gap-2 items-center hover:bg-pastelGray/20 w-fit rounded-md p-1 mt-3"
 			>
 				{({ isToggle }) => (

@@ -1,11 +1,14 @@
 import { LegacyRef, forwardRef } from "react";
-import { ButtonType } from "../../button/components/Button";
+import { elementPropListTypeComponents } from "../../../util/useElement";
+import { useButtonType } from "../../button";
 import {
 	useToggleButton,
 	useToggleButtonType,
 } from "./useToggleButton";
 
-type ToggleButtonType = useToggleButtonType & ButtonType;
+type ToggleButtonType = useToggleButtonType &
+	useButtonType &
+	elementPropListTypeComponents;
 
 const ToggleButton = forwardRef(function ToggleButton(
 	propList: ToggleButtonType,
@@ -16,13 +19,13 @@ const ToggleButton = forwardRef(function ToggleButton(
 		useToggleButton(restPropList);
 	return (
 		<button
+			{...toggleButtonPropList}
+			ref={ref}
 			className={
 				typeof className != "function"
 					? className
 					: className?.(restButtonPropList)
 			}
-			{...toggleButtonPropList}
-			ref={ref}
 		>
 			{typeof children != "function"
 				? children

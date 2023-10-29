@@ -48,6 +48,7 @@ export default function OverlaysDemo() {
 			</Button>
 			<Overlay
 				focusingElemOnShow={innerBtnRef}
+				focusingElemOnHide={outerBtnRef}
 				hideOnBackdropPush={true}
 				isScrollBlocking={true}
 				onHide={() => setIsOpen(false)}

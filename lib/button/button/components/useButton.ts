@@ -14,10 +14,10 @@ import {
 	usePushType,
 } from "../../../interactions/push/components/usePush.ts";
 import {
-	elemPropListType,
-	useElem,
+	elementPropListType,
 	useElemType,
-} from "../../../util/useSubmitElem.ts";
+	useElement,
+} from "../../../util/useElement.ts";
 
 export type useButtonType = {
 	title: string;
@@ -27,7 +27,7 @@ export type useButtonType = {
 	useHoverType &
 	useFocusType;
 
-type buttonPropListType = elemPropListType &
+type buttonPropListType = elementPropListType &
 	pushPropListType &
 	hoverPropListType &
 	focusPropListType;
@@ -44,7 +44,7 @@ const useButton = (
 	propList: useButtonType
 ): useButtonReturnType => {
 	const { type = "button", title } = propList;
-	const { elemPropList, isDisabled } = useElem(propList);
+	const { elemPropList, isDisabled } = useElement(propList);
 	const { isPushed, pushPropList } = usePush(propList);
 	const { isHovered, hoverPropList } = useHover({
 		...propList,

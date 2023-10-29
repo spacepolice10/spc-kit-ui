@@ -1,38 +1,26 @@
-import { LegacyRef, ReactNode, forwardRef } from "react";
+import { LegacyRef, forwardRef } from "react";
+import { elementPropListTypeComponents } from "../../../util/useElement.js";
 import { useButton, useButtonType } from "./useButton.js";
 
-export type ButtonType = useButtonType & {
-	className?: ((args: buttonChildrenType) => string) | string;
-	children:
-		| ((args: buttonChildrenType) => ReactNode)
-		| ReactNode;
-};
-
-export type buttonChildrenType = {
-	isHovered?: boolean;
-	isFocused?: boolean;
-	isPushed?: boolean;
-	isDisabled?: boolean;
-	isShow?: boolean;
-	isToggle?: boolean;
-};
+export type ButtonType = useButtonType &
+	elementPropListTypeComponents;
 
 const Button = forwardRef(function Button(
-	props: ButtonType,
+	propList: ButtonType,
 	ref: LegacyRef<HTMLButtonElement>
 ) {
-	const { children, className, ...restPropList } = props;
+	const { children, className, ...restPropList } = propList;
 	const { buttonPropList, ...restButtonPropList } =
 		useButton(restPropList);
 	return (
 		<button
+			ref={ref}
+			{...buttonPropList}
 			className={
 				typeof className != "function"
 					? className
 					: className?.(restButtonPropList)
 			}
-			{...buttonPropList}
-			ref={ref}
 		>
 			{typeof children != "function"
 				? children

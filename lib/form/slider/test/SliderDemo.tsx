@@ -107,7 +107,9 @@ export default function SliderDemo() {
 					</div>
 					<div className="w-full justify-end">
 						<Button
-							hoverTitle="Reset"
+							role="button"
+							label="Reset set up properties"
+							title="Reset"
 							onPush={() => {
 								setContrast(100);
 								setBrightness(100);

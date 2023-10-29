@@ -1,5 +1,6 @@
 import {
 	CSSProperties,
+	MutableRefObject,
 	RefObject,
 	useEffect,
 	useRef,
@@ -38,8 +39,8 @@ export type popoverWrapPropListType = {
 	style: CSSProperties;
 };
 export type popoverPropListType = {
-	onKeyDown: (ev: React.KeyboardEvent) => void;
-	ref: (elem: HTMLDivElement) => void;
+	onKeyDown?: (ev: React.KeyboardEvent) => void;
+	ref?: MutableRefObject<HTMLDivElement>;
 	tabIndex?: number;
 	style?: CSSProperties;
 };
@@ -92,13 +93,12 @@ const usePopover = (
 			margin: "auto",
 		} as CSSProperties,
 	};
-	const popoverPropList = {
-		...mergeProps<HTMLDivElement>([
-			focusScopePropList,
-			keyboardPropList,
-			{ ref: popoverRef },
-		]),
-	};
+	const popoverPropList = mergeProps<HTMLDivElement>([
+		focusScopePropList,
+		keyboardPropList,
+		{ ref: popoverRef },
+	]);
+
 	const triggerPropList = {
 		"aria-describedby": "Popover",
 		"aria-haspopup": true,
@@ -124,6 +124,7 @@ const usePopover = (
 		if (!isShow) return;
 		function backgroundPushHandle(ev: PointerEvent) {
 			const target = ev.target as HTMLElement;
+
 			if (!popoverRef.current) return;
 			if (popoverRef.current?.contains(target)) return;
 			hide();
@@ -145,6 +146,7 @@ const usePopover = (
 		if (!isShow) return;
 		const popover = popoverRef.current;
 		const trigger = triggerRef.current;
+
 		if (!popover || !trigger) return;
 		popover.style[side] = `${offset}px`;
 		popover.style.position = isOverflow

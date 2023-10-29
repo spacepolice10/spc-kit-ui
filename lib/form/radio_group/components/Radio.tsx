@@ -1,30 +1,31 @@
-import { ButtonType } from "../../../button/button/components/Button";
-import { eventsReturnType } from "../../../interactions/util/formMouseEventArgs";
-import { Button } from "../../../main";
+import { useButtonType } from "../../../button/button";
+
+import { elementPropListTypeComponents } from "../../../util/useElement";
 import { useRadio, useRadioType } from "./useRadio";
 
-type RadioType = useRadioType & ButtonType;
+type RadioType = useRadioType &
+	useButtonType &
+	elementPropListTypeComponents;
 const Radio = (propList: RadioType) => {
 	const { children, className, ...restPropList } = propList;
 	const { radioPropList, ...restRadioPropList } =
 		useRadio(restPropList);
 	return (
-		<Button
-			{...propList}
+		<button
+			{...radioPropList}
 			className={
 				typeof className != "function"
 					? className
 					: className?.(restRadioPropList)
 			}
-			{...radioPropList}
-			onPush={(returnEventsData: eventsReturnType) =>
-				radioPropList.onClick(returnEventsData.ev)
+			onClick={(ev: React.MouseEvent | React.KeyboardEvent) =>
+				radioPropList.onClick(ev)
 			}
 		>
 			{typeof children != "function"
 				? children
 				: children?.(restRadioPropList)}
-		</Button>
+		</button>
 	);
 };
 

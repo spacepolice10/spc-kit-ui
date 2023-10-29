@@ -1,11 +1,11 @@
-import {
-	Button,
-	ButtonType,
-} from "../../../button/button/components/Button";
-import { eventsReturnType } from "../../../interactions/util/formMouseEventArgs";
+import { useButtonType } from "../../../button/button";
+import { Button } from "../../../button/button/components/Button";
+import { elementPropListTypeComponents } from "../../../util/useElement";
 import { useCheckbox, useCheckboxType } from "./useCheckbox";
 
-type CheckboxType = useCheckboxType & ButtonType;
+type CheckboxType = useCheckboxType &
+	useButtonType &
+	elementPropListTypeComponents;
 
 const Checkbox = (propList: CheckboxType) => {
 	const { children, className, ...restPropList } = propList;
@@ -21,9 +21,9 @@ const Checkbox = (propList: CheckboxType) => {
 						? className
 						: className?.(restCheckboxPropList)
 				}
-				onPush={(returnEventsData: eventsReturnType) =>
-					checkboxPropList.onClick(returnEventsData.ev)
-				}
+				onPush={(
+					ev: React.MouseEvent | React.KeyboardEvent
+				) => checkboxPropList.onClick(ev)}
 			>
 				{typeof children != "function"
 					? children

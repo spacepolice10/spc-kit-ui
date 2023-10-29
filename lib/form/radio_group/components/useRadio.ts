@@ -7,6 +7,7 @@ import { useRadioGroupCtxt } from "./useRadioGroup";
 export type useRadioType = useToggleButtonType & {
 	id: string;
 };
+export type useRadioReturnType = {};
 
 const useRadio = (propList: useRadioType) => {
 	const { items, onChange, selectedId, isSelectOnFocusing } =
@@ -17,12 +18,13 @@ const useRadio = (propList: useRadioType) => {
 		id && onChange?.(id);
 	}
 	const { toggleButtonPropList, ...rest } = useToggleButton({
-		hoverTitle: propList.hoverTitle,
+		role: "checkbox",
 		isToggle: selectedId == propList?.id,
 		onChange: clickRadio,
 		...(isSelectOnFocusing && {
 			onFocus: clickRadio,
 		}),
+		...propList,
 	});
 
 	return {

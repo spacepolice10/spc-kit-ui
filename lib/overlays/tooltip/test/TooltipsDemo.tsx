@@ -15,9 +15,12 @@ export default function TooltipsDemo() {
 			<Tooltip delay={400}>
 				<TooltipTrigger className="button !p-0 tertiary !w-auto">
 					<Button
-						hoverTitle="Tooltip trigger"
+						role="button"
+						label="Button to use with tootip demo"
+						title="Tooltip trigger"
 						className="button !p-0 tertiary !w-auto"
-						onPush={() => alert("hey")}>
+						onPush={() => alert("hey")}
+					>
 						<Info size={28} className="text-textPrim" />
 					</Button>
 				</TooltipTrigger>
@@ -28,9 +31,12 @@ export default function TooltipsDemo() {
 			<Tooltip>
 				<TooltipTrigger className="button !p-0 tertiary !w-auto">
 					<Button
-						hoverTitle="tooltipTrigger"
+						role="button"
+						label="Button to use with tootip demo"
+						title="tooltipTrigger"
 						className="button !p-0 tertiary !w-auto"
-						onPush={() => alert("hey")}>
+						onPush={() => alert("hey")}
+					>
 						<LockLaminated
 							size={28}
 							className="text-textPrim"
@@ -44,9 +50,12 @@ export default function TooltipsDemo() {
 			<Tooltip>
 				<TooltipTrigger className="button !p-0 tertiary !w-auto">
 					<Button
-						hoverTitle="Tooltip Trigger"
+						role="button"
+						label="Button to use with tootip demo"
+						title="Tooltip Trigger"
 						className="button !p-0 tertiary !w-auto"
-						onPush={() => alert("hey")}>
+						onPush={() => alert("hey")}
+					>
 						<Eye size={28} className="text-textPrim" />
 					</Button>
 				</TooltipTrigger>

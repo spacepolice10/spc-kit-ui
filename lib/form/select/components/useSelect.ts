@@ -14,7 +14,7 @@ const useSelect = <
 	const selectedItemList = items.filter(
 		(item) => item.isSelected
 	);
-	function select(id: string) {
+	const select = (id: string) => {
 		onChange?.(
 			items?.map((item) =>
 				item?.id == id
@@ -22,12 +22,9 @@ const useSelect = <
 					: item
 			)
 		);
-	}
-	function detectIfSelected(id: string) {
-		return !!selectedItemList.find((item) => item.id == id)
-			? true
-			: false;
-	}
+	};
+	const detectIfSelected = (id: string) =>
+		!!selectedItemList.find((item) => item.id == id);
 
 	const { collectionPropList } = useCollection({
 		items,

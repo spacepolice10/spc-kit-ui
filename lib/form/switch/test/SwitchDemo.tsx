@@ -5,7 +5,9 @@ export default function SwitchDemo() {
 		<>
 			<div className="flex gap-4 items-center bg-pastelGray/20 rounded-md w-full p-4">
 				<Switch
-					hoverTitle="Switcher"
+					role="checkbox"
+					label="Switch demo"
+					title="Switcher"
 					className={({ isToggle }) =>
 						`${
 							isToggle && "bg-prim"
@@ -20,7 +22,9 @@ export default function SwitchDemo() {
 			</div>
 			<div className="flex gap-4 items-center bg-pastelGray/20 rounded-md w-full p-4">
 				<Switch
-					hoverTitle="Switcher"
+					role="checkbox"
+					label="Switch demo"
+					title="Switcher"
 					className={({ isToggle }) =>
 						`${
 							isToggle && "bg-prim"

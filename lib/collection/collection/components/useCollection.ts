@@ -7,6 +7,7 @@ import {
 	keyboardPropListType,
 	useKeyboard,
 } from "../../../interactions/keyboard/components/useKeyboard";
+import { mergeProps } from "../../../util/mergeProps";
 
 /**
  * Collection hook helps to control one-directional lists of data. It serves as a tool that provides ergonomic keyboard control with keyboard arrows and makes it possuble to select items from list without focusing on it
@@ -89,10 +90,10 @@ const useCollection = <T extends { id: string }>(
 					ArrowDown: setSelectedIdNext,
 			  }),
 	});
-	const collectionPropList = {
-		...keyboardPropList,
-		...focusScopePropList,
-	};
+	const collectionPropList = mergeProps([
+		keyboardPropList,
+		focusScopePropList,
+	]) as collectionPropListType;
 
 	return {
 		collectionPropList,

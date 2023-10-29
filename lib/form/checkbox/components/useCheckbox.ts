@@ -26,9 +26,10 @@ const useCheckbox = (propList: useCheckboxType) => {
 	);
 
 	const { toggleButtonPropList, ...rest } = useToggleButton({
-		hoverTitle: propList.hoverTitle,
+		role: "checkbox",
 		isToggle: activeCheckbox?.isToggle,
 		onChange: toggleCheckbox,
+		...propList,
 	});
 	return {
 		checkboxPropList: toggleButtonPropList,

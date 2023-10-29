@@ -9,7 +9,7 @@ const SelectMenu = (propList) => {
 	} = useSelectMenu({
 		items,
 	});
-	console.log(selectMenuPropList);
+
 	return (
 		<div className="relative">
 			<button {...selectMenuButtonPropList}>Test</button>

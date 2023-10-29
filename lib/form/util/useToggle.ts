@@ -23,7 +23,6 @@ const useToggle = (
 		onChange?.(!isToggle);
 		setControlledIsToggle((state) => !state);
 	}
-
 	return { isToggle: propList?.isToggle ?? isToggle, toggle };
 };
 

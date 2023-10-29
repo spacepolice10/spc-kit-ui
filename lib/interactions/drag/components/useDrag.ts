@@ -7,9 +7,9 @@ import { CSSProperties } from "react";
  * @todo make it possible to make use of additional information inside `dataTransfer` (files or some undetermined data based on event)
  * @returns
  */
-export type useDragType = {
+export type useDragType<T> = {
 	onDragStarts: (ev: DragEvent) => void;
-	dataTransfer: string;
+	dataTransfer: T;
 };
 
 type dragPropListType = {
@@ -22,13 +22,17 @@ type useDragReturnType = {
 	dragPropList: dragPropListType;
 };
 
-const useDrag = (props: useDragType): useDragReturnType => {
+const useDrag = <T extends { textContent: string }>(
+	props: useDragType<T>
+): useDragReturnType => {
 	const { onDragStarts, dataTransfer } = props ?? {};
 	const handleDragStarts = (ev: DragEvent) => {
 		const target = ev.currentTarget as HTMLElement;
 		ev.dataTransfer.setData(
 			"dataTransfer",
-			dataTransfer ?? target?.textContent ?? ""
+			JSON.stringify(dataTransfer) ??
+			target?.textContent ??
+			""
 		);
 		onDragStarts?.(ev);
 	};

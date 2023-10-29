@@ -1,7 +1,7 @@
 {
   "include": ["src", "lib"],
   "compilerOptions": {
-    "target": "ES6",
+    "target": "ESNext",
     "allowJs": true,
     "skipLibCheck": true,
     "declaration": true,

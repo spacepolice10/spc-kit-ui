@@ -91,9 +91,11 @@ const useOverlay = (
 	useEffect(() => {
 		if (!isShow) return;
 		if (focusingElemOnShow) {
-			focusingElemOnShow?.current?.focus();
+			focusingElemOnShow?.current?.focus({
+				preventScroll: true,
+			});
 		} else {
-			overlayRef.current?.focus();
+			overlayRef.current?.focus({ preventScroll: true });
 		}
 	}, [isShow]);
 	useEffect(() => {
@@ -108,10 +110,10 @@ const useOverlay = (
 	const { focusScopePropList } = useFocusScope({
 		isTabbingTrapped: true,
 	});
-	const overlayBackgroundPropList = {
-		...mergeProps<HTMLDivElement>([
-			focusScopePropList,
+	const overlayBackgroundPropList =
+		mergeProps<HTMLDivElement>([
 			keyboardPropList,
+			focusScopePropList,
 			{ ref: overlayRef },
 			{
 				onClick: (ev: React.MouseEvent) => {
@@ -119,8 +121,8 @@ const useOverlay = (
 					hideOnBackdropPush && hide();
 				},
 			},
-		]),
-	};
+		]) as unknown as overlayBackgroundPropListType;
+
 	return {
 		isShow: isShow ?? uncontrolledIsShow,
 		triggerRef,

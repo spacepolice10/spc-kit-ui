@@ -9,6 +9,7 @@ import {
 export const TooltipContext = createContext({});
 
 export type useTooltipType = usePopoverType & {
+	label?: string;
 	delay?: number;
 };
 
@@ -36,12 +37,12 @@ const useTooltip = (props: useTooltipType) => {
 		onFocusLoose: release,
 	});
 	const tooltipTriggerPropList = {
-		"aria-describedby": "Tooltip",
+		style: { width: "fit-content" },
+		"aria-describedby": props?.label,
 		role: "tooltip",
 		ref: triggerRef,
 		...hoverPropList,
 		...focusPropList,
-		style: { width: "fit-content" },
 	};
 	const tooltipPropList = {
 		...popoverPropList,

@@ -1,9 +1,12 @@
 import {
+	popoverPropListType,
+	triggerPropListType,
 	usePopover,
 	usePopoverType,
 } from "../../../overlays/popover/components/usePopover";
 import { mergeProps } from "../../../util/mergeProps";
 import {
+	collectionPropListType,
 	useCollection,
 	useCollectionType,
 } from "../../collection/components/useCollection";
@@ -11,7 +14,18 @@ import {
 export type useMenuType<T> = usePopoverType &
 	useCollectionType<T>;
 
-const useMenu = (props) => {
+export type useMenuReturnType = {
+	menuPropList?: popoverPropListType & collectionPropListType;
+	menuButtonPropList: triggerPropListType;
+	show: () => void;
+	hide: () => void;
+	isShow: boolean;
+	isInverted: boolean;
+};
+
+const useMenu = <T extends { id: string }>(
+	props: useMenuType<T>
+): useMenuReturnType => {
 	const { items } = props;
 	const {
 		isShow,
@@ -26,16 +40,15 @@ const useMenu = (props) => {
 		isInverted: props?.isInverted ?? isInverted,
 	});
 
-	const menuPropList = {
-		...mergeProps<HTMLDivElement>([
-			popoverPropList,
-			collectionPropList,
-		]),
-	};
+	const menuPropList = mergeProps<HTMLDivElement>([
+		popoverPropList,
+		collectionPropList,
+	]) as popoverPropListType & collectionPropListType;
+	const menuButtonPropList = triggerPropList;
 
 	return {
 		menuPropList,
-		triggerPropList,
+		menuButtonPropList,
 		show,
 		hide,
 		isShow,

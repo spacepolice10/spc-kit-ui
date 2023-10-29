@@ -1,25 +1,28 @@
 import {
 	Children,
+	MutableRefObject,
+	ReactElement,
+	ReactNode,
 	cloneElement,
 	createContext,
 	useContext,
 } from "react";
-import { Button } from "../../../button/button/components/Button";
-import { useMenu } from "./useMenu";
+import { useButton } from "../../../main";
+import {
+	useMenu,
+	useMenuReturnType,
+	useMenuType,
+} from "./useMenu";
 
-const MenuCtxt = createContext({});
+const MenuCtxt = createContext({} as useMenuReturnType);
 
-/**
- * @typedef MenuType
- * @type {import('./useMenu').useMenuType}
- */
-
-/**
- *
- * @param {MenuType} props
- * @returns
- */
-const Menu = (props) => {
+type MenuType<T> = useMenuType<T> & {
+	children: ReactNode[];
+	className?: string;
+};
+const Menu = <T extends { id: string }>(
+	props: MenuType<T>
+) => {
 	const { children, ...restPropList } = props;
 	const { isShow, hide, ...rest } = useMenu(restPropList);
 	const [button, ...body] = Children.toArray(children);
@@ -53,14 +56,22 @@ const Menu = (props) => {
  * @returns
  */
 function MenuButton(props) {
-	const { show, isShow, triggerRef } = useContext(MenuCtxt);
-	const ref = triggerRef;
+	const { show, isShow, menuButtonPropList } =
+		useContext(MenuCtxt);
+	const { buttonPropList } = useButton({
+		role: "button",
+		label: "button",
+		title: "menu button",
+		onPush: show,
+	});
+	const ref =
+		menuButtonPropList.ref as MutableRefObject<HTMLButtonElement>;
 	return (
-		<Button {...props} ref={ref} onPush={show}>
+		<button ref={ref} {...buttonPropList}>
 			{typeof props.children == "function"
 				? props?.children(isShow ?? false)
 				: props?.children}
-		</Button>
+		</button>
 	);
 }
 
@@ -76,14 +87,15 @@ function MenuBody(props) {
 	const { menuPropList, isInverted, hide } =
 		useContext(MenuCtxt);
 	return (
-		<div className={className} {...menuPropList}>
+		<div {...menuPropList} className={className}>
 			{[
 				isInverted
 					? Children.toArray(children).reverse()
 					: Children.toArray(children),
 			].flatMap((elemList) => {
 				return elemList.map((item) => {
-					return cloneElement(item, { hide });
+					const elem = item as ReactElement;
+					return cloneElement(elem, { hide });
 				});
 			})}
 		</div>

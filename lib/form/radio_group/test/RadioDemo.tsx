@@ -45,7 +45,9 @@ export default function RadioDemo() {
 						>
 							{sizes.map((x) => (
 								<Radio
-									hoverTitle={x.id}
+									role="checkbox"
+									label="Size picking imitation"
+									title={x.id}
 									className={({ isToggle, isHovered }) =>
 										`${
 											isToggle
@@ -74,7 +76,9 @@ export default function RadioDemo() {
 						>
 							{colors.map((x) => (
 								<Radio
-									hoverTitle={x.id}
+									role="checkbox"
+									label={x.id}
+									title={x.id}
 									className={({ isToggle, isHovered }) =>
 										`${
 											isToggle
@@ -109,7 +113,9 @@ export default function RadioDemo() {
 						>
 							{payment.map((x) => (
 								<Radio
-									hoverTitle={x.text}
+									role="checkbox"
+									label="Payment method selecting imitation"
+									title={x.text}
 									className={({ isToggle, isHovered }) =>
 										`${
 											isToggle

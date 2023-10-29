@@ -11,7 +11,9 @@ export default function PopoverDemo() {
 		<div className="flex justify-between w-full">
 			<Popover offset={10} isOverflow={false}>
 				<PopoverTrigger
-					hoverTitle="Popover trigger"
+					role="select"
+					label="Popover opener"
+					title="Popover trigger"
 					className={({ isShow }) =>
 						`button !p-0 tertiary !w-auto ${
 							isShow && "!font-bold"
@@ -46,7 +48,9 @@ export default function PopoverDemo() {
 						<li>🥙</li>
 					</ul>
 					<Button
-						hoverTitle="Button with name `Say hi`"
+						role="button"
+						label="Button inside popover demo"
+						title="Button with name `Say hi`"
 						className="button second mx-auto mt-4"
 					>
 						Say hi! 👋
@@ -55,7 +59,9 @@ export default function PopoverDemo() {
 			</Popover>
 			<Popover offset={10} isOverflow={false}>
 				<PopoverTrigger
-					hoverTitle="Popover trigger"
+					role="select"
+					label="Popover opener"
+					title="Popover trigger"
 					className={({ isShow }) =>
 						`button !p-0 tertiary !w-auto ${
 							isShow && "!font-bold"
@@ -90,7 +96,9 @@ export default function PopoverDemo() {
 						<li>🥙</li>
 					</ul>
 					<Button
-						hoverTitle="Button with name `Say hi`"
+						role="button"
+						label="Button inside popover demo"
+						title="Button with name `Say hi`"
 						className="button second mx-auto mt-4"
 					>
 						Say hi! 👋

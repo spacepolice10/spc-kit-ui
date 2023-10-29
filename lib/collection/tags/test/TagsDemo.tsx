@@ -1,28 +1,31 @@
 import { Plus, Tag, X } from "@phosphor-icons/react";
 import { ReactNode, useState } from "react";
 import Demo from "../../../../src/demo/Demo";
-import { Button } from "../../../main";
+import { Button as button, useButton } from "../../../main";
 import { Tags } from "../components/Tags";
+import { useButtonType } from "../../../button/button";
 
-function Chip({
-	children,
-	id,
-	removeTags,
-}: {
-	children: ReactNode;
-	id: string;
-	removeTags?: (id: string) => void;
-}) {
+function Chip(
+	propList: {
+		children: ReactNode;
+		id: string;
+		removeTags?: (id: string) => void;
+	} & useButtonType
+) {
+	const { children, id, removeTags, ...restPropList } =
+		propList;
+	const { buttonPropList } = useButton(propList);
 	return (
 		<div>
-			<Button
+			<button
+				{...buttonPropList}
 				className="button !rounded-md !bg-pastelGray/20 justify-between hover:!bg-pastelGray/40 !w-fit"
-				hoverTitle="Chip"
-				onPush={() => removeTags(id)}
+				title="Chip"
+				onClick={() => removeTags(id)}
 			>
 				{children}
 				<X />
-			</Button>
+			</button>
 		</div>
 	);
 }
@@ -44,7 +47,13 @@ function TagsDemoElem() {
 			>
 				{tags.length ? (
 					tags.map((item) => (
-						<Chip id={item.id} key={item.id}>
+						<Chip
+							id={item.id}
+							key={item.id}
+							title={item.id}
+							label={item.id}
+							role="tag"
+						>
 							{item.id}
 						</Chip>
 					))

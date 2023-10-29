@@ -45,7 +45,7 @@ export default function CheckboxCollectionDemo() {
 						{foodList.map((food) => (
 							<Checkbox
 								{...food}
-								hoverTitle={food.name}
+								title={food.name}
 								className="flex gap-2 items-center hover:bg-pastelGray/20 p-2 rounded-md focus:border-prim border border-transparent"
 							>
 								{({ isToggle }) => (

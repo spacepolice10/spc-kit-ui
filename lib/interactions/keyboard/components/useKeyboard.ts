@@ -21,7 +21,7 @@ const useKeyboard = (
 		keys[ev.key](ev);
 	}
 	const keyboardPropList = {
-		tabIndex: -1,
+		tabIndex: 0,
 		onKeyDown: keysHandle,
 	};
 	return { keyboardPropList };

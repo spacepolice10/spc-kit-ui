@@ -49,7 +49,7 @@ function SelectDemoElem() {
 					role="option"
 					key={item.id}
 					id={item.id}
-					className="flex gap-2 items-center justify-between border-t rounded-md hover:bg-pastelGray/20 w-full p-2 focus:!bg-prim/20"
+					className="flex gap-2 items-center justify-between border-t rounded-md hover:bg-pastelGray/20 w-full p-2 focus-visible:!bg-prim/20"
 				>
 					{(isSelected) => (
 						<>
