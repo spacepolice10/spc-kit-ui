@@ -1,16 +1,12 @@
 import { DotsThreeCircle } from "@phosphor-icons/react";
 import { Button } from "../../../main";
-import {
-	Popover,
-	PopoverContent,
-	PopoverTrigger,
-} from "../components/Popover";
+import { Popover } from "../Popover";
 
 export default function PopoverDemo() {
 	return (
 		<div className="flex justify-between w-full">
 			<Popover offset={10} isOverflow={false}>
-				<PopoverTrigger
+				<Popover.Trigger
 					role="select"
 					label="Popover opener"
 					title="Popover trigger"
@@ -32,8 +28,8 @@ export default function PopoverDemo() {
 							/>
 						</div>
 					</>
-				</PopoverTrigger>
-				<PopoverContent className="bg-white border shadow-md rounded-md w-80 md:w-96 p-2">
+				</Popover.Trigger>
+				<Popover.Content className="bg-white border shadow-md rounded-md w-80 md:w-96 p-2">
 					<h4>is it popover? yes:</h4>
 					<p className="text-textPrim font-mono text-xs">
 						This popover shows custom content that focused by
@@ -55,10 +51,10 @@ export default function PopoverDemo() {
 					>
 						Say hi! 👋
 					</Button>
-				</PopoverContent>
+				</Popover.Content>
 			</Popover>
 			<Popover offset={10} isOverflow={false}>
-				<PopoverTrigger
+				<Popover.Trigger
 					role="select"
 					label="Popover opener"
 					title="Popover trigger"
@@ -80,8 +76,8 @@ export default function PopoverDemo() {
 							/>
 						</div>
 					</>
-				</PopoverTrigger>
-				<PopoverContent className="bg-white border shadow-md rounded-md w-80 md:w-96 p-2">
+				</Popover.Trigger>
+				<Popover.Content className="bg-white border shadow-md rounded-md w-80 md:w-96 p-2">
 					<h4>is it popover? yes:</h4>
 					<p className="text-textPrim font-mono text-xs">
 						This popover shows custom content that focused by
@@ -103,7 +99,7 @@ export default function PopoverDemo() {
 					>
 						Say hi! 👋
 					</Button>
-				</PopoverContent>
+				</Popover.Content>
 			</Popover>
 		</div>
 	);

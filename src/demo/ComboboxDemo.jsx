@@ -1,5 +1,6 @@
 import { ListMagnifyingGlass } from "@phosphor-icons/react";
 import SearchCombobobxDemo from "../../lib/combobox/search_combobox/test/SearchComboboxDemo";
+import TagsComboboxDemo from "../../lib/combobox/tags_combobox/test/TagsComboboxDemo";
 import Demo from "./Demo";
 
 export default function ComboboxDemo() {
@@ -14,6 +15,7 @@ export default function ComboboxDemo() {
 				>
 					<SearchCombobobxDemo />
 				</Demo>
+				<TagsComboboxDemo />
 			</div>
 		</section>
 	);

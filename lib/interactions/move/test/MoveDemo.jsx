@@ -1,4 +1,4 @@
-import { useMove } from "../components/useMove";
+import { useMove } from "../useMove";
 
 export default function MoveDemo() {
 	const { coords, movePropList } = useMove();
@@ -14,7 +14,8 @@ export default function MoveDemo() {
 					style={{
 						left: coords.x ?? 0,
 						top: coords.y ?? 0,
-					}}></button>
+					}}
+				></button>
 			</div>
 		</div>
 	);

@@ -1,23 +1,15 @@
 import { useState } from "react";
 
-/**
- *
- * @param {object} props
- * @param {(dataTransfer: string) => void} props.onDragOver
- * @param {(dataTransfer: string) => void} props.onDrop
- * @todo make it possible to make use of additional information inside `dataTransfer` (files or some undetermined data based on event)
- */
-
 export type useDropType = {
 	onDragOver: (dataTransfer: string) => void;
 	onDrop: (dataTransfer: string) => void;
 };
 
 type dropPropListType = {
-	onDragOver: (ev: DragEvent) => void;
-	onDragLeave: (ev: DragEvent) => void;
-	onDragEnd: (ev: DragEvent) => void;
-	onDrop: (ev: DragEvent) => void;
+	onDragOver: (ev: React.DragEvent) => void;
+	onDragLeave: (ev: React.DragEvent) => void;
+	onDragEnd: (ev: React.DragEvent) => void;
+	onDrop: (ev: React.DragEvent) => void;
 };
 
 type useDropReturnType = {
@@ -29,21 +21,21 @@ const useDrop = (props: useDropType): useDropReturnType => {
 	const { onDragOver, onDrop } = props ?? {};
 	const [isDragOver, setIsDragOver] = useState(false);
 
-	const handleDragOver = (ev) => {
+	const handleDragOver = (ev: React.DragEvent) => {
 		ev.preventDefault();
 		setIsDragOver(true);
 		const data = ev.dataTransfer.getData("dataTransfer");
 		onDragOver?.(data);
 	};
-	const handleDragLeave = (ev) => {
+	const handleDragLeave = (ev: React.DragEvent) => {
 		ev.preventDefault();
 		setIsDragOver(false);
 	};
-	const handleDragEnd = (ev) => {
+	const handleDragEnd = (ev: React.DragEvent) => {
 		ev.preventDefault();
 		setIsDragOver(false);
 	};
-	const handleDrop = (ev) => {
+	const handleDrop = (ev: React.DragEvent) => {
 		ev.preventDefault();
 		const data = ev.dataTransfer.getData("dataTransfer");
 		setIsDragOver(false);

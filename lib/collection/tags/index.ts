@@ -1,2 +1,2 @@
-export { Tags } from "./components/Tags";
-export { useTags } from "./components/useTags";
+export * from "./Tags";
+export * from "./useTags";

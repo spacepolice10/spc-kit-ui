@@ -5,7 +5,7 @@ import {
 import {
 	useButton,
 	useButtonType,
-} from "../../button/components/useButton";
+} from "../../button/useButton";
 
 export type useToggleButtonType = useToggleType &
 	useButtonType;

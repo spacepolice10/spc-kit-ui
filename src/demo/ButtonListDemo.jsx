@@ -1,8 +1,11 @@
-import { CursorClick, PushPin, Timer } from "@phosphor-icons/react";
+import {
+	CursorClick,
+	PushPin,
+	Timer,
+} from "@phosphor-icons/react";
 import { SingleButtonDemo } from "../../lib/button/button/test/SingleButtonDemo";
-import Demo from "./Demo";
-import { LongPushButtonDemo } from "../../lib/button/long_push_button/test/LongPushButtonDemo";
 import { ToggleButtonDemo } from "../../lib/button/toggle_button/test/ToggleButtonDemo";
+import Demo from "./Demo";
 
 export default function ButtonListDemo() {
 	return (
@@ -13,7 +16,7 @@ export default function ButtonListDemo() {
 					<SingleButtonDemo />
 				</Demo>
 				<Demo name="LongPushButton:" Icon={Timer}>
-					<LongPushButtonDemo />
+					{/* <LongPushButtonDemo /> */}
 				</Demo>
 				<Demo name="ToggleButton:" Icon={PushPin}>
 					<ToggleButtonDemo />

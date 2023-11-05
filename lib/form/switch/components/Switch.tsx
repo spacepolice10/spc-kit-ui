@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import { ButtonType } from "../../../button/button/components/Button";
+import { ButtonType } from "../../../button/button/Button";
 import { useSwitch, useSwitchType } from "./useSwitch";
 
 const SwitchCtxt = createContext({});

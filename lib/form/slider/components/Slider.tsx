@@ -1,11 +1,11 @@
-import { useFocus } from "../../../interactions/focus/components/useFocus";
-import { useHover } from "../../../interactions/hover/components/useHover";
+import { ReactNode, createContext, useContext } from "react";
+import { useFocus } from "../../../interactions/focus/useFocus";
+import { useHover } from "../../../interactions/hover/useHover";
 import {
 	useSlider,
 	useSliderReturnType,
 	useSliderType,
 } from "./useSlider";
-import { ReactNode, createContext, useContext } from "react";
 
 export const SliderCtxt = createContext(
 	{} as useSliderReturnType

@@ -1,4 +1,4 @@
-import { useCollectionType } from "../../../collection/collection/components/useCollection";
+import { useCollectionType } from "../../../collection/collection/useCollection";
 import { useCollection } from "../../../main";
 
 export type useSelectType<T> = useCollectionType<T> & {

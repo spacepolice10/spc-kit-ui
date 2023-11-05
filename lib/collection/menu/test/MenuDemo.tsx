@@ -1,10 +1,6 @@
 import { Rows } from "@phosphor-icons/react";
 import Demo from "../../../../src/demo/Demo";
-import {
-	Menu,
-	MenuBody,
-	MenuButton,
-} from "../components/Menu";
+import { Menu } from "../Menu";
 
 function MenuItem({
 	id,
@@ -27,12 +23,18 @@ function MenuDemoElem() {
 	return (
 		<>
 			<Menu items={[{ id: "fuck that" }, { id: "fuck IT!" }]}>
-				<MenuButton>TEST</MenuButton>
-				<MenuBody className="flex flex-col bg-white rounded-md shadow-sm">
+				<Menu.Button
+					role="button"
+					label="Menu button demo"
+					title="Menu button demo"
+				>
+					TEST
+				</Menu.Button>
+				<Menu.Body className="flex flex-col bg-white rounded-md shadow-sm">
 					<MenuItem id="fuck that" />
 					<MenuItem id="fuck IT!" />
 					{/* <FuncTest /> */}
-				</MenuBody>
+				</Menu.Body>
 			</Menu>
 		</>
 	);

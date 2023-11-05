@@ -1,9 +1,9 @@
 import { Plus, Tag, X } from "@phosphor-icons/react";
 import { ReactNode, useState } from "react";
 import Demo from "../../../../src/demo/Demo";
-import { Button as button, useButton } from "../../../main";
-import { Tags } from "../components/Tags";
 import { useButtonType } from "../../../button/button";
+import { useButton } from "../../../main";
+import { Tags } from "../Tags";
 
 function Chip(
 	propList: {

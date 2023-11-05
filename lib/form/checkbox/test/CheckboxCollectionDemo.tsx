@@ -1,7 +1,7 @@
 import { Check } from "@phosphor-icons/react";
 import { useState } from "react";
-import { Checkbox } from "../components/Checkbox";
-import { CheckboxCollection } from "../components/CheckboxCollection";
+import { Checkbox } from "../Checkbox";
+import { CheckboxCollection } from "../CheckboxCollection";
 
 export default function CheckboxCollectionDemo() {
 	const [foodList, setFoodList] = useState([

@@ -4,8 +4,8 @@ import {
 	Money,
 } from "@phosphor-icons/react";
 import { useState } from "react";
-import { Radio } from "../components/Radio";
-import { RadioGroup } from "../components/RadioGroup";
+import { Radio } from "../Radio";
+import { RadioGroup } from "../RadioGroup";
 
 export default function RadioDemo() {
 	const sizes = [

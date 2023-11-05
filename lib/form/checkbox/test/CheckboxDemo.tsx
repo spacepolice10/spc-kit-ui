@@ -1,5 +1,5 @@
 import { Check } from "@phosphor-icons/react";
-import { Checkbox } from "../components/Checkbox";
+import { Checkbox } from "../Checkbox";
 
 export default function CheckboxDemo() {
 	return (

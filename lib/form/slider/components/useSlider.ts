@@ -2,14 +2,13 @@ import {
 	CSSProperties,
 	RefObject,
 	useEffect,
-	useMemo,
 	useRef,
 	useState,
 } from "react";
 import {
 	movePropListType,
 	useMove,
-} from "../../../interactions/move/components/useMove.ts";
+} from "../../../interactions/move/useMove.ts";
 
 export type useSliderType = {
 	value?: number;

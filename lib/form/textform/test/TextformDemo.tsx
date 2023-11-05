@@ -1,9 +1,9 @@
 import { Textbox } from "@phosphor-icons/react";
 import { useRef, useState } from "react";
 import Demo from "../../../../src/demo/Demo";
-import { Textarea } from "../components/Textarea";
-import { Textform } from "../components/Textform";
-import { useTextform } from "../components/useTextform";
+import { Textarea } from "../../textarea/Textarea";
+import { Textform } from "../Textform";
+import { useTextform } from "../useTextform";
 
 function TextformDemoElem() {
 	const [val, setVal] = useState("test");
@@ -41,7 +41,7 @@ function TextformDemoElem() {
 							isFocused && "border-prim border"
 						} border rounded-md p-2 font-sans font-light text-textPrim placeholder:text-base placeholder:text-pastelGray`
 					}
-					placeholdingText="Basic input"
+					placeholder="Basic input"
 					isFocusTrapsAfterMount={false}
 				/>
 			</div>
@@ -55,7 +55,7 @@ function TextformDemoElem() {
 					}
 					onInput={setVal}
 					onPaste={({ value }) => console.log(value)}
-					placeholdingText="useTextform spreaded on native textarea"
+					placeholder="useTextform spreaded on native textarea"
 					isFocusTrapsAfterMount={false}
 				/>
 			</div>

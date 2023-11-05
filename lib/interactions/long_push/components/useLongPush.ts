@@ -4,7 +4,7 @@ import {
 	usePush,
 	usePushReturnType,
 	usePushType,
-} from "../../push/components/usePush";
+} from "../../push/usePush";
 
 type useLongPushType = usePushType & {
 	delay: number;

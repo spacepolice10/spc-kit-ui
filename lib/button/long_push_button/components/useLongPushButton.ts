@@ -1,6 +1,6 @@
-import { useFocus } from "../../../interactions/focus/components/useFocus.ts";
-import { useHover } from "../../../interactions/hover/components/useHover.ts";
-import { useLongPush } from "../../../main.ts";
+import { useFocus } from "../../../interactions/focus/useFocus.ts";
+import { useHover } from "../../../interactions/hover/useHover.ts";
+import { useLongPush } from "../../../interactions/long_push/components/useLongPush.ts";
 import { useElement } from "../../../util/useElement.ts";
 
 /**

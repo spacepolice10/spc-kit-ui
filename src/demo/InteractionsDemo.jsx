@@ -26,7 +26,8 @@ export default function InteractionsDemo() {
             interact with interface elements. Push handles any
             pointer events like clicking and touching when hover and
             focus help to react on intermediate state changes."
-					Icon={HandPointing}>
+					Icon={HandPointing}
+				>
 					<div className="flex gap-2">
 						<PushDemo />
 						<HoverDemo />
@@ -39,7 +40,8 @@ export default function InteractionsDemo() {
             control experience no matter what kind of application
             you create. useKeyboard eases handling keyboard events
             and helps to build keyboard-friendly interfaces"
-					Icon={Keyboard}>
+					Icon={Keyboard}
+				>
 					<KeyboardDemo />
 				</Demo>
 			</div>
@@ -50,7 +52,8 @@ export default function InteractionsDemo() {
             if implemented right. These hooks simplify the process
             of implementing functionality dependant on moving
             elements using mouse or pointer withour complex APIs."
-					Icon={HandGrabbing}>
+					Icon={HandGrabbing}
+				>
 					<div className="flex gap-2 h-20">
 						<div className="grid gap-2 w-40 items-center justify-items-center">
 							<DragDemo colour={"#9FE870"} />
@@ -66,7 +69,8 @@ export default function InteractionsDemo() {
             drop only. Interfaces with rich animations and web-games
             are impossible withour much more complex dragging and
             moving objects logic."
-					Icon={ArrowsOutCardinal}>
+					Icon={ArrowsOutCardinal}
+				>
 					<MoveExample />
 				</Demo>
 			</div>
@@ -77,7 +81,8 @@ export default function InteractionsDemo() {
             struggle to implement logical, structural and useful
             key-navigation systems in web apps. Scoping of focus
             zones helps to avoid hacking and concenrate on features"
-					Icon={CubeFocus}>
+					Icon={CubeFocus}
+				>
 					<FocusScopeDemo />
 				</Demo>
 

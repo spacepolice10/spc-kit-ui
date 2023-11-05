@@ -1,7 +1,7 @@
 import { X } from "@phosphor-icons/react";
 import { useRef, useState } from "react";
 import { Button, useFocusScope } from "../../../main";
-import { Overlay } from "../components/Overlay";
+import { Overlay } from "../Overlay";
 
 export default function OverlaysDemo() {
 	const [isOpen, setIsOpen] = useState(false);

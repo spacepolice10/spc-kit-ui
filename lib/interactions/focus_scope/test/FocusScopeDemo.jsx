@@ -1,5 +1,5 @@
-import { useFocusScope } from "../components/useFocusScope";
-import { useKeyboard } from "../../keyboard/components/useKeyboard";
+import { useKeyboard } from "../../keyboard/useKeyboard";
+import { useFocusScope } from "../useFocusScope";
 
 export default function FocusScopeDemo() {
 	const { focusNextElem, focusPrevElem, focusScopeRef } =

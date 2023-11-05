@@ -1,1 +1,2 @@
-export { usePush } from "./components/usePush";
+export type * from "./usePush";
+export { usePush } from "./usePush";

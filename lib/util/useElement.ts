@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
-export type useElemType = {
+export type useElementType = {
 	name?: string;
-	role: string;
+	role?: string;
 	value?: string;
 	label: string;
 	isDisabled?: boolean;
@@ -37,7 +37,7 @@ export type useElementReturnType = {
 	isErrMsg: boolean;
 };
 const useElement = (
-	propList: useElemType
+	propList: useElementType
 ): useElementReturnType => {
 	const { isDisabled, isErrMsg } = propList;
 	const elemPropList = {

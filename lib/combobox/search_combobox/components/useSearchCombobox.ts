@@ -1,14 +1,14 @@
-import { useCollectionType } from "../../../collection/collection/components/useCollection";
+import { useCollectionType } from "../../../collection/collection/useCollection";
 import {
 	useSearchform,
 	useSearchformType,
 } from "../../../form/searchform/components/useSearchform";
-import { textformPropListType } from "../../../form/textform/components/useTextform";
+import { textformPropListType } from "../../../form/textform/useTextform";
 import { useCollection, usePopover } from "../../../main";
 import {
 	popoverPropListType,
 	triggerPropListType,
-} from "../../../overlays/popover/components/usePopover";
+} from "../../../overlays/popover/usePopover";
 import { mergeProps } from "../../../util/mergeProps";
 
 export type useSearchComboboxType<T> = useSearchformType &

@@ -1,9 +1,24 @@
-import { useKeyboard, useTextform } from "../../../main";
-import { useTextformType } from "../../textform/components/useTextform";
+import { useKeyboardReturnType } from "../../../interactions";
+import { useKeyboard } from "../../../main";
+import {
+	useTextform,
+	useTextformReturnType,
+	useTextformType,
+} from "../../textform/useTextform";
 
 export type useSearchformType = useTextformType & {
 	onSubmit: (args: string) => void;
 	onCancel?: (args: string) => void;
+};
+export type searchFormPropListType = {
+	role: string;
+	type: string;
+} & useTextformReturnType &
+	useKeyboardReturnType;
+export type useSearchformReturnType = {
+	searchformPropList: searchFormPropListType;
+	cancel: () => void;
+	submit: () => void;
 };
 
 const useSearchform = (propList: useSearchformType) => {
@@ -36,7 +51,9 @@ const useSearchform = (propList: useSearchformType) => {
 		onSubmit?.(
 			value ?? searchFormPropList.ref.current?.value
 		);
-		onInput("");
+		onInput?.("");
+		const target = searchFormPropList.ref.current;
+		target.value = "";
 	}
 
 	const searchFormPropList = {
