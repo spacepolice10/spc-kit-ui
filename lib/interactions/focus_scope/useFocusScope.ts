@@ -32,7 +32,7 @@ const useFocusScope = (
 	const { isTabbingTrapped, getOutOfFocusingList } =
 		props ?? {};
 	const focussableElements =
-		'a:not([disabled]), button:not([disabled]), input[type=text]:not([disabled]), [tabindex]:not([disabled]):not([tabindex="-1"])';
+		'a:not([disabled]), button:not([disabled]), input:not([disabled]), [tabindex]:not([disabled]):not([tabindex="-1"])';
 	const ref = useRef(null);
 
 	function detectFocussable() {
@@ -101,7 +101,13 @@ const useFocusScope = (
 	}
 
 	const { keyboardPropList } = useKeyboard({
-		Tab: focusNextElem,
+		Tab: (ev) => {
+			if (ev.shiftKey) {
+				focusPrevElem();
+			} else {
+				focusNextElem();
+			}
+		},
 	});
 
 	useEffect(() => {

@@ -78,6 +78,7 @@ export default function OverlaysDemo() {
 					<div className="text-4xl flex items-center justify-center h-full mt-2">
 						🤔
 					</div>
+					<input className="textform" />
 					<Button className="button">Agree with me</Button>
 				</div>
 			</Overlay>

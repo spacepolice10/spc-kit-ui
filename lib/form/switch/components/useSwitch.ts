@@ -38,7 +38,8 @@ const useSwitch = (propList: useSwitchType) => {
 			transform: isToggle
 				? `${
 						propList?.isVertical ? "translateY" : "translateX"
-				  }(${outerWidth - innerWidth}px)`
+				  }
+				  (${outerWidth - innerWidth}px)`
 				: "",
 		},
 	};
