@@ -74,8 +74,8 @@ type OverlayContentType = {
 	children: ((hide: () => void) => ReactNode) | ReactNode;
 	className?: string;
 };
-const OverlayContent = (props: OverlayContentType) => {
-	const { className, children } = props;
+const OverlayContent = (propList: OverlayContentType) => {
+	const { className, children } = propList;
 	const { hide, overlayRef } = useContext(OverlayContext);
 	return (
 		<div ref={overlayRef} className={className}>
