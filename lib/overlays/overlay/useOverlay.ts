@@ -95,7 +95,14 @@ const useOverlay = (
 				preventScroll: true,
 			});
 		} else {
-			overlayRef.current?.focus({ preventScroll: true });
+			const eligable = Array.from(
+				overlayRef.current?.children
+			).find(
+				(item: HTMLElement) => item.tabIndex == 0
+			) as HTMLElement;
+			eligable?.focus({
+				preventScroll: true,
+			});
 		}
 	}, [isShow]);
 	useEffect(() => {
@@ -114,10 +121,9 @@ const useOverlay = (
 		mergeProps<HTMLDivElement>([
 			keyboardPropList,
 			focusScopePropList,
-			{ ref: overlayRef },
 			{
 				onClick: (ev: React.MouseEvent) => {
-					if (ev.target != ev.currentTarget) return;
+					if (overlayRef.current?.contains(ev.target)) return;
 					hideOnBackdropPush && hide();
 				},
 			},
