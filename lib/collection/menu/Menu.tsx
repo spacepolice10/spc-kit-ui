@@ -1,102 +1,108 @@
 import {
 	Children,
-	MutableRefObject,
-	ReactElement,
 	ReactNode,
-	cloneElement,
+	RefObject,
 	createContext,
 	useContext,
 } from "react";
-import { useButtonType } from "../../button/button";
-import { useButton } from "../../main";
-import { pushPropListType } from "../../util/pushChildrenType";
+import {
+	useButton,
+	useButtonType,
+} from "../../button/button";
 import {
 	useMenu,
 	useMenuReturnType,
 	useMenuType,
 } from "./useMenu";
 
-const MenuCtxt = createContext({} as useMenuReturnType);
-
-type MenuType<T> = useMenuType<T> & {
+export type MenuType<T> = {
 	children: ReactNode[];
+	className?: string;
+} & useMenuType<T>;
+
+export type MenuButtonType = {
+	children:
+		| ReactNode
+		| (({ isShow }: { isShow: boolean }) => ReactNode);
+	className?: string;
+} & useButtonType;
+
+export type MenuBodyType = {
+	children:
+		| ReactNode
+		| (({ hide }: { hide: () => void }) => ReactNode);
+	className?: string;
 };
+
+const MenuCtxt = createContext({} as useMenuReturnType);
+const useMenuCtxt = () => useContext(MenuCtxt);
+
 const Menu = <T extends { id: string }>(
-	props: MenuType<T>
+	propList: MenuType<T>
 ) => {
-	const { children, ...restPropList } = props;
+	const { children, className, ...restPropList } = propList;
 	const menuPropList = useMenu(restPropList);
+	const { isShow } = menuPropList;
 	const [button, body] = Children.toArray(children);
 	return (
 		<MenuCtxt.Provider value={menuPropList}>
-			<div style={{ position: "relative" }}>
-				{menuPropList.isShow && (
+			<div className={className}>
+				{isShow && (
 					<div
 						style={{
 							position: "fixed",
 							inset: 0,
 							width: "100%",
 							height: "100vh",
-							background: "none",
+							zIndex: 9998,
 							cursor: "default",
 						}}
 					></div>
 				)}
 				{button}
-				{menuPropList.isShow && body}
+				{isShow && body}
 			</div>
 		</MenuCtxt.Provider>
 	);
 };
 
-type MenuButtonType = useButtonType & pushPropListType;
-
-function MenuButton(propList: MenuButtonType) {
-	const { show, isShow, menuButtonPropList } =
-		useContext(MenuCtxt);
+const MenuButton = (propList: MenuButtonType) => {
+	const { children, className, ...restPropList } = propList;
+	const { triggerRef, isShow, show, hide } = useMenuCtxt();
 	const { buttonPropList } = useButton({
-		...propList,
-		onPush: show,
+		onPress: () => (isShow ? hide() : show()),
+		...restPropList,
 	});
 	const ref =
-		menuButtonPropList.ref as MutableRefObject<HTMLButtonElement>;
+		triggerRef as unknown as RefObject<HTMLButtonElement>;
 	return (
-		<button ref={ref} {...buttonPropList}>
-			{typeof propList.children == "function"
-				? propList?.children({ isShow })
-				: propList?.children}
+		<button
+			className={className}
+			ref={ref}
+			{...buttonPropList}
+		>
+			{typeof children == "function"
+				? children({ isShow })
+				: children}
 		</button>
 	);
-}
-
-type MenuBodyType = {
-	children: ReactNode[];
-	className?: string;
 };
 
-function MenuBody(propList: MenuBodyType) {
-	const { className, children } = propList;
-	const { menuPropList, isInverted, hide } =
-		useContext(MenuCtxt);
+const MenuBody = (propList: MenuBodyType) => {
+	const { children, className, ...restPropList } = propList;
+	const { menuPropList, hide } = useMenuCtxt();
 	return (
-		<div {...menuPropList} className={className}>
-			{[
-				isInverted
-					? Children.toArray(children).reverse()
-					: Children.toArray(children),
-			].flatMap((elemList) => {
-				return elemList.map((item) => {
-					const elem = item as ReactElement;
-					return cloneElement(elem, { hide });
-				});
-			})}
+		<div className={className} {...menuPropList}>
+			{typeof children == "function"
+				? children({ hide })
+				: children}
 		</div>
 	);
-}
+};
 
-const MenuComponents = Object.assign(Menu, {
+const MenuExport = Object.assign(Menu, {
 	Button: MenuButton,
 	Body: MenuBody,
 });
 
-export { MenuComponents as Menu };
+export { MenuExport as Menu };

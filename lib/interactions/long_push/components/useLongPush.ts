@@ -1,25 +1,34 @@
 import { useRef, useState } from "react";
 
 import {
-	usePush,
-	usePushReturnType,
-	usePushType,
-} from "../../push/usePush";
+	usePress,
+	usePressReturnType,
+	usePressType,
+} from "../../press/usePress";
 
-type useLongPushType = usePushType & {
+export type useLongPushType = usePressType & {
 	delay: number;
 };
-const useLongPush = (
+export const useLongPush = (
 	propList: useLongPushType
-): usePushReturnType => {
-	const { onPush, delay } = propList;
-	const { pushPropList } = usePush({
-		onPushStarts: hold,
-		onPushFinishes: release,
+): usePressReturnType => {
+	const { onPress, onPressStarts, onPressFinishes, delay } =
+		propList;
+	const { pressPropList } = usePress({
+		onPressStarts: (ev) => {
+			onPressStarts(ev);
+			hold(ev);
+		},
+		onPressFinishes: (ev) => {
+			onPressFinishes(ev);
+			release();
+		},
 	});
 	const [isPushed, setIsPushed] = useState(false);
-	const timerRef = useRef<ReturnType<typeof setTimeout>>(0);
+	const timerRef = useRef<ReturnType<typeof setTimeout>>();
 	function hold(ev: React.MouseEvent | React.KeyboardEvent) {
+		ev.preventDefault();
+		ev.stopPropagation();
 		const customEv = ev as { key: string };
 		if (
 			ev.type == "keydown" &&
@@ -28,7 +37,7 @@ const useLongPush = (
 			return;
 		setIsPushed(true);
 		timerRef.current = setTimeout(() => {
-			onPush?.(ev);
+			onPress?.(ev);
 		}, delay ?? 0);
 	}
 	function release() {
@@ -37,15 +46,13 @@ const useLongPush = (
 	}
 
 	const longPushPropList = {
-		...pushPropList,
+		...pressPropList,
 		onClick: (ev: React.MouseEvent) => ev.preventDefault(),
 		onDoubleClick: (ev: React.MouseEvent) =>
 			ev.preventDefault(),
 	};
 	return {
-		isPushed,
-		pushPropList: longPushPropList,
+		isPressed: isPushed,
+		pressPropList: longPushPropList,
 	};
 };
-
-export { useLongPush };

@@ -11,10 +11,10 @@ import { mergeProps } from "../../util/mergeProps";
 
 /**
  * Collection hook helps to control one-directional lists of data. It serves as a tool that provides ergonomic keyboard control with keyboard arrows and makes it possuble to select items from list without focusing on it
- * @param items list of any data in a form of object with id
+ * @param data list of any data in a form of object with id
  */
 export type useCollectionType<T> = {
-	items: T[];
+	data: T[];
 	isControlled?: boolean;
 	isHorizontal?: boolean;
 	isInverted?: boolean;
@@ -25,54 +25,54 @@ export type collectionPropListType = keyboardPropListType &
 
 export type useCollectionReturnType<T> = {
 	collectionPropList: collectionPropListType;
-	items: T[];
+	data: T[];
 	selectedId: string;
-	setSelectedId: Dispatch<SetStateAction<string>>;
+	changeSelectedId: Dispatch<SetStateAction<string>>;
 	removeSelectedId: () => void;
 };
 
 const useCollection = <T extends { id: string }>(
-	props: useCollectionType<T>
+	propList: useCollectionType<T>
 ): useCollectionReturnType<T> => {
-	const { items, isControlled, isHorizontal, isInverted } =
-		props || {};
-	const [selectedId, setSelectedId] = useState("");
+	const { data, isControlled, isHorizontal, isInverted } =
+		propList || {};
+	const [selectedId, changeSelectedId] = useState("");
 
 	const { focusNextElem, focusPrevElem, focusScopePropList } =
 		useFocusScope();
 	function removeSelectedId() {
-		setSelectedId("");
+		changeSelectedId("");
 	}
 
-	function setSelectedIdPrev(ev: React.KeyboardEvent) {
+	function changeSelectedIdToPrev(ev: React.KeyboardEvent) {
 		if (isControlled) {
-			if (!items?.length) return;
+			if (!data?.length) return;
 			if (!selectedId) {
-				const id = items?.[items?.length - 1]?.id;
-				setSelectedId(`${id}`);
+				const id = data?.[data?.length - 1]?.id;
+				changeSelectedId(`${id}`);
 			}
 			const index =
-				items.findIndex((x) => x?.id == selectedId) - 1;
+				data.findIndex((x) => x?.id == selectedId) - 1;
 			if (index < 0) return;
-			const id = items[index]?.id;
-			setSelectedId(`${id}`);
+			const id = data[index]?.id;
+			changeSelectedId(`${id}`);
 		} else {
 			ev.preventDefault();
 			focusPrevElem();
 		}
 	}
-	function setSelectedIdNext(ev: React.KeyboardEvent) {
+	function changeSelectedIdToNext(ev: React.KeyboardEvent) {
 		if (isControlled) {
-			if (!items?.length) return;
+			if (!data?.length) return;
 			if (!selectedId) {
-				const id = items?.[0]?.id;
-				setSelectedId(`${id}`);
+				const id = data?.[0]?.id;
+				changeSelectedId(`${id}`);
 			}
 			const index =
-				items.findIndex((x) => x?.id == selectedId) + 1;
-			if (index > items.length - 1) return;
-			const id = items[index]?.id;
-			setSelectedId(`${id}`);
+				data.findIndex((x) => x?.id == selectedId) + 1;
+			if (index > data.length - 1) return;
+			const id = data[index]?.id;
+			changeSelectedId(`${id}`);
 		} else {
 			ev.preventDefault();
 			focusNextElem();
@@ -82,12 +82,12 @@ const useCollection = <T extends { id: string }>(
 	const { keyboardPropList } = useKeyboard({
 		...(isHorizontal
 			? {
-					ArrowLeft: setSelectedIdPrev,
-					ArrowRight: setSelectedIdNext,
+					ArrowLeft: changeSelectedIdToPrev,
+					ArrowRight: changeSelectedIdToNext,
 			  }
 			: {
-					ArrowUp: setSelectedIdPrev,
-					ArrowDown: setSelectedIdNext,
+					ArrowUp: changeSelectedIdToPrev,
+					ArrowDown: changeSelectedIdToNext,
 			  }),
 	});
 	const collectionPropList = mergeProps([
@@ -97,9 +97,9 @@ const useCollection = <T extends { id: string }>(
 
 	return {
 		collectionPropList,
-		items: isInverted ? items?.reverse() : items ?? [],
+		data: isInverted ? data?.reverse() : data ?? [],
 		selectedId,
-		setSelectedId,
+		changeSelectedId,
 		removeSelectedId,
 	};
 };

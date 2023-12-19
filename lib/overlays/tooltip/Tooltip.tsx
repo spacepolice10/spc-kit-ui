@@ -14,9 +14,14 @@ import {
 const TooltipContext = createContext(
 	{} as useTooltipReturnType
 );
+const useTooltipContext = () => useContext(TooltipContext);
 
 type TooltipType = useTooltipType & {
 	children: ReactNode[];
+};
+type TooltipTriggerType = {
+	children: ReactNode;
+	className?: string;
 };
 
 const Tooltip = (props: TooltipType) => {
@@ -35,15 +40,9 @@ const Tooltip = (props: TooltipType) => {
 	);
 };
 
-type TooltipTriggerType = {
-	children: ReactNode;
-	className?: string;
-};
-
 const TooltipTrigger = (propList: TooltipTriggerType) => {
 	const { children, className } = propList;
-	const { tooltipTriggerPropList } =
-		useContext(TooltipContext);
+	const { tooltipTriggerPropList } = useTooltipContext();
 	const ref =
 		tooltipTriggerPropList.ref as MutableRefObject<HTMLDivElement>;
 	return (

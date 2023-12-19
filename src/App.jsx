@@ -16,7 +16,6 @@ function App() {
 				</div>
 			</header>
 			<div className="max-w-4xl mx-auto">
-				{/* <DateDemo /> */}
 				<InteractionsDemo />
 				<ButtonListDemo />
 				<OverlaysListDemo />

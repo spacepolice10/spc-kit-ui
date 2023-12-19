@@ -1,19 +1,17 @@
 import {
 	focusPropListType,
+	hoverPropListType,
+	pressPropListType,
 	useFocus,
 	useFocusType,
-} from "../../interactions/focus/useFocus.ts";
-import {
-	hoverPropListType,
 	useHover,
 	useHoverType,
-} from "../../interactions/hover/useHover.ts";
+	usePress,
+	usePressType,
+} from "../../interactions";
+
 import {
-	pushPropListType,
-	usePush,
-	usePushType,
-} from "../../interactions/push/usePush.ts";
-import {
+	elementChildrenType,
 	elementPropListType,
 	useElement,
 	useElementType,
@@ -23,20 +21,16 @@ export type useButtonType = {
 	title: string;
 	type?: "submit" | "button";
 } & useElementType &
-	usePushType &
+	usePressType &
 	useHoverType &
 	useFocusType;
 
 type buttonPropListType = elementPropListType &
-	pushPropListType &
+	pressPropListType &
 	hoverPropListType &
 	focusPropListType;
 
-type useButtonReturnType = {
-	isPushed: boolean;
-	isHovered: boolean;
-	isFocused: boolean;
-	isDisabled: boolean;
+type useButtonReturnType = elementChildrenType & {
 	buttonPropList: buttonPropListType;
 };
 
@@ -44,8 +38,8 @@ const useButton = (
 	propList: useButtonType
 ): useButtonReturnType => {
 	const { type = "button", title } = propList;
-	const { elemPropList, isDisabled } = useElement(propList);
-	const { isPushed, pushPropList } = usePush(propList);
+	const { elemPropList } = useElement(propList);
+	const { isPressed, pressPropList } = usePress(propList);
 	const { isHovered, hoverPropList } = useHover({
 		...propList,
 	});
@@ -54,17 +48,16 @@ const useButton = (
 	});
 	const buttonPropList = {
 		...elemPropList,
-		...pushPropList,
+		...pressPropList,
 		...hoverPropList,
 		...focusPropList,
 		type,
 		title,
 	};
 	return {
-		isPushed,
+		isPressed,
 		isHovered,
 		isFocused,
-		isDisabled,
 		buttonPropList,
 	};
 };

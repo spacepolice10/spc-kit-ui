@@ -1,2 +1,2 @@
-export { Searchform } from "./components/Searchform";
-export { useSearchform } from "./components/useSearchform";
+export { Searchform } from "./Searchform";
+export { useSearchform } from "./useSearchform";

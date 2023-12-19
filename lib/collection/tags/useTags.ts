@@ -12,16 +12,16 @@ export type useTagsReturnType<T> = {
 	removeTags: (args: string) => void;
 };
 
-const useTags = <T extends { id: string }>(
+export const useTags = <T extends { id: string }>(
 	propList: useTagsType<T>
 ) => {
-	const { items, onChange, isHorizontal } = propList;
+	const { data, onChange, isHorizontal } = propList;
 	const { collectionPropList } = useCollection({
-		items,
+		data,
 		isHorizontal,
 	});
 	function removeTags(id: string) {
-		const result = items.filter((item) => item.id != id);
+		const result = data.filter((item) => item.id != id);
 		onChange(result);
 	}
 	const tagsPropList = {
@@ -32,5 +32,3 @@ const useTags = <T extends { id: string }>(
 		removeTags,
 	};
 };
-
-export { useTags };

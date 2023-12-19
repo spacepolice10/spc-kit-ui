@@ -24,6 +24,7 @@ const useHover = (
 	const { onHover, onHoverLoose } = props ?? {};
 	const [isHovered, setIsHovered] = useState(false);
 	const hoverPropList = {
+		tabIndex: 0,
 		onMouseEnter: () => {
 			if (matchMedia("(pointer:coarse)").matches) return;
 			setIsHovered(true);

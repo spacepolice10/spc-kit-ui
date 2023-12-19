@@ -6,20 +6,23 @@ import {
 	useRef,
 	useState,
 } from "react";
-import clamp from "../../util/clamp";
-import { useKeyboard } from "../keyboard/useKeyboard";
+import { useKeyboard } from "spc-kit-ui";
+
+function clamp(val: number, max: number) {
+	return Math.min(Math.max(val, 0), max);
+}
 
 /**
  * @param onMoveStarts — callback to fire on pointing device down
  * @param onMove — callback to fire on pointing device change position
  * @param onMoveFinishes — callback to fire on pointing device up
- * @param isClamping — determines if moving should be restricted by border of parent element
+ * @param withClamping — determines if moving should be restricted by border of parent element
  */
 export type useMoveType = {
 	onMoveStarts?: () => void;
 	onMove?: (coords: coordsType) => void;
 	onMoveFinishes?: () => void;
-	isClamping?: boolean;
+	withClamping?: boolean;
 };
 
 type coordsType = { x: number; y: number };
@@ -31,28 +34,35 @@ export type movePropListType = {
 };
 
 type useMoveReturnType = {
-	setIsMoving: Dispatch<SetStateAction<boolean>>;
-	setCoords: Dispatch<SetStateAction<coordsType>>;
+	makeIsMoving: Dispatch<SetStateAction<boolean>>;
+	changeCoords: Dispatch<SetStateAction<coordsType>>;
 	coords: coordsType;
 	isMoving: boolean;
 	movePropList: movePropListType;
 };
 
-const useMove = (props: useMoveType): useMoveReturnType => {
-	const { onMoveStarts, onMove, onMoveFinishes } =
-		props ?? {};
+const useMove = (
+	propList?: useMoveType
+): useMoveReturnType => {
+	const {
+		onMoveStarts,
+		onMove,
+		onMoveFinishes,
+		withClamping,
+	} = propList ?? {};
 
 	/**
 	 * this target stored to reference while detecting cursor coordinates
 	 */
-	const target = useRef(null);
-	// const [target, setTarget] =
-	// useState<HTMLElement>(undefined);
-	const [isMoving, setIsMoving] = useState<boolean>(false);
+	// const target = useRef(null)
+	const [target, pickTarget] = useState<
+		HTMLElement | undefined
+	>(undefined);
+	const [isMoving, makeIsMoving] = useState<boolean>(false);
 	/**
 	 * dynamic coords that represent item's position
 	 */
-	const [coords, setCoords] = useState<coordsType>({
+	const [coords, changeCoords] = useState<coordsType>({
 		x: 0,
 		y: 0,
 	});
@@ -79,7 +89,7 @@ const useMove = (props: useMoveType): useMoveReturnType => {
 
 	// moving element
 	function move({ x, y }: coordsType) {
-		setCoords({ x, y });
+		changeCoords({ x, y });
 		onMove?.({ x, y });
 	}
 
@@ -89,16 +99,21 @@ const useMove = (props: useMoveType): useMoveReturnType => {
 		const x = ev.pageX - shift?.current.x;
 		const y = ev.pageY - shift?.current.y;
 		const { dimensions, parentDimensions } =
-			generateDimensions(target.current);
-		const valX = clamp(
+			generateDimensions(target);
+		const valXWithClamping = clamp(
 			x,
 			parentDimensions?.width - dimensions?.width - 2
 		);
-		const valY = clamp(
+		const valX = x;
+		const valYWithClamping = clamp(
 			y,
 			parentDimensions?.height - dimensions?.height - 2
 		);
-		return { x: valX, y: valY };
+		const valY = y;
+		return {
+			x: withClamping ? valXWithClamping : valX,
+			y: withClamping ? valYWithClamping : valY,
+		};
 	}
 
 	// moving element with cursor or finger
@@ -113,7 +128,8 @@ const useMove = (props: useMoveType): useMoveReturnType => {
 		ev.stopPropagation();
 		const target = ev.target as HTMLElement;
 		onMoveStarts?.();
-		setIsMoving(true);
+		pickTarget(target);
+		makeIsMoving(true);
 		shift.current.x = ev.pageX - target?.offsetLeft;
 		shift.current.y = ev.pageY - target?.offsetTop;
 	}
@@ -121,7 +137,7 @@ const useMove = (props: useMoveType): useMoveReturnType => {
 	function handleMoveFinishes(event: PointerEvent) {
 		event.preventDefault();
 		event.stopPropagation();
-		setIsMoving(false);
+		makeIsMoving(false);
 		onMoveFinishes?.();
 	}
 
@@ -207,15 +223,16 @@ const useMove = (props: useMoveType): useMoveReturnType => {
 	const movePropList = {
 		ref: target,
 		onPointerDown: handleMoveStarts,
-		...(matchMedia("(pointer:coarse)").matches && {
-			style: { touchAction: "none" },
-		}),
+		...(typeof window != "undefined" &&
+			matchMedia("(pointer:coarse)").matches && {
+				style: { touchAction: "none" },
+			}),
 		...keyboardPropList,
 	};
 
 	return {
-		setIsMoving,
-		setCoords,
+		makeIsMoving,
+		changeCoords,
 		coords,
 		isMoving,
 		movePropList,

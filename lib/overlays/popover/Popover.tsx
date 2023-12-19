@@ -5,86 +5,99 @@ import {
 	createContext,
 	useContext,
 } from "react";
-import {
-	useButton,
-	useButtonType,
-} from "../../button/button";
-import { pushPropListType } from "../../util/pushChildrenType";
+import { useButtonType } from "../../button/button";
+import { useButton } from "../../main";
 import {
 	usePopover,
 	usePopoverReturnType,
 	usePopoverType,
 } from "./usePopover";
 
+type PopoverType = {
+	children: ReactNode[];
+	className?: string;
+} & usePopoverType;
+
+type PopoverTriggerType = {
+	children:
+		| ReactNode
+		| (({ isShow }: { isShow: boolean }) => ReactNode);
+	className?: string;
+} & useButtonType;
+
+type PopoverContentType = {
+	children:
+		| ReactNode
+		| (({ hide }: { hide: () => void }) => ReactNode);
+	className?: string;
+};
+
 const PopoverContext = createContext(
 	{} as usePopoverReturnType
 );
+const usePopoverContext = () => useContext(PopoverContext);
 
-type PopoverType = usePopoverType & {
-	children: ReactNode[];
-};
-
-const Popover = (props: PopoverType) => {
-	const { children, ...restPropList } = props;
+const Popover = (propList: PopoverType) => {
+	const { children, className, ...restPropList } = propList;
 	const popoverPropList = usePopover(restPropList);
+	const { isShow } = popoverPropList;
 	const [button, body] = Children.toArray(children);
 	return (
 		<PopoverContext.Provider value={popoverPropList}>
-			<div {...popoverPropList.popoverWrapPropList}>
-				{popoverPropList.isShow && (
+			<div className={className}>
+				{isShow && (
 					<div
 						style={{
 							position: "fixed",
 							inset: 0,
 							width: "100%",
 							height: "100vh",
-							background: "none",
+							zIndex: 9998,
 							cursor: "default",
 						}}
 					></div>
 				)}
 				{button}
-				{popoverPropList.isShow && body}
+				{isShow && body}
 			</div>
 		</PopoverContext.Provider>
 	);
 };
 
-type PopoverTriggerType = useButtonType & pushPropListType;
-function PopoverTrigger(propList: PopoverTriggerType) {
-	const { show, isShow, triggerPropList } =
-		useContext(PopoverContext);
-	const ref =
-		triggerPropList.ref as RefObject<HTMLButtonElement>;
+const PopoverTrigger = (propList: PopoverTriggerType) => {
+	const { children, className, ...restPropList } = propList;
+	const { triggerRef, isShow, show, hide } =
+		usePopoverContext();
 	const { buttonPropList } = useButton({
-		...propList,
-		onPush: show,
+		onPress: () => (isShow ? hide() : show()),
+		...restPropList,
 	});
+	const ref =
+		triggerRef as unknown as RefObject<HTMLButtonElement>;
 	return (
-		<button ref={ref} {...buttonPropList}>
-			{typeof propList?.children == "function"
-				? propList?.children({ isShow })
-				: propList?.children}
+		<button
+			className={className}
+			ref={ref}
+			{...buttonPropList}
+		>
+			{typeof children == "function"
+				? children({ isShow })
+				: children}
 		</button>
 	);
-}
-
-type PopoverContentType = {
-	children: ((hide: () => void) => ReactNode) | ReactNode;
-	className?: string;
 };
-function PopoverContent(propList: PopoverContentType) {
-	const { className, children } = propList;
-	const { hide, popoverPropList } =
-		useContext(PopoverContext);
+
+const PopoverContent = (propList: PopoverContentType) => {
+	const { children, className } = propList;
+	const { popoverPropList, hide } = usePopoverContext();
 	return (
-		<div {...popoverPropList} className={className}>
+		<div className={className} {...popoverPropList}>
 			{typeof children == "function"
-				? children(hide)
+				? children({ hide })
 				: children}
 		</div>
 	);
-}
+};
 
 const PopoverExport = Object.assign(Popover, {
 	Trigger: PopoverTrigger,

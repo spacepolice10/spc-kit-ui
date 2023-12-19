@@ -24,7 +24,7 @@ const OverlayContext = createContext(
 
 type OverlayType = useOverlayType & {
 	className?: string;
-	children: ReactNode[];
+	children: ReactNode | ReactNode[];
 };
 
 const Overlay = (propList: OverlayType) => {
@@ -59,7 +59,7 @@ const OverlayTrigger = (propList: OverlayTriggerType) => {
 	const ref: RefObject<HTMLButtonElement> = triggerRef;
 	const { buttonPropList } = useButton({
 		...propList,
-		onPush: show,
+		onPress: show,
 	});
 	return (
 		<button ref={ref} {...buttonPropList}>
@@ -71,7 +71,9 @@ const OverlayTrigger = (propList: OverlayTriggerType) => {
 };
 
 type OverlayContentType = {
-	children: ((hide: () => void) => ReactNode) | ReactNode;
+	children:
+		| (({ hide }: { hide: () => void }) => ReactNode)
+		| ReactNode;
 	className?: string;
 };
 const OverlayContent = (propList: OverlayContentType) => {
@@ -80,7 +82,7 @@ const OverlayContent = (propList: OverlayContentType) => {
 	return (
 		<div ref={overlayRef} className={className}>
 			{typeof children == "function"
-				? children(hide)
+				? children({ hide })
 				: children}
 		</div>
 	);

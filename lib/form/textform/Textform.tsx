@@ -5,13 +5,14 @@ type TextformType = useTextformType & {
 	placeholder?: string;
 };
 
-const Textform = (propList: TextformType) => {
-	const { className } = propList;
+export const Textform = (propList: TextformType) => {
+	const { className, placeholder } = propList;
 	const { textformPropList, ...restTextformPropList } =
 		useTextform(propList);
 	return (
 		<input
 			{...textformPropList}
+			placeholder={placeholder}
 			className={
 				typeof className != "function"
 					? className
@@ -24,5 +25,3 @@ const Textform = (propList: TextformType) => {
 		/>
 	);
 };
-
-export { Textform };

@@ -1,54 +1,45 @@
-import { createContext, useContext, useState } from "react";
+import { useState } from "react";
 import {
-	collectionPropListType,
 	useCollection,
 	useCollectionType,
 } from "../../collection/collection/useCollection";
-
-/**
- * context helps to throw handled data to related hooks and components without utilizing props. It simplifies the process of building Radio groups
- */
-const RadioGroupCtxt = createContext(
-	{} as useRadioGroupReturnType
-);
-const useRadioGroupCtxt = () => useContext(RadioGroupCtxt);
+import { mergeProps } from "../../util/mergeProps";
 
 export type useRadioGroupType<T> = useCollectionType<T> & {
-	items: T[];
-	onChange: (args: string) => void;
 	selectedId?: string;
-	isSelectOnFocusing?: boolean;
+	onChange: (id: string) => void;
 };
 
-/** generic type is omitted here because context would never accept generic and it is not really important to infer types inside hooks as of devs would handle types outside of the component itself */
-type useRadioGroupReturnType = useRadioGroupType<{
-	id: string;
-}> & {
-	radioGroupPropList: collectionPropListType;
-};
-
-const useRadioGroup = <T extends { id: string }>(
-	props: useRadioGroupType<T>
-): useRadioGroupReturnType => {
-	const { items, isHorizontal } = props;
+export const useRadioGroup = <T extends { id: string }>(
+	propList: useRadioGroupType<T>
+) => {
+	const { data, isHorizontal } = propList;
+	const [
+		uncontrolledSelectedId,
+		changeUncontrolledSelectedId,
+	] = useState(data?.[0]?.id ?? "");
+	const SELECTED_ID =
+		propList?.selectedId ?? uncontrolledSelectedId;
+	function onChange(id: string) {
+		propList?.onChange?.(id);
+		if (!propList?.selectedId) {
+			changeUncontrolledSelectedId(id);
+		}
+	}
+	function detectIfSelected(id: string) {
+		return id == SELECTED_ID;
+	}
 	const { collectionPropList } = useCollection({
-		items,
+		data,
 		isHorizontal,
 	});
 
-	const [controlledSelectedId, setControlledSelectedId] =
-		useState(props.selectedId ?? "");
-	function onChange(id: string) {
-		props?.onChange(id);
-		setControlledSelectedId(id);
-	}
-
+	const radioGroupPropList = mergeProps<HTMLDivElement>([
+		collectionPropList,
+	]);
 	return {
-		items,
-		radioGroupPropList: collectionPropList,
-		selectedId: props.selectedId ?? controlledSelectedId,
+		radioGroupPropList,
+		detectIfSelected,
 		onChange,
 	};
 };
-
-export { RadioGroupCtxt, useRadioGroup, useRadioGroupCtxt };

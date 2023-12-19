@@ -16,8 +16,6 @@ const useKeyboard = (
 ): useKeyboardReturnType => {
 	function keysHandle(ev: React.KeyboardEvent) {
 		if (!keys[ev.key]) return;
-		ev.preventDefault();
-		ev.stopPropagation();
 		keys[ev.key](ev);
 	}
 	const keyboardPropList = {

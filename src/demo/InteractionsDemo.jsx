@@ -12,7 +12,7 @@ import FocusScopeDemo from "../../lib/interactions/focus_scope/test/FocusScopeDe
 import HoverDemo from "../../lib/interactions/hover/test/HoverDemo";
 import KeyboardDemo from "../../lib/interactions/keyboard/test/KeyboardDemo";
 import MoveExample from "../../lib/interactions/move/test/MoveDemo";
-import PushDemo from "../../lib/interactions/push/test/PushDemo";
+import PressDemo from "../../lib/interactions/press/test/PressDemo";
 import Demo from "./Demo";
 
 export default function InteractionsDemo() {
@@ -21,7 +21,7 @@ export default function InteractionsDemo() {
 			<h2>Interactions:</h2>
 			<div className="grid sm:grid-cols-2 gap-2">
 				<Demo
-					name="usePush, useHover, useFocus"
+					name="usePress, useHover, useFocus"
 					desc="Mostly these three actions will be the main way to
             interact with interface elements. Push handles any
             pointer events like clicking and touching when hover and
@@ -29,7 +29,7 @@ export default function InteractionsDemo() {
 					Icon={HandPointing}
 				>
 					<div className="flex gap-2">
-						<PushDemo />
+						<PressDemo />
 						<HoverDemo />
 						<FocusDemo />
 					</div>

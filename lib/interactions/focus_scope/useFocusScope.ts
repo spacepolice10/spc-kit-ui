@@ -102,6 +102,9 @@ const useFocusScope = (
 
 	const { keyboardPropList } = useKeyboard({
 		Tab: (ev) => {
+			ev.preventDefault();
+			if (!ref.current?.contains(document.activeElement))
+				return;
 			if (ev.shiftKey) {
 				focusPrevElem();
 			} else {
@@ -109,6 +112,19 @@ const useFocusScope = (
 			}
 		},
 	});
+
+	// const previousActive = useRef<Element | null>(null);
+	// useEffect(() => {
+	// 	console.log(ref.current);
+	// 	console.log(previousActive);
+	// 	if (!ref.current) return;
+	// 	previousActive.current = document.activeElement;
+	// 	focusFirstElem();
+	// 	return () => {
+	// 		const toFocusOn = previousActive.current as HTMLElement;
+	// 		toFocusOn.focus();
+	// 	};
+	// }, []);
 
 	useEffect(() => {
 		if (!ref.current || !getOutOfFocusingList) return;
@@ -121,7 +137,9 @@ const useFocusScope = (
 
 	const focusScopePropList = {
 		ref,
-		...(isTabbingTrapped && { ...keyboardPropList }),
+		...(isTabbingTrapped && {
+			...keyboardPropList,
+		}),
 	} as focusScopePropListType;
 
 	return {

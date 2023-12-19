@@ -70,7 +70,10 @@ const useOverlay = (
 	const triggerRef = useRef(null);
 
 	const { keyboardPropList } = useKeyboard({
-		Escape: () => hide(),
+		Escape: (ev) => {
+			ev.stopPropagation();
+			hide();
+		},
 	});
 	function show() {
 		setUncontrolledIsShow(true);
@@ -122,7 +125,10 @@ const useOverlay = (
 			keyboardPropList,
 			focusScopePropList,
 			{
+				onPointerDown: (ev) => ev.stopPropagation(),
 				onClick: (ev: React.MouseEvent) => {
+					ev.preventDefault();
+					ev.stopPropagation();
 					if (overlayRef.current?.contains(ev.target)) return;
 					hideOnBackdropPush && hide();
 				},

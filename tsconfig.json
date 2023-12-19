@@ -1,16 +1,16 @@
 {
-  "include": ["src", "lib"],
-  "compilerOptions": {
-    "target": "ESNext",
-    "allowJs": true,
-    "skipLibCheck": true,
-    "declaration": true,
-     "esModuleInterop": true,
-    "emitDeclarationOnly": true,
-    "outDir": "dist",
-    "declarationMap": true,
-    "jsx": "react-jsx",
-    "allowImportingTsExtensions": true,
-    "moduleResolution": "node"  
-  }
+	"include": ["src", "lib"],
+	"compilerOptions": {
+		"target": "ESNext",
+		"allowJs": true,
+		"skipLibCheck": true,
+		"declaration": true,
+		"esModuleInterop": true,
+		"emitDeclarationOnly": true,
+		"outDir": "dist",
+		"declarationMap": true,
+		"jsx": "react-jsx",
+		"allowImportingTsExtensions": true,
+		"moduleResolution": "node"
+	}
 }

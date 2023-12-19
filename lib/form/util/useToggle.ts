@@ -16,14 +16,18 @@ const useToggle = (
 	propList: useToggleType
 ): useToggleReturnType => {
 	const { isInitToggle, onChange } = propList;
-	const [controlledIsToggle, setControlledIsToggle] =
+	const [uncontrolledIsToggle, changeUncontrolledIsToggle] =
 		useState(isInitToggle);
-	const isToggle = propList?.isToggle ?? controlledIsToggle;
+	const IS_TOGGLE =
+		propList?.isToggle ?? uncontrolledIsToggle;
 	function toggle() {
-		onChange?.(!isToggle);
-		setControlledIsToggle((state) => !state);
+		onChange?.(!IS_TOGGLE);
+		changeUncontrolledIsToggle((state) => !state);
 	}
-	return { isToggle: propList?.isToggle ?? isToggle, toggle };
+	return {
+		isToggle: IS_TOGGLE,
+		toggle,
+	};
 };
 
 export { useToggle };

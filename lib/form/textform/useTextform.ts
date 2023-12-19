@@ -1,4 +1,4 @@
-import { RefObject, useEffect, useMemo, useRef } from "react";
+import { RefObject, useEffect, useRef } from "react";
 import {
 	focusPropListType,
 	useFocus,
@@ -20,11 +20,13 @@ import { useElementType } from "../../util/useElement.ts";
  * @param onFocus fires when user focuses on textform
  * @param onFocusLoose fires when user looses focus on textform
  * @param onHover fires when user hovers on textform
- * @param onFocusLoose fires when user looses hover on textform
+ * @param onHoverLoose fires when user looses hover on textform
  */
 export type useTextformType = useElementType & {
-	regexp?: string;
-	isFocusTrapsAfterMount?: boolean;
+	value?: string;
+	defaultValue?: string;
+	focusOnMount?: boolean;
+	isDisabled?: boolean;
 	onInput?: (args: string) => void;
 	onPaste?: (args: {
 		value: string;
@@ -37,8 +39,10 @@ export type useTextformType = useElementType & {
 };
 
 export type textformPropListType = {
+	value: string;
+	defaultValue: string;
 	ref: RefObject<HTMLInputElement>;
-	pattern: string;
+	label: string;
 	onInput: (ev: React.FormEvent) => void;
 	onPaste: (ev: React.ClipboardEvent) => void;
 } & focusPropListType &
@@ -46,7 +50,6 @@ export type textformPropListType = {
 
 export type useTextformReturnType = {
 	textformPropList: textformPropListType;
-	isErrMsg: boolean;
 	isFocused: boolean;
 	isHovered: boolean;
 };
@@ -55,13 +58,12 @@ const useTextform = (
 	propList: useTextformType
 ): useTextformReturnType => {
 	const {
+		defaultValue,
 		value,
 		name,
 		label,
-		regexp,
-		isFocusTrapsAfterMount,
+		focusOnMount,
 		isDisabled,
-		isErrMsg,
 		onInput,
 		onPaste,
 		onHover,
@@ -93,26 +95,18 @@ const useTextform = (
 
 	const inputRef = useRef(null);
 	useEffect(() => {
-		if (!isFocusTrapsAfterMount) return;
+		if (!focusOnMount) return;
 		inputRef.current?.focus({ preventScroll: true });
-	}, [isFocusTrapsAfterMount]);
-
-	const isValid = useMemo(() => {
-		if (!regexp || !value) return;
-		const rg = new RegExp(regexp);
-		const val = value;
-		return rg.test(val);
-	}, [value]);
+	}, [focusOnMount]);
 
 	const textformPropList = {
 		name,
 		value,
+		defaultValue,
 		ref: inputRef,
 		label,
 		"aria-labelledby": label,
-		pattern: regexp,
 		disabled: isDisabled,
-		invalid: !isValid || isErrMsg,
 		onInput: input,
 		onPaste: paste,
 		...focusPropList,
@@ -123,7 +117,6 @@ const useTextform = (
 		textformPropList,
 		isHovered,
 		isFocused,
-		isErrMsg: !isValid || isErrMsg,
 	};
 };
 

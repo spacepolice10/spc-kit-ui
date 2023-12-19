@@ -1,29 +1,27 @@
-import { ReactNode } from "react";
+import { CSSProperties, ReactNode } from "react";
 export type useElementType = {
 	name?: string;
 	role?: string;
 	value?: string;
 	label: string;
-	isDisabled?: boolean;
-	isErrMsg?: boolean;
 };
 export type elementPropListType = {
 	name?: string;
 	role?: string;
 	value?: string;
 	label: string;
-	disabled?: boolean;
-	invalid: boolean;
 };
 export type elementChildrenType = {
 	isHovered?: boolean;
 	isFocused?: boolean;
-	isPushed?: boolean;
+	isPressed?: boolean;
 	isDisabled?: boolean;
 	isShow?: boolean;
 	isToggle?: boolean;
 };
 export type elementPropListTypeComponents = {
+	id?: string;
+	style?: CSSProperties;
 	className?:
 		| string
 		| ((args: elementChildrenType) => string);
@@ -33,22 +31,12 @@ export type elementPropListTypeComponents = {
 };
 export type useElementReturnType = {
 	elemPropList: elementPropListType;
-	isDisabled: boolean;
-	isErrMsg: boolean;
 };
 const useElement = (
 	propList: useElementType
 ): useElementReturnType => {
-	const { isDisabled, isErrMsg } = propList;
-	const elemPropList = {
-		disabled: isDisabled,
-		invalid: isErrMsg,
-		...propList,
-	};
 	return {
-		isDisabled,
-		isErrMsg,
-		elemPropList,
+		elemPropList: propList,
 	};
 };
 

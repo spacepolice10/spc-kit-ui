@@ -1,48 +1,53 @@
-import { createContext, useContext } from "react";
+import { useState } from "react";
 import {
-	collectionPropListType,
 	useCollection,
+	useCollectionType,
 } from "../../collection/collection/useCollection";
+import { mergeProps } from "../../util/mergeProps";
 
-/**
- * context helps to throw handled data to related hooks and components without utilizing props. It simplifies the process of building Radio groups
- */
-const CheckboxCollectionCtxt = createContext(
-	{} as useCheckboxCollectionReturnType
-);
-const useCheckboxCollectionCtxt = () =>
-	useContext(CheckboxCollectionCtxt);
-
-export type useCheckboxCollectionType<T> = {
-	items: T[];
-	onChange: (args: T[]) => void;
-};
-
-/** generic type is omitted here because context would never accept generic and it is not really important to infer types inside hooks as of devs would handle types outside of the component itself */
-type useCheckboxCollectionReturnType =
-	useCheckboxCollectionType<{
-		id: string;
-		isToggle: boolean;
-	}> & {
-		checkboxCollectionPropList: collectionPropListType;
+export type useCheckboxCollectionType<T> =
+	useCollectionType<T> & {
+		onChange?: (data: T[]) => void;
 	};
 
-const useCheckboxCollection = <
+export const useCheckboxCollection = <
 	T extends { id: string; isToggle: boolean },
 >(
 	propList: useCheckboxCollectionType<T>
-): useCheckboxCollectionReturnType => {
-	const { collectionPropList } = useCollection({
-		items: propList?.items,
-	});
-	return {
-		checkboxCollectionPropList: collectionPropList,
-		...propList,
-	};
-};
+) => {
+	const { data, isHorizontal } = propList;
+	const [uncontrolledData, changeUncontrolledData] =
+		useState(data);
+	const DATA = propList?.data ?? uncontrolledData;
+	function onChange({
+		id,
+		isToggle,
+	}: {
+		id: string;
+		isToggle: boolean;
+	}) {
+		const updateData = data?.map((item) =>
+			item?.id == id ? { ...item, isToggle } : item
+		);
+		propList?.onChange(updateData);
+		if (!propList?.data) {
+			changeUncontrolledData(updateData);
+		}
+	}
+	function detectIfSelected(id: string) {
+		return DATA.find((item) => item?.id == id)?.isToggle;
+	}
 
-export {
-	CheckboxCollectionCtxt,
-	useCheckboxCollection,
-	useCheckboxCollectionCtxt,
+	const { collectionPropList } = useCollection({
+		data,
+		isHorizontal,
+	});
+
+	const checkboxCollectionPropList =
+		mergeProps<HTMLDivElement>([collectionPropList]);
+	return {
+		checkboxCollectionPropList,
+		detectIfSelected,
+		onChange,
+	};
 };

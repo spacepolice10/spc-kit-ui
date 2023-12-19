@@ -43,8 +43,8 @@ const useTooltip = (
 	propList: useTooltipType
 ): useTooltipReturnType => {
 	const { popoverPropList, triggerRef, show, hide, isShow } =
-		usePopover({ ...propList, isIgnoreFocusingOnHide: true });
-	const timerRef = useRef<ReturnType<typeof setTimeout>>(0);
+		usePopover({ ...propList, ignoreFocusingOnHide: true });
+	const timerRef = useRef<ReturnType<typeof setTimeout>>();
 
 	function hold() {
 		timerRef.current = setTimeout(() => {

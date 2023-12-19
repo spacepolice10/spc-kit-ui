@@ -1,7 +1,7 @@
 import {
 	popoverPropListType,
-	triggerPropListType,
 	usePopover,
+	usePopoverReturnType,
 	usePopoverType,
 } from "../../overlays/popover/usePopover";
 import { mergeProps } from "../../util/mergeProps";
@@ -11,49 +11,37 @@ import {
 	useCollectionType,
 } from "../collection/useCollection";
 
-export type useMenuType<T> = usePopoverType &
-	useCollectionType<T>;
-
-export type useMenuReturnType = {
-	menuPropList?: popoverPropListType & collectionPropListType;
-	menuButtonPropList: triggerPropListType;
-	show: () => void;
-	hide: () => void;
-	isShow: boolean;
-	isInverted: boolean;
+export type useMenuType<T> = useCollectionType<T> &
+	usePopoverType;
+export type useMenuReturnType = usePopoverReturnType & {
+	menuPropList: popoverPropListType & collectionPropListType;
 };
 
-const useMenu = <T extends { id: string }>(
-	props: useMenuType<T>
+export const useMenu = <T extends { id: string }>(
+	propList: useMenuType<T>
 ): useMenuReturnType => {
-	const { items } = props;
-	const {
-		isShow,
-		isInverted,
-		show,
-		hide,
-		triggerPropList,
-		popoverPropList,
-	} = usePopover(props);
-	const { collectionPropList } = useCollection({
-		items,
-		isInverted: props?.isInverted ?? isInverted,
-	});
-
+	const { popoverPropList, ...restPopoverProplist } =
+		usePopover(propList);
+	const { collectionPropList, ...restCollectionPropList } =
+		useCollection(propList);
+	// const { keyboardPropList } = useKeyboard({
+	// 	ArrowDown: (ev) => {
+	// 		ev.preventDefault();
+	// 		focusNextElem();
+	// 	},
+	// 	ArrowUp: (ev) => {
+	// 		ev.preventDefault();
+	// 		focusPrevElem();
+	// 	},
+	// });
 	const menuPropList = mergeProps<HTMLDivElement>([
 		popoverPropList,
 		collectionPropList,
-	]) as popoverPropListType & collectionPropListType;
-	const menuButtonPropList = triggerPropList;
-
+	]);
 	return {
+		//@ts-ignore
 		menuPropList,
-		menuButtonPropList,
-		show,
-		hide,
-		isShow,
-		isInverted,
+		...restPopoverProplist,
+		...restCollectionPropList,
 	};
 };
-
-export { useMenu };
